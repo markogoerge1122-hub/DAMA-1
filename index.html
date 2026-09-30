@@ -215,7 +215,7 @@ function home(){try{speechSynthesis.cancel()}catch(e){}cur=null;
  const nh=L.filter(x=>x.k=="html").length,nc=nh+L.filter(x=>x.k=="css").length,B=[["🌱","أول درس",S.done>=1],["🌐","أنهيت HTML",S.done>=nh],["🎨","أنهيت CSS",S.done>=nc],["⚡","أنهيت الكورس",S.done>=L.length],["🎯","3 دروس بلا أخطاء ولا تلميحات",(S.pf||0)>=3],["🔥","3 أيام متتالية",(S.sk||0)>=3]];
  h+=`<div class="card"><b>🔥 ${S.sk||0} يوم متتالي</b><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">${B.map(b=>`<span title="${b[1]}" style="padding:4px 10px;border:var(--bw) solid var(--bd);border-radius:99px;font-size:14px;${b[2]?"":"opacity:.3;filter:grayscale(1)"}">${b[0]} ${b[1]}</span>`).join("")}</div></div>`;
  L.forEach((l,i)=>{const o=i<S.done,a=i==S.done,u=a&&i>=R.op;if(!i||L[i-1].k!=l.k)h+=`<h3>${GN[l.k]}</h3>`;h+=`<div class="card row"><div>${i+1}. ${l.t}<div class="mu">${o?"✅ مكتمل"+rs(i):a?(u?"🔒 بانتظار فتح المدرّس لهذا الدرس":"متاح الآن"):"🔒 مقفل"}</div></div>${fx(o?"مراجعة":"ابدأ","open_("+i+")",(a&&!u)||o?"":"disabled")}</div>`});
- if(S.done>=L.length)h+=`<div class="card"><b class="ok">🎉 أنهيت الكورس!</b><br><a href="${wa(final())}" target="_blank"><button>إرسال التقرير النهائي</button></a><button onclick="cert()">🎓 الشهادة</button></div>`;h+=`<p>${S.done?'<button class="g" onclick="fcs()">🃏 مراجعة سريعة</button><button class="g" onclick="rst()">↺ إعادة ضبط التقدم</button>':""}<button class="g" onclick="exp_()">⬇ نسخة احتياطية</button><button class="g" onclick="imp_()">⬆ استرجاع</button></p>`}
+ if(S.done>=L.length)h+=`<div class="card"><b class="ok">🎉 أنهيت الكورس!</b><br><a href="${wa(final())}" target="_blank"><button>إرسال التقرير النهائي</button></a><button onclick="cert()">🎓 الشهادة</button></div>`;h+=`<p>${S.done?'<button class="g" onclick="fcs()">🃏 مراجعة سريعة</button><button class="g" onclick="rst()">↺ إعادة ضبط التقدم</button>':""}<button class="g" onclick="exp_()">⬇ نسخة احتياطية</button><button class="g" onclick="imp_()">⬆ استرجاع</button>${window.IMP?"":'<button class="g" onclick="lgo()">🚪 تسجيل خروج</button>'}</p>`}
  if(!S.name)h+=`<p><button class="g" onclick="imp_()">⬆ استرجاع تقدم سابق</button></p>`;
  $(h)}
 function nm(){const v=document.getElementById("nm").value.trim();if(ADM.test(v)){window.adm&&adm();return false}if(v.split(/\s+/).length<2){alert("اكتب اسمك الثنائي على الأقل");return false}S.name=v;save();home();window.wt&&wt();return true}
@@ -294,6 +294,7 @@ function fcs(){FC=[];for(let i=0;i<S.done;i++)(E[L[i].t]||"").split("؛؛").forE
 function fcd(){const c=FC[fi%FC.length];$(`<button class="g" onclick="home()">← الرئيسية</button><h2>🃏 مراجعة سريعة</h2><p class="mu">بطاقة ${fi+1}</p><div class="card" style="text-align:center"><p class="mu">من درس: ${esc(c[2])}</p><code dir="ltr" style="font-size:24px">${esc(c[0])}</code>${fs?`<p>${esc(c[1])}</p>`:""}<div>${fs?"":fx("أظهر الشرح","fcr()")}${fx("التالي","fcn()")}</div></div>`)}
 function fcr(){fs=true;fcd()}
 function fcn(){fi++;fs=false;fcd()}
+function lgo(){if(!confirm("هتخرج من حسابك على الجهاز ده. تقدمك محفوظ، وترجعله بكتابة نفس اسمك. متأكد؟"))return;clearTimeout(pt);try{push()}catch(e){}if(unsub){unsub();unsub=null}RDY=false;try{localStorage.removeItem("dama2")}catch(e){}S={name:"",done:0,recs:[]};R={op:0,rp:{},al:null,ban:false};SG="";cur=null;ovl();home()}
 function rst(){if(confirm("سيتم مسح تقدمك ودرجاتك وتبدأ من الدرس الأول. متأكد؟")){S.done=0;S.recs=[];S.dr={};S.pf=0;S.sk=0;S.ld="";save();home()}}
 function curTheme(){return document.documentElement.dataset.theme||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}
 function tgl(cb){const n=cb.checked?"dark":"light";document.documentElement.dataset.theme=n;try{localStorage.setItem("dama-theme",n)}catch(e){}}
@@ -306,7 +307,8 @@ home();
 </script>
 <script>
 const FBC={apiKey:"AIzaSyDTehein_M_WETxSsaaqu34hyp0tQgNpCA",authDomain:"dama-da445.firebaseapp.com",projectId:"dama-da445",storageBucket:"dama-da445.firebasestorage.app",messagingSenderId:"1099128249108",appId:"1:1099128249108:web:04e3add4cdfd2c45824001"};
-let F,DB,RDY=false,AD=false,ST=[],ID=[],SS="",SG="",unsub=null,unL=null,pt;
+const bt=(l,f,p)=>`<button ${p?"":'class="g"'} onclick="${f}">${l}</button>`;
+let F,DB,AU,AA,RDY=false,AD=false,ST=[],ID=[],SS="",SG="",unsub=null,unL=null,pt;
 const sid=n=>n.trim().replace(/\s+/g," ").toLowerCase().replace(/\//g,"_"),ref=id=>F.doc(DB,"students",id),cid=()=>window.IMP||sid(S.name);
 const wr=(id,o)=>F.setDoc(ref(id),o,{merge:true}).catch(e=>console.error(e));
 function pushD(){clearTimeout(pt);pt=setTimeout(push,1200)}
@@ -320,8 +322,12 @@ function ovl(){let e=document.getElementById("ov");const m=window.IMP?null:R.ban
  if(!e){e=document.createElement("div");e.id="ov";e.setAttribute("role","alertdialog");e.style.cssText="position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;padding:20px";document.body.appendChild(e)}
  e.innerHTML=`<div class="card" style="max-width:420px;width:100%;text-align:center;margin:0"><h2>${m[0]}</h2><p style="white-space:pre-wrap;font-size:18px">${esc(m[1])}</p></div>`}
 /* ---- Admin ---- */
-function adm(){if(!DB)return alert("الاتصال بقاعدة البيانات لم يجهز بعد، حاول بعد لحظة");AD=true;if(unL)unL();unL=F.onSnapshot(F.collection(DB,"students"),q=>{ST=q.docs.map(d=>({id:d.id,...d.data()}));const a=document.activeElement;if(AD&&!window.IMP&&!(a&&a.tagName=="SELECT"))ar()},e=>alert("تعذّر تحميل الطلاب: "+e.message));ar()}
-function xad(){AD=false;if(unL){unL();unL=null}cur=null;home()}
+function rme_(){try{return localStorage.getItem("dama_ae")||""}catch(e){return ""}}
+function adm(){if(DB&&AA&&AA.currentUser&&!AA.currentUser.isAnonymous)return adm2();acl();const e=document.createElement("div");e.id="al";e.style.cssText="position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;padding:20px";e.innerHTML=`<div class="card" style="max-width:420px;width:100%;margin:0"><h2>🔐 دخول الأدمن</h2><input id="ae" type="email" dir="ltr" placeholder="البريد الإلكتروني" autocomplete="username" value="${esc(rme_())}"><div style="height:8px"></div><input id="ap" type="password" dir="ltr" placeholder="كلمة المرور" autocomplete="current-password"><label style="display:flex;gap:8px;align-items:center;margin:8px 0;cursor:pointer"><input type="checkbox" id="rm" style="width:auto" ${rme_()?"checked":""}> تذكرني (البريد فقط)</label><p id="am" class="mu">${DB&&AA?"":"⏳ جارٍ الاتصال… "+(window.FBERR||"")}</p>${bt("دخول","adl()",1)} ${bt("إلغاء","acl()")}</div>`;document.body.appendChild(e);document.getElementById("ae").focus()}
+function acl(){const e=document.getElementById("al");if(e)e.remove()}
+async function adl(){const m=document.getElementById("am");if(!DB||!AA){m.textContent="الاتصال لسه مجهزش"+(window.FBERR?" ("+window.FBERR+")":"")+" — استنى ثواني وجرّب تاني";return}m.textContent="جارٍ الدخول…";try{await AU.signInWithEmailAndPassword(AA,document.getElementById("ae").value.trim(),document.getElementById("ap").value);try{var _r=document.getElementById("rm").checked,_e=document.getElementById("ae").value.trim();if(_r)localStorage.setItem("dama_ae",_e);else localStorage.removeItem("dama_ae")}catch(_x){}acl();adm2()}catch(e){const c=e.code||"";m.textContent=/network/.test(c)?"مشكلة في الاتصال بالإنترنت":/operation-not-allowed/.test(c)?"Email/Password مش مفعّل في Firebase":/invalid-credential|wrong-password|user-not-found|invalid-email/.test(c)?"الإيميل أو كلمة المرور غلط":"خطأ: "+(c||e.message)}}
+function adm2(){AD=true;if(unL)unL();unL=F.onSnapshot(F.collection(DB,"students"),q=>{ST=q.docs.map(d=>({id:d.id,...d.data()}));const a=document.activeElement;if(AD&&!window.IMP&&!(a&&a.tagName=="SELECT"))ar()},e=>alert("تعذّر تحميل الطلاب: "+e.message));ar()}
+function xad(){AD=false;if(unL){unL();unL=null}cur=null;home();(async()=>{try{await AU.signOut(AA);await AU.signInAnonymously(AA);if(S.name)wt()}catch(e){console.error(e)}})()}
 function ar(){ST.sort((a,b)=>(b.seen||0)-(a.seen||0));ID=ST.map(s=>s.id);
  const bt=(l,f,p)=>`<button ${p?"":'class="g"'} onclick="${f}">${l}</button>`,on=s=>Date.now()-(s.seen||0)<75e3,T={w:"⏳ بانتظار تأكيدك",ok:"✅ وصلت",no:"❌ لم تصل"};
  let h=`<div class="row"><h2>🛠 لوحة الأدمن</h2>${bt("خروج","xad()")}</div><p class="mu">${ST.length} طالب — ${ST.filter(on).length} متصل الآن</p><div class="card">${bt("📢 تنبيه للجميع","saa()")}${bt("إلغاء تنبيه الجميع","xaa()")}</div>`;
@@ -344,7 +350,9 @@ function ib(){let e=document.getElementById("ib");if(!e){e=document.createElemen
  e.innerHTML=`<span>👤 أنت الآن مكان الطالب: ${esc(S.name)}</span><button onclick="xim()" style="margin:0;padding:4px 14px;box-shadow:none">رجوع للوحة</button>`}
 function ims(k){const s=gs(k);if(!s)return;SS=JSON.stringify(S);AD=false;if(unL){unL();unL=null}window.IMP=s.id;S={name:s.name,done:s.done||0,recs:s.recs||[],dr:s.dr||{},pf:s.pf||0,sk:s.sk||0,ld:s.ld||"",pv:s.pv||0};R={op:s.op||0,rp:s.rp||{},al:null,ban:false};RDY=true;SG="";cur=null;ib();ovl();watch(s.id);home()}
 function xim(){clearTimeout(pt);push();if(unsub){unsub();unsub=null}window.IMP=null;try{S=JSON.parse(SS)}catch(e){S={name:"",done:0,recs:[]}}R={op:0,rp:{},al:null,ban:false};cur=null;const b=document.getElementById("ib");if(b)b.remove();ovl();adm()}
-(async()=>{try{const[A,Z]=await Promise.all([import("https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js"),import("https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js")]);F=Z;DB=Z.getFirestore(A.initializeApp(FBC));if(S.name)wt()}catch(e){console.error(e)}})();
+async function fbi(n){try{const B="https://www.gstatic.com/firebasejs/10.14.1/",[A,Z]=await Promise.all([import(B+"firebase-app.js"),import(B+"firebase-firestore.js")]);F=Z;const app=A.initializeApp(FBC);DB=Z.getFirestore(app);window.FBERR="";try{const U=await import(B+"firebase-auth.js");AU=U;AA=U.getAuth(app);if(AA.authStateReady)await AA.authStateReady();if(AA.currentUser&&!AA.currentUser.isAnonymous)await U.signOut(AA);if(!AA.currentUser)await U.signInAnonymously(AA)}catch(e){window.FBERR=e.code||e.message;console.error(e)}if(S.name)wt()}catch(e){window.FBERR="تعذّر تحميل Firebase، تأكد من الإنترنت";console.error(e);const m=document.getElementById("am");if(m&&!DB)m.textContent="⏳ "+window.FBERR+" — بحاول تاني…";setTimeout(()=>fbi(n+1),Math.min(2000*(n+1),10000))}}
+fbi(0);
+window.addEventListener("online",()=>{if(!DB)fbi(0)});
 setInterval(()=>{if(DB&&RDY&&S.name&&!window.IMP&&!AD&&!document.hidden)wr(cid(),{seen:Date.now()})},3e4);
 </script>
 </body></html>
