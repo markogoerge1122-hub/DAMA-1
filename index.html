@@ -273,7 +273,7 @@ function home(){try{speechSynthesis.cancel()}catch(e){}cur=null;
  const nh=L.filter(x=>x.k=="html").length,nc=nh+L.filter(x=>x.k=="css").length,B=[["🌱","أول درس",S.done>=1],["🌐","أنهيت HTML",S.done>=nh],["🎨","أنهيت CSS",S.done>=nc],["⚡","أنهيت الكورس",S.done>=L.length],["🎯","3 دروس بلا أخطاء ولا تلميحات",(S.pf||0)>=3],["🔥","3 أيام متتالية",(S.sk||0)>=3]];
  h+=`<div class="card"><b>🔥 ${S.sk||0} يوم متتالي</b><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">${B.map(b=>`<span title="${b[1]}" style="padding:4px 10px;border:var(--bw) solid var(--bd);border-radius:99px;font-size:14px;${b[2]?"":"opacity:.3;filter:grayscale(1)"}">${b[0]} ${b[1]}</span>`).join("")}</div></div>`;
  L.forEach((l,i)=>{const o=i<S.done,a=i==S.done,u=a&&i>=R.op;if(!i||L[i-1].k!=l.k)h+=`<h3>${GN[l.k]}</h3>`;h+=`<div class="card row"><div>${i+1}. ${l.t}<div class="mu">${o?"✅ مكتمل"+rs(i):a?(u?"🔒 بانتظار فتح المدرّس لهذا الدرس":"متاح الآن"):"🔒 مقفل"}</div></div>${fx(o?"مراجعة":"ابدأ","open_("+i+")",(a&&!u)||o?"":"disabled")}</div>`});
- if(S.done>=L.length)h+=`<div class="card"><b class="ok">🎉 أنهيت الكورس!</b><br><a href="${wa(final())}" target="_blank"><button>إرسال التقرير النهائي</button></a><button onclick="cert()">🎓 الشهادة</button></div>`;h+=`<p>${S.done?'<button class="g" onclick="fcs()">🃏 مراجعة سريعة</button><button class="g" onclick="rst()">↺ إعادة ضبط التقدم</button>':""}<button class="g" onclick="exp_()">⬇ نسخة احتياطية</button><button class="g" onclick="imp_()">⬆ استرجاع</button>${window.IMP?"":'<button class="g" onclick="lgo()">🚪 تسجيل خروج</button>'}</p>`}
+ if(S.done>=L.length)h+=`<div class="card"><b class="ok">🎉 أنهيت الكورس!</b><br><a href="${wa(final())}" target="_blank"><button>إرسال التقرير النهائي</button></a><button onclick="cert()">🎓 الشهادة</button></div>`;h+=`<p>${S.done?'<button class="g" onclick="fcs()">🃏 مراجعة سريعة</button><button class="g" onclick="rst()">↺ إعادة ضبط التقدم</button>':""}</p>`}
  if(!S.name)h+=`<p><button class="g" onclick="imp_()">⬆ استرجاع تقدم سابق</button></p>`;
  $(h)}
 function nm(){const v=document.getElementById("nm").value.trim();if(ADM.test(v)){window.adm&&adm();return false}if(v.split(/\s+/).length<2){alert("اكتب اسمك الثنائي على الأقل");return false}S.name=v;save();home();window.wt&&wt();return true}
@@ -352,7 +352,7 @@ function fcs(){FC=[];for(let i=0;i<S.done;i++)(E[L[i].t]||"").split("؛؛").forE
 function fcd(){const c=FC[fi%FC.length];$(`<button class="g" onclick="home()">← الرئيسية</button><h2>🃏 مراجعة سريعة</h2><p class="mu">بطاقة ${fi+1}</p><div class="card" style="text-align:center"><p class="mu">من درس: ${esc(c[2])}</p><code dir="ltr" style="font-size:24px">${esc(c[0])}</code>${fs?`<p>${esc(c[1])}</p>`:""}<div>${fs?"":fx("أظهر الشرح","fcr()")}${fx("التالي","fcn()")}</div></div>`)}
 function fcr(){fs=true;fcd()}
 function fcn(){fi++;fs=false;fcd()}
-function lgo(){if(!confirm("هتخرج من حسابك على الجهاز ده. تقدمك محفوظ، وترجعله بتسجيل الدخول بإيميلك. متأكد؟"))return;clearTimeout(pt);try{push()}catch(e){}if(unsub){unsub();unsub=null}RDY=false;try{localStorage.removeItem("dama2")}catch(e){}S={name:"",done:0,recs:[]};R={op:0,rp:{},al:null,ban:false};SG="";cur=null;ovl();home();(async()=>{try{if(AA&&AA.currentUser&&!AA.currentUser.isAnonymous){await AU.signOut(AA);await AU.signInAnonymously(AA)}}catch(e){console.error(e)}})()}
+function lgo(){if(!confirm("هتخرج من حسابك على الجهاز ده. تقدمك محفوظ، وترجعله بتسجيل الدخول بإيميلك. متأكد؟"))return;clearTimeout(pt);try{push()}catch(e){}if(unsub){unsub();unsub=null}RDY=false;try{localStorage.removeItem("dama2")}catch(e){}S={name:"",done:0,recs:[]};R={op:0,rp:{},al:null,ban:false};SG="";cur=null;MNO=false;ovl();home();(async()=>{try{if(AA&&AA.currentUser&&!AA.currentUser.isAnonymous){await AU.signOut(AA);await AU.signInAnonymously(AA)}}catch(e){console.error(e)}})()}
 function rst(){if(confirm("سيتم مسح تقدمك ودرجاتك وتبدأ من الدرس الأول. متأكد؟")){S.done=0;S.recs=[];S.dr={};S.pf=0;S.sk=0;S.ld="";save();home()}}
 function curTheme(){return document.documentElement.dataset.theme||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}
 function tgl(cb){const n=cb.checked?"dark":"light";document.documentElement.dataset.theme=n;try{localStorage.setItem("dama-theme",n)}catch(e){}}
@@ -385,7 +385,17 @@ let _pt=null;function mx(on){const o=document.getElementById("mx");if(o)o.remove
 /* ---- Community ---- */
 let CU=null,CM=[],CE=null;
 const cmMe=()=>AA&&AA.currentUser&&AA.currentUser.uid;
-function cmBtn(){const a=document.getElementById("app");if(!a||document.getElementById("cmo")||(!AD&&(!S.name||cur!=null)))return;const d=document.createElement("div");d.id="cmo";d.className="card";d.innerHTML=bt("💬 المجتمع","cmOpen()",1);a.insertBefore(d,a.firstChild)}
+var MNO=false;
+function cmBtn(){const a=document.getElementById("app");if(!a||document.getElementById("cmo")||(!AD&&(!S.name||cur!=null)))return;const d=document.createElement("div");d.id="cmo";d.className="card";
+ if(AD)d.innerHTML=bt("💬 المجتمع","cmOpen()",1);else d.innerHTML=bt(MNO?"✕ إغلاق القائمة":"☰ القائمة","mnT()",1)+(MNO?mnBody():"");
+ a.insertBefore(d,a.firstChild)}
+function mnT(){MNO=!MNO;pfRe()}
+function mnBody(){const u=AA&&AA.currentUser,an=!u||u.isAnonymous;
+ let h='<style>#mnb button{width:100%;margin:0}</style><div id="mnb" style="display:flex;flex-direction:column;gap:10px;margin-top:12px">'+bt("💬 المجتمع","cmOpen()",1);
+ if(!window.IMP)h+=`<div style="display:flex;align-items:center;gap:12px;padding:8px 0">${av(S.pic,S.name,0,56)}<div><b>${esc(S.name)}</b><div class="mu" style="font-size:12px" dir="ltr">${an?"بدون إيميل":esc(u.email||"")}</div></div></div>`+bt("📷 صورة البروفايل","document.getElementById('pff').click()")+(S.pic?bt("حذف الصورة","pfDel()"):"")+(an?bt("🔵 اربط بحساب جوجل","pfLinkG()",1)+bt("📧 اربط بإيميل وباسورد","pfLink()"):"")+'<input type="file" id="pff" accept="image/*" style="display:none" onchange="pfSet(this)">';
+ h+=bt("⬇ نسخة احتياطية","exp_()")+bt("⬆ استرجاع","imp_()");
+ if(!window.IMP)h+=bt("🚪 تسجيل خروج","lgo()");
+ return h+"</div>"}
 const _h0=home;home=function(){_h0.apply(this,arguments);cmBtn()};
 const _a0=ar;ar=function(){_a0.apply(this,arguments);cmBtn()};
 function cmOpen(){if(document.getElementById("cm"))return;if(!DB||!F)return alert("الاتصال لسه مجهزش، جرّب بعد ثواني");const e=document.createElement("div");e.id="cm";e.style.cssText="position:fixed;inset:0;z-index:1500;background:var(--bg);display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)";
@@ -461,14 +471,11 @@ async function stGo(){const e=document.getElementById("se").value.trim(),p=docum
    S={name:d.data().name,done:0,recs:[],dr:{},pf:0,sk:0,ld:"",pv:-1};save();home();wt()}catch(x){stM(stErr(x))}}}
 async function stFg(){const e=document.getElementById("se").value.trim();if(!e)return stM("اكتب إيميلك الأول");try{await AU.sendPasswordResetEmail(AA,e);stM("بعتنا لك رابط تغيير كلمة المرور على الإيميل")}catch(x){stM(stErr(x))}}
 async function stRestore(){const u=AA&&AA.currentUser;if(!u||u.isAnonymous||isAU(u)||S.name)return;try{const d=await F.getDoc(F.doc(DB,"users",u.uid));if(d.exists()){S={name:d.data().name,done:0,recs:[],dr:{},pf:0,sk:0,ld:"",pv:-1};save();home()}else{STM="g";home()}}catch(e){console.error(e)}}
-function pfCard(){if(!S.name||cur!=null||window.IMP||AD||document.getElementById("pfc"))return;const a=document.getElementById("app");if(!a)return;const u=AA&&AA.currentUser,an=!u||u.isAnonymous,bt=(l,f,p)=>`<button ${p?"":'class="g"'} onclick="${f}">${l}</button>`;
- const d=document.createElement("div");d.id="pfc";d.className="card";d.innerHTML=`<div style="display:flex;align-items:center;gap:12px">${av(S.pic,S.name,0,56)}<div><b>${esc(S.name)}</b><div class="mu" style="font-size:12px" dir="ltr">${an?"بدون إيميل":esc(u.email||"")}</div></div></div><div style="margin-top:8px">${bt("📷 صورة البروفايل","document.getElementById('pff').click()")} ${S.pic?bt("حذف الصورة","pfDel()"):""} ${an?bt("🔵 اربط بحساب جوجل","pfLinkG()",1)+" "+bt("📧 اربط بإيميل وباسورد","pfLink()"):""}</div><input type="file" id="pff" accept="image/*" style="display:none" onchange="pfSet(this)">`;
- const c=document.getElementById("cmo");if(c)c.after(d);else a.insertBefore(d,a.firstChild)}
-function pfRe(){const e=document.getElementById("pfc");if(e)e.remove();pfCard()}
+function pfRe(){const e=document.getElementById("cmo");if(e)e.remove();cmBtn()}
 function pfSet(inp){const f=inp.files&&inp.files[0];inp.value="";if(!f)return;if(!/^image\//.test(f.type))return alert("اختار صورة");const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const z=72,c=document.createElement("canvas");c.width=c.height=z;const x=c.getContext("2d"),m=Math.min(im.width,im.height);x.fillStyle="#fff";x.fillRect(0,0,z,z);x.drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,z,z);S.pic=c.toDataURL("image/jpeg",.72);try{save()}catch(e){}if(DB&&RDY)wr(cid(),{pic:S.pic});pfRe()};im.onerror=()=>alert("مقدرتش أقرا الصورة");im.src=r.result};r.readAsDataURL(f)}
 function pfDel(){S.pic="";try{save()}catch(e){}if(DB&&RDY)wr(cid(),{pic:""});pfRe()}
 async function pfLink(){const u=AA&&AA.currentUser;if(!DB||!u)return alert("الاتصال لسه مجهزش");const e=(prompt("اكتب إيميلك:")||"").trim();if(!e)return;const p=prompt("اختار كلمة مرور (6 أحرف على الأقل):")||"";if(p.length<6)return alert("كلمة المرور قصيرة");try{await AU.linkWithCredential(u,AU.EmailAuthProvider.credential(e,p));await F.setDoc(F.doc(DB,"users",u.uid),{sid:cid(),name:S.name,email:e});wr(cid(),{uid:u.uid});alert("تم ربط حسابك ✅ تقدر تدخل من أي جهاز بالإيميل");pfRe()}catch(x){alert(stErr(x))}}
-const _h1=home;home=function(){_h1.apply(this,arguments);stAuthUI();pfCard()};
+const _h1=home;home=function(){_h1.apply(this,arguments);stAuthUI()};
 async function fbi(n){try{const B="https://www.gstatic.com/firebasejs/10.14.1/",[A,Z]=await Promise.all([import(B+"firebase-app.js"),import(B+"firebase-firestore.js")]);F=Z;const app=A.initializeApp(FBC);DB=Z.getFirestore(app);window.FBERR="";try{const U=await import(B+"firebase-auth.js");AU=U;AA=U.getAuth(app);if(AA.authStateReady)await AA.authStateReady();if(isAU(AA.currentUser))await U.signOut(AA);if(!AA.currentUser)await U.signInAnonymously(AA)}catch(e){window.FBERR=e.code||e.message;console.error(e)}await stRestore();if(S.name)wt()}catch(e){window.FBERR="تعذّر تحميل Firebase، تأكد من الإنترنت";console.error(e);const m=document.getElementById("am");if(m&&!DB)m.textContent="⏳ "+window.FBERR+" — بحاول تاني…";setTimeout(()=>fbi(n+1),Math.min(2000*(n+1),10000))}}
 fbi(0);
 window.addEventListener("online",()=>{if(!DB)fbi(0)});
