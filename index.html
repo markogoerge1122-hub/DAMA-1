@@ -1,186 +1,353 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl"><head><meta charset="utf-8">
-<script>(function(){var d=document.documentElement,t,k;try{t=localStorage.getItem("dama-theme");k=localStorage.getItem("dama-look")}catch(e){}d.dataset.theme=t||"dark";d.dataset.look=k||"plain"})()</script>
+<script>(function(){var d=document.documentElement,t;try{t=localStorage.getItem("dama-theme")}catch(e){}d.dataset.theme=t||"dark";try{var nv=navigator,cn=nv.connection;if((nv.hardwareConcurrency||8)<=4||(nv.deviceMemory||8)<=4||(cn&&cn.saveData))d.classList.add("lite")}catch(e){}try{var q=JSON.parse(localStorage.getItem("dama2")||"null");if(!(q&&q.name)){d.classList.add("ni");setTimeout(function(){d.classList.remove("ni")},4000)}}catch(e){}})()</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>DAMA code</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&family=Reem+Kufi&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap">
 <style>
-
-:root{--bg:#eef3fb;--card:#fff;--tx:#12233f;--mu:#5b6b86;--pr:#2446d8;--onpr:#fff;--ok:#0b8f52;--bad:#d3305a;--bd:#12233f;--hl:#ffd93d;--grid:#cddcf2;--rad:10px;--bw:2px;--sh:4px 4px 0 var(--bd);--hf:"Reem Kufi","Cairo",Tahoma,sans-serif;--bf:"Cairo",Tahoma,"Segoe UI",sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-:root[data-theme=dark]{--bg:#0d1424;--card:#151f38;--tx:#eaf0ff;--mu:#9db0d8;--pr:#86a8ff;--onpr:#0d1424;--ok:#3bd88a;--bad:#ff7096;--bd:#5a71ad;--hl:#ffd93d;--grid:#18233f;--sh:4px 4px 0 #050914}
-:root[data-look=glass]{--bg:#e7e2ff;--card:rgba(255,255,255,.58);--tx:#1d1a3a;--mu:#5f5c85;--pr:#6a48ff;--onpr:#fff;--bd:rgba(255,255,255,.85);--hl:#00b8a9;--rad:22px;--bw:1px;--sh:0 10px 30px rgba(90,70,200,.2);--hf:"Cairo",Tahoma,sans-serif}
-:root[data-look=glass][data-theme=dark]{--bg:#110d29;--card:rgba(255,255,255,.07);--tx:#f1eeff;--mu:#aaa6d8;--pr:#a08bff;--onpr:#110d29;--bd:rgba(255,255,255,.15);--hl:#2ee6d0;--sh:0 10px 30px rgba(0,0,0,.45)}
-*{box-sizing:border-box}
-body{margin:0;overflow-x:hidden;color:var(--tx);font:16px/1.85 var(--bf);background:var(--bg);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:26px 26px}
-:root[data-look=glass] body{background-image:radial-gradient(55% 45% at 90% 0,rgba(0,184,169,.4),transparent),radial-gradient(60% 50% at 5% 25%,rgba(106,72,255,.38),transparent),radial-gradient(50% 40% at 70% 100%,rgba(255,110,170,.25),transparent);background-size:auto;background-attachment:fixed}
-.w{max-width:720px;margin:auto;padding:70px 16px 28px}
-h1{margin:0;font:400 38px/1.2 var(--hf)}h1 span{background:linear-gradient(transparent 58%,var(--hl) 58%);padding:0 6px}
-:root[data-look=glass] h1{font-weight:800}:root[data-look=glass] h1 span{background:linear-gradient(90deg,var(--pr),var(--hl));-webkit-background-clip:text;background-clip:text;color:transparent}
-h2{font:400 24px/1.4 var(--hf);margin:.6em 0 .3em}h3{display:inline-block;font:400 18px var(--hf);background:var(--hl);color:#12233f;padding:0 12px;border-radius:6px;transform:rotate(-1deg);margin:18px 0 4px}
-:root[data-look=glass] h3{background:none;color:var(--tx);padding:0;transform:none;border-right:4px solid var(--hl);padding-right:10px;border-radius:0}
-.card{background:var(--card);border:var(--bw) solid var(--bd);border-radius:var(--rad);box-shadow:var(--sh);padding:16px;margin:14px 0;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
-button,button.fx{width:auto;height:auto;background:var(--pr);color:var(--onpr);border:var(--bw) solid var(--bd);border-radius:var(--rad);padding:9px 20px;margin:6px 4px;font:700 15px var(--bf);box-shadow:var(--sh);cursor:pointer;transition:transform .12s,box-shadow .12s}
-:root[data-look=glass] button{border-color:transparent;background:linear-gradient(135deg,var(--pr),#9b6bff)}
-button:not(:disabled):hover{transform:translate(-1px,-1px)}button:not(:disabled):active{transform:translate(3px,3px);box-shadow:none}
-button.g{background:transparent;color:var(--pr);border-color:var(--pr);box-shadow:none}:root[data-look=glass] button.g{border-color:var(--pr)}
-button:disabled,.fx:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+/* ===== DAMA code v3 — تصميم جديد ===== */
+:root{
+ --bg:#f6f7fb;--card:#ffffff;--tx:#14162b;--mu:#697089;
+ --pr:#5b4bff;--pr2:#8b5cf6;--onpr:#ffffff;--ok:#0f9d63;--bad:#e0345f;
+ --bd:#e3e6f0;--hl:#ffd93d;--grid:transparent;
+ --rad:18px;--bw:1px;--sh:0 1px 2px rgba(20,22,43,.04),0 8px 24px -12px rgba(20,22,43,.12);
+ --hf:"Cairo",Tahoma,"Segoe UI",sans-serif;--bf:"Cairo",Tahoma,"Segoe UI",sans-serif;
+ color-scheme:light;box-sizing:border-box;
+ padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme=dark]{
+ --bg:#07080f;--card:#10121d;--tx:#f1f2fa;--mu:#9aa0b8;
+ --pr:#8b7dff;--pr2:#b18cff;--onpr:#0a0a14;--ok:#3bd88a;--bad:#ff7096;
+ --bd:#23263a;--sh:0 1px 2px rgba(0,0,0,.4),0 10px 28px -14px rgba(0,0,0,.8);color-scheme:dark}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg);scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;overflow-x:hidden;color:var(--tx);font:16px/1.8 var(--bf);-webkit-font-smoothing:antialiased;
+ background:radial-gradient(900px 420px at 85% -80px,color-mix(in srgb,var(--pr) 16%,transparent),transparent 70%),radial-gradient(700px 360px at -10% 0,color-mix(in srgb,var(--pr2) 12%,transparent),transparent 70%),var(--bg);background-attachment:fixed}
+.w{max-width:700px;margin:auto;padding:76px 16px 40px}
+h1{margin:0 0 6px;font:800 36px/1.2 var(--hf);letter-spacing:-.5px}
+h1 span{background:linear-gradient(135deg,var(--pr),var(--pr2));-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{font:800 22px/1.4 var(--hf);margin:.7em 0 .3em}
+h3{display:flex;align-items:center;gap:10px;margin:30px 0 8px;font:800 14px/1.4 var(--hf);color:var(--mu)}
+h3::before{content:"";width:22px;height:4px;border-radius:9px;background:linear-gradient(90deg,var(--pr),var(--pr2));flex:none}
+p{margin:.5em 0}a{color:var(--pr)}code{font-family:ui-monospace,Consolas,monospace}
+.mu{color:var(--mu);font-size:14px}.ok{color:var(--ok)}.bad{color:var(--bad)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.card{background:var(--card);border:var(--bw) solid var(--bd);border-radius:var(--rad);padding:18px;margin:12px 0;box-shadow:var(--sh)}
+button,button.fx{width:auto;height:auto;margin:6px 4px;padding:10px 20px;background:linear-gradient(135deg,var(--pr),var(--pr2));color:var(--onpr);border:0;border-radius:12px;font:700 15px var(--bf);cursor:pointer;box-shadow:0 6px 16px -8px var(--pr);transition:opacity .15s,transform .1s,box-shadow .15s}
+button:not(:disabled):hover{opacity:.92;box-shadow:0 8px 20px -8px var(--pr)}
+button:not(:disabled):active{transform:scale(.97)}
+button.g{background:transparent;color:var(--tx);border:var(--bw) solid var(--bd);box-shadow:none}
+button.g:not(:disabled):hover{background:color-mix(in srgb,var(--pr) 8%,transparent);opacity:1;box-shadow:none}
+button:disabled,.fx:disabled{opacity:.35;cursor:not-allowed;box-shadow:none}
 .fx .clip,.fx .arrow{display:none}
-input,select,textarea{width:100%;background:var(--card);color:var(--tx);border:var(--bw) solid var(--bd);border-radius:calc(var(--rad) - 2px);padding:10px 12px;font:inherit}
-:root[data-look=glass] input,:root[data-look=glass] select,:root[data-look=glass] textarea{border-color:var(--pr)}
-textarea{min-height:190px;direction:ltr;text-align:left;font:14px/1.6 ui-monospace,Consolas,monospace;background:var(--bg)}
-pre{direction:ltr;text-align:left;background:var(--bg);border:var(--bw) dashed var(--bd);padding:12px;border-radius:calc(var(--rad) - 2px);overflow-x:auto}
-code{font-family:ui-monospace,Consolas,monospace}
-:focus-visible{outline:3px solid var(--hl);outline-offset:2px}
-.l{display:flex;align-items:center;gap:10px;padding:10px 12px;border:var(--bw) solid var(--bd);border-radius:calc(var(--rad) - 2px);margin:8px 0;cursor:pointer;transition:background .15s}
-.l:hover{background:color-mix(in srgb,var(--pr) 8%,transparent)}.l.s{border-color:var(--pr);background:color-mix(in srgb,var(--pr) 16%,transparent)}
-.ok{color:var(--ok)}.bad{color:var(--bad)}.mu{color:var(--mu);font-size:14px}
-.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.bar{height:16px;border:var(--bw) solid var(--bd);border-radius:99px;overflow:hidden;background:var(--card)}.bar i{display:block;height:100%;transition:width .6s;background:repeating-linear-gradient(45deg,var(--pr) 0 10px,color-mix(in srgb,var(--pr) 65%,#fff) 10px 20px)}
-.input-container{max-width:320px;margin:10px 0 6px}.input{height:52px;font-size:17px}
-.wt-wrap{margin:6px 0}.water-toggle{display:inline-block;position:relative}
-.water-toggle input#toggle-wave{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:3;padding:0;border:0}
-.water-toggle .container{transition:transform .2s}input#toggle-wave:checked~.container{transform:scale(.92)}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-.theme-switch{--toggle-size:11px;--container-width:5.625em;--container-height:2.5em;--container-radius:.38em;--container-light-bg:#5caad4;--container-night-bg:#1b1e36;--circle-container-diameter:3.375em;--sun-moon-diameter:2.125em;--sun-bg:#f5c518;--moon-bg:#d8d4c0;--spot-color:#9b9787;--circle-container-offset:calc((var(--circle-container-diameter) - var(--container-height))/2*-1);--stars-color:#fff8e1;--clouds-color:#f4f4f4;--back-clouds-color:#bacfe0;--transition:.5s cubic-bezier(0,-.02,.4,1.25);--circle-transition:.3s cubic-bezier(0,-.02,.35,1.17);display:inline-block;direction:ltr;position:fixed;top:calc(12px + env(safe-area-inset-top,0px));left:14px;z-index:9}
-.theme-switch,.theme-switch *,.theme-switch *::before,.theme-switch *::after{box-sizing:border-box;margin:0;padding:0;font-size:var(--toggle-size)}
-.theme-switch__container{width:var(--container-width);height:var(--container-height);background-color:var(--container-light-bg);border-radius:var(--container-radius);overflow:hidden;cursor:pointer;position:relative;background-image:linear-gradient(to bottom,var(--container-light-bg) 0%,#4a92bd 100%);transition:all var(--transition);box-shadow:0 0 0 2.5px #1a1a1a,3px 4px 0 2.5px rgba(26,26,26,.22);transform:rotate(-.7deg);filter:url(#sketchy)}
-.theme-switch__container::before{content:"";position:absolute;z-index:1;inset:0;background-image:repeating-linear-gradient(-50deg,transparent,transparent 7px,rgba(255,255,255,.04) 7px,rgba(255,255,255,.04) 8px);border-radius:inherit;pointer-events:none}
-.theme-switch__checkbox{display:none}
-.theme-switch__circle-container{width:var(--circle-container-diameter);height:var(--circle-container-diameter);background-color:rgba(255,255,255,.1);position:absolute;left:var(--circle-container-offset);top:var(--circle-container-offset);border-radius:var(--container-radius);box-shadow:inset 0 0 0 3.375em rgba(255,255,255,.1),inset 0 0 0 3.375em rgba(255,255,255,.1),0 0 0 .625em rgba(255,255,255,.1),0 0 0 1.25em rgba(255,255,255,.1);display:flex;transition:var(--circle-transition);pointer-events:none}
-.theme-switch__circle-container::before{content:"";position:absolute;width:calc(var(--circle-container-diameter) + 1.5em);height:calc(var(--circle-container-diameter) + 1.5em);left:-.75em;top:-.75em;border-radius:50%;background:conic-gradient(transparent 0deg,transparent 8deg,rgba(245,197,24,.52) 8deg,rgba(245,197,24,.52) 22deg,transparent 22deg,transparent 53deg,rgba(245,197,24,.52) 53deg,rgba(245,197,24,.52) 67deg,transparent 67deg,transparent 98deg,rgba(245,197,24,.52) 98deg,rgba(245,197,24,.52) 112deg,transparent 112deg,transparent 143deg,rgba(245,197,24,.52) 143deg,rgba(245,197,24,.52) 157deg,transparent 157deg,transparent 188deg,rgba(245,197,24,.52) 188deg,rgba(245,197,24,.52) 202deg,transparent 202deg,transparent 233deg,rgba(245,197,24,.52) 233deg,rgba(245,197,24,.52) 247deg,transparent 247deg,transparent 278deg,rgba(245,197,24,.52) 278deg,rgba(245,197,24,.52) 292deg,transparent 292deg,transparent 323deg,rgba(245,197,24,.52) 323deg,rgba(245,197,24,.52) 337deg,transparent 337deg,transparent 368deg,rgba(245,197,24,.52) 368deg,rgba(245,197,24,.52) 382deg,transparent 382deg,transparent 413deg,rgba(245,197,24,.52) 413deg,rgba(245,197,24,.52) 427deg,transparent 360deg);animation:rotateSunRays 14s linear infinite;opacity:1;transition:opacity var(--transition);pointer-events:none;filter:url(#sketchy-sm)}
-.theme-switch__checkbox:checked+.theme-switch__container .theme-switch__circle-container::before{opacity:0}
-@keyframes rotateSunRays{to{transform:rotate(360deg)}}
-.theme-switch__sun-moon-container{pointer-events:auto;position:relative;z-index:2;width:var(--sun-moon-diameter);height:var(--sun-moon-diameter);margin:auto;border-radius:var(--container-radius);background-color:var(--sun-bg);box-shadow:.062em .062em .062em 0 rgba(254,255,239,.61) inset,0 -.062em .062em 0 #a1872a inset,.1em .13em 0 .04em #1a1a1a;filter:url(#sketchy-sm) drop-shadow(.062em .125em .125em rgba(0,0,0,.25)) drop-shadow(0 .062em .125em rgba(0,0,0,.25));overflow:hidden;transition:var(--transition);transform:scale(1)}
-.theme-switch__sun-moon-container:hover{transform:scale(1.1) rotate(5deg)}
-.theme-switch__moon{transform:translateX(100%);width:100%;height:100%;background-color:var(--moon-bg);border-radius:inherit;box-shadow:.062em .062em .062em 0 rgba(254,255,239,.61) inset,0 -.062em .062em 0 #969696 inset;transition:all var(--transition),transform .3s ease;position:relative}
-.theme-switch__moon:hover{transform:rotate(15deg)}
-.theme-switch__spot{position:absolute;top:.75em;left:.312em;width:.75em;height:.75em;border-radius:var(--container-radius);background-color:var(--spot-color);box-shadow:0 .0312em .062em rgba(0,0,0,.25) inset;transition:background-color .3s ease;filter:url(#sketchy-sm)}
-.theme-switch__spot:nth-of-type(2){width:.375em;height:.375em;top:.937em;left:1.375em}
-.theme-switch__spot:nth-last-of-type(3){width:.25em;height:.25em;top:.312em;left:.812em}
-.theme-switch__moon:hover .theme-switch__spot{background-color:#7a7f8c}
-.theme-switch__clouds{width:1.25em;height:1.25em;background-color:var(--clouds-color);border-radius:var(--container-radius);position:absolute;bottom:-.625em;left:.312em;box-shadow:.937em .312em var(--clouds-color),-.312em -.312em var(--back-clouds-color),1.437em .375em var(--clouds-color),.5em -.125em var(--back-clouds-color),2.187em 0 var(--clouds-color),1.25em -.062em var(--back-clouds-color),2.937em .312em var(--clouds-color),2em -.312em var(--back-clouds-color),3.625em -.062em var(--clouds-color),2.625em 0 var(--back-clouds-color),4.5em -.312em var(--clouds-color),3.375em -.437em var(--back-clouds-color),4.625em -1.75em 0 .437em var(--clouds-color),4em -.625em var(--back-clouds-color),4.125em -2.125em 0 .437em var(--back-clouds-color);transition:.5s cubic-bezier(0,-.02,.4,1.25);filter:url(#sketchy-sm)}
-.theme-switch__stars-container{position:absolute;color:var(--stars-color);top:-100%;left:.312em;width:2.75em;height:auto;transition:var(--transition)}
-.theme-switch__checkbox:checked+.theme-switch__container{background-color:var(--container-night-bg);background-image:linear-gradient(to bottom,var(--container-night-bg) 0%,#252a4a 100%)}
-.theme-switch__checkbox:checked+.theme-switch__container .theme-switch__circle-container{left:calc(100% - var(--circle-container-offset) - var(--circle-container-diameter))}
-.theme-switch__checkbox:checked+.theme-switch__container .theme-switch__circle-container:hover{left:calc(100% - var(--circle-container-offset) - var(--circle-container-diameter) - .187em)}
-.theme-switch__circle-container:hover{left:calc(var(--circle-container-offset) + .187em)}
-.theme-switch__checkbox:checked+.theme-switch__container .theme-switch__moon{transform:translate(0)}
-.theme-switch__checkbox:checked+.theme-switch__container .theme-switch__clouds{bottom:-4.062em}
-.theme-switch__checkbox:checked+.theme-switch__container .theme-switch__stars-container{top:50%;transform:translateY(-50%)}
-.theme-switch__container:hover .theme-switch__clouds{transform:translateX(15px) scale(1.02)}
-.theme-switch__sun-moon-container::after{content:"";position:absolute;inset:-5px;background:radial-gradient(circle,rgba(255,255,255,.2) 0%,transparent 70%);border-radius:50%;opacity:0;transition:opacity .3s ease}
-.theme-switch__sun-moon-container:hover::after{opacity:1}
-.theme-switch__shooting-star,.theme-switch__shooting-star-2,.theme-switch__meteor{position:absolute;background:#fff;opacity:0;transition:opacity .3s ease;left:-10%}
-.theme-switch__shooting-star{width:2px;height:2px;top:20%}
-.theme-switch__shooting-star-2{width:1px;height:1px;top:35%}
-.theme-switch__meteor{width:3px;height:3px;background:gold;border-radius:50%;top:-10%;left:50%;filter:blur(1px)}
-.theme-switch__checkbox:checked+.theme-switch__container .theme-switch__shooting-star{animation:shootingStar 2s linear infinite;opacity:1}
-.theme-switch__checkbox:checked+.theme-switch__container .theme-switch__shooting-star-2{animation:shootingStar 3s linear infinite 1s;opacity:1}
-.theme-switch__checkbox:checked+.theme-switch__container .theme-switch__meteor{animation:meteor 4s linear infinite 2s;opacity:1}
-@keyframes shootingStar{0%{transform:translate(0,0) rotate(45deg);opacity:1}100%{transform:translate(150px,150px) rotate(45deg);opacity:0}}
-@keyframes meteor{0%{transform:translateY(0) scale(1);opacity:1}100%{transform:translateY(150px) scale(.3);opacity:0}}
-.theme-switch__stars-cluster{position:absolute;inset:0;opacity:0;transition:opacity .3s ease}
-.theme-switch__stars-cluster .star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;box-shadow:0 0 4px 1px #fff}
-.theme-switch__stars-cluster .star:nth-child(1){top:20%;left:20%;animation:twinkle 1s infinite ease-in-out}
-.theme-switch__stars-cluster .star:nth-child(2){top:30%;left:55%;animation:twinkle 1s infinite ease-in-out .3s}
-.theme-switch__stars-cluster .star:nth-child(3){top:40%;left:80%;animation:twinkle 1s infinite ease-in-out .6s}
-.theme-switch__stars-cluster .star:nth-child(4){top:60%;left:30%;animation:twinkle 1s infinite ease-in-out .9s}
-.theme-switch__stars-cluster .star:nth-child(5){top:70%;left:65%;animation:twinkle 1s infinite ease-in-out 1.2s}
-.theme-switch__aurora{position:absolute;top:0;left:0;right:0;height:20px;background:linear-gradient(90deg,rgba(0,255,255,0) 0%,rgba(0,255,255,.2) 25%,rgba(128,0,255,.2) 50%,rgba(0,255,255,.2) 75%,rgba(0,255,255,0) 100%);opacity:0;filter:blur(4px);transform:translateY(-100%);transition:opacity .3s ease}
-.theme-switch__comets{position:absolute;inset:0;overflow:hidden;opacity:0;transition:opacity .3s ease}
-.theme-switch__comets .comet{position:absolute;width:2px;height:2px;background:linear-gradient(90deg,#fff 0%,transparent 90%);border-radius:50%;filter:blur(1px);left:-10%}
-.theme-switch__comets .comet:nth-child(1){top:30%;animation:cometMove 4s linear infinite}
-.theme-switch__comets .comet:nth-child(2){top:50%;animation:cometMove 6s linear infinite 2s}
-@keyframes twinkle{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:1;transform:scale(1.2)}}
-@keyframes cometMove{0%{transform:translate(0,0) rotate(-45deg) scale(1);opacity:0}10%,90%{opacity:1}100%{transform:translate(200px,200px) rotate(-45deg) scale(.2);opacity:0}}
-.theme-switch__checkbox:checked+.theme-switch__container .theme-switch__stars-cluster,.theme-switch__checkbox:checked+.theme-switch__container .theme-switch__comets{opacity:1}
-.theme-switch__checkbox:checked+.theme-switch__container .theme-switch__aurora{opacity:1;animation:auroraWave 8s linear infinite}
-@keyframes auroraWave{0%{transform:translateY(-100%) translateX(-50%)}100%{transform:translateY(-100%) translateX(50%)}}
-.tb{width:100%;border-collapse:collapse;font-size:14px;margin:8px 0}.tb td{border:1px solid var(--bd);padding:6px 8px;vertical-align:top}.tb td:first-child{white-space:nowrap;width:1%;background:var(--bg)}
-.ex{display:flex;flex-direction:column;gap:4px;border-right:5px solid var(--c);background:var(--bg);border-radius:10px;padding:8px 12px;margin:8px 0}.ex code{align-self:flex-start;background:var(--c);color:#fff;padding:2px 10px;border-radius:8px;font-weight:bold}
+input,select,textarea{width:100%;background:var(--bg);color:var(--tx);border:var(--bw) solid var(--bd);border-radius:12px;padding:12px 14px;font:inherit;transition:border-color .15s,box-shadow .15s}
+input::placeholder,textarea::placeholder{color:var(--mu);opacity:.8}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--pr);box-shadow:0 0 0 4px color-mix(in srgb,var(--pr) 20%,transparent)}
+input[type=checkbox],input[type=radio]{width:auto;accent-color:var(--pr)}
+textarea{min-height:190px;direction:ltr;text-align:left;font:14px/1.7 ui-monospace,Consolas,monospace;background:var(--card)}
+pre{direction:ltr;text-align:left;background:var(--bg);border:var(--bw) solid var(--bd);padding:12px 14px;border-radius:12px;overflow-x:auto}
+.input-container{max-width:340px;margin:10px 0 6px}.input{height:52px;font-size:17px}
+:focus-visible{outline:2px solid var(--pr);outline-offset:2px}
+.l{display:flex;align-items:center;gap:10px;padding:12px 14px;border:var(--bw) solid var(--bd);border-radius:12px;margin:8px 0;cursor:pointer;background:var(--card);transition:background .15s,border-color .15s}
+.l:hover{border-color:var(--pr)}
+.l.s{border-color:var(--pr);background:color-mix(in srgb,var(--pr) 12%,transparent)}
+.bar{height:10px;border-radius:99px;overflow:hidden;background:var(--bd)}
+.bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--pr),var(--pr2));transition:width .5s ease}
+.tb{width:100%;border-collapse:collapse;font-size:14px;margin:8px 0}
+.tb td{border:1px solid var(--bd);padding:7px 10px;vertical-align:top}
+.tb td:first-child{white-space:nowrap;width:1%;background:var(--bg)}
 .c0{--c:#e0457b}.c1{--c:#2f80ed}.c2{--c:#0fa968}.c3{--c:#e58a00}.c4{--c:#8b5cf6}.c5{--c:#d6453d}
-.tip{white-space:pre-wrap;unicode-bidi:plaintext;background:rgba(91,61,245,.12);border:1px dashed var(--pr);border-radius:10px;padding:10px 12px;margin:10px 0}
-.hdemo{background:var(--bg);border-radius:10px;padding:8px 12px;margin:8px 0}.hdemo h1{font-size:2em;margin:4px 0}.hdemo h2,.hdemo h3,.hdemo h4,.hdemo h5,.hdemo h6{margin:4px 0}
+.ex{display:flex;flex-direction:column;gap:4px;border-right:4px solid var(--c);background:var(--bg);border-radius:12px;padding:10px 14px;margin:8px 0}
+.ex code{align-self:flex-start;background:var(--c);color:#fff;padding:2px 10px;border-radius:8px;font-weight:700}
+.tip{white-space:pre-wrap;unicode-bidi:plaintext;background:color-mix(in srgb,var(--pr) 10%,transparent);border-radius:12px;padding:12px 14px;margin:10px 0}
+.tip.warn{background:color-mix(in srgb,var(--bad) 11%,transparent)}
+.hdemo{background:var(--bg);border:var(--bw) solid var(--bd);border-radius:12px;padding:10px 14px;margin:8px 0}
+.hdemo h1{font-size:2em;margin:4px 0}.hdemo h2,.hdemo h3,.hdemo h4,.hdemo h5,.hdemo h6{margin:4px 0}
+.tsw{position:fixed;top:calc(14px + env(safe-area-inset-top,0px));left:14px;z-index:9;display:inline-block;direction:ltr;cursor:pointer}
+.tsw input{position:absolute;opacity:0;pointer-events:none}
+.tk{display:block;position:relative;width:56px;height:32px;border-radius:99px;background:var(--card);border:var(--bw) solid var(--bd);box-shadow:var(--sh);transition:background .2s}
+.tk i{position:absolute;top:4px;left:4px;width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--pr),var(--pr2));color:#fff;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:13px;line-height:1;transition:transform .22s ease}
+.tk i::before{content:"☀"}
+.tsw input:checked+.tk i{transform:translateX(24px)}
+.tsw input:checked+.tk i::before{content:"☾"}
+.tsw input:focus-visible+.tk{outline:2px solid var(--pr);outline-offset:2px}
+/* شاشة الدخول */
+.hero{text-align:center;padding:10px 0 4px}
+.hero .logo{width:68px;height:68px;margin:0 auto 12px;border-radius:20px;background:linear-gradient(135deg,var(--pr),var(--pr2));color:#fff;display:flex;align-items:center;justify-content:center;font:800 26px var(--hf);box-shadow:0 14px 30px -12px var(--pr)}
+.auth{max-width:440px;margin:16px auto}
+.auth .tabs{display:flex;gap:6px;background:var(--bg);border:var(--bw) solid var(--bd);border-radius:14px;padding:4px;margin-bottom:14px}
+.auth .tabs button{flex:1;margin:0;box-shadow:none;background:transparent;color:var(--mu)}
+.auth .tabs button.on{background:linear-gradient(135deg,var(--pr),var(--pr2));color:var(--onpr)}
+.auth button.full{width:100%;margin:8px 0 0}
+.auth .or{display:flex;align-items:center;gap:10px;color:var(--mu);font-size:13px;margin:12px 0}
+.auth .or::before,.auth .or::after{content:"";flex:1;height:1px;background:var(--bd)}
+.auth .f{margin:8px 0}
+.adb{position:fixed;top:calc(14px + env(safe-area-inset-top,0px));right:14px;z-index:9;margin:0;padding:7px 14px;font-size:13px;border-radius:99px;background:var(--card);color:var(--tx);border:var(--bw) solid var(--bd);box-shadow:var(--sh)}
 
-:root[data-look=neon],:root[data-look=neon][data-theme=dark]{--bg:#050a07;--card:#0a140d;--tx:#c9ffdc;--mu:#77b48e;--pr:#39ff88;--onpr:#04110a;--ok:#39ff88;--bad:#ff5c7a;--bd:#39ff88;--hl:#39ff88;--grid:#0c2015;--rad:3px;--bw:1px;--sh:0 0 14px rgba(57,255,136,.35);--hf:ui-monospace,Consolas,monospace;--bf:"Cairo",Tahoma,sans-serif}
-:root[data-look=neon] h1,:root[data-look=neon] h2{letter-spacing:.5px;text-shadow:0 0 10px rgba(57,255,136,.6)}
-:root[data-look=neon] h3{color:#04110a;transform:none;border-radius:2px}
-:root[data-look=sunset]{--bg:#ffe8d6;--card:rgba(255,255,255,.72);--tx:#3a1f2e;--mu:#7d5a6a;--pr:#e8481c;--onpr:#fff;--bd:rgba(255,255,255,.9);--hl:#ffb703;--rad:26px;--bw:1px;--sh:0 8px 24px rgba(232,72,28,.18);--hf:"Cairo",Tahoma,sans-serif}
-:root[data-look=sunset][data-theme=dark]{--bg:#2a1230;--card:rgba(255,255,255,.08);--tx:#ffeedd;--mu:#d5a9b8;--pr:#ff8a5c;--onpr:#2a1230;--bd:rgba(255,255,255,.16);--sh:0 8px 24px rgba(0,0,0,.4)}
-:root[data-look=sunset] body{background-image:linear-gradient(160deg,#ffd9c0,#ffc2d6 55%,#ffe7a3);background-attachment:fixed}
-:root[data-look=sunset][data-theme=dark] body{background-image:linear-gradient(160deg,#2a1230,#3d1730 55%,#3b2413)}
-:root[data-look=sunset] h1{font-weight:800}:root[data-look=sunset] h3{border-radius:99px;transform:none;padding:0 16px}
-:root[data-look=sunset] button,:root[data-look=neon] button{border-color:transparent}:root[data-look=sunset] button{border-radius:99px}
-:root[data-look=neon] button{border-color:var(--pr)}:root[data-look=neon] button.g{border-color:var(--pr)}
-/* plain look: pure black (dark) / pure white (light) */
-:root[data-look=plain]{--bg:#fff;--card:#fff;--tx:#0a0a0a;--mu:#5f6368;--pr:#2446d8;--onpr:#fff;--ok:#0b8f52;--bad:#d3305a;--bd:#d9dce3;--hl:#ffd93d;--grid:transparent;--rad:14px;--bw:1px;--sh:0 1px 3px rgba(0,0,0,.08);--hf:"Cairo",Tahoma,sans-serif}
-:root[data-look=plain][data-theme=dark]{--bg:#000;--card:#0b0b0e;--tx:#f5f5f7;--mu:#9a9aa6;--pr:#86a8ff;--onpr:#000;--ok:#3bd88a;--bad:#ff7096;--bd:#26262d;--hl:#ffd93d;--grid:transparent;--sh:none}
-:root[data-look=plain] body{background-color:var(--bg);background-image:none}
-:root[data-look=plain] h3{transform:none}
-.tip.warn{background:rgba(255,120,80,.13);border:var(--bw) dashed var(--bad)}
-.ex{background:var(--card)}
-
-/* Matrix background (Uiverse.io by whoisyourdeadie) */
-.mxw{position:absolute;inset:0;overflow:hidden;pointer-events:none;background:#000;z-index:0}
-.mxw.fx{position:fixed}
-.mxw.fx .matrix-pattern{opacity:.4}
+/* ===== شاشة الدرس (v3) ===== */
+.lh{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.lh .tmr{margin-inline-start:auto;color:var(--mu);font-size:14px;font-variant-numeric:tabular-nums}
+.chip{padding:3px 12px;border-radius:99px;font:700 13px var(--bf);color:var(--pr);background:color-mix(in srgb,var(--pr) 12%,transparent)}
+button.sm{padding:6px 14px;font-size:13px;margin:0}
+.lt{margin:12px 0 4px;font-size:26px}
+.stp{display:flex;align-items:flex-start;margin:14px 0 18px}
+.st{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;position:relative;font-size:12.5px;color:var(--mu);font-weight:700}
+.st::before{content:"";position:absolute;top:17px;inset-inline:-50% 50%;height:3px;background:var(--bd);z-index:0}
+.st:first-child::before{display:none}
+.st i{position:relative;z-index:1;width:36px;height:36px;border-radius:50%;background:var(--card);border:2px solid var(--bd);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:16px}
+.st.d i{background:var(--ok);border-color:var(--ok);color:#fff}.st.d::before,.st.a::before{background:var(--ok)}
+.st.a{color:var(--tx)}.st.a i{border-color:var(--pr);box-shadow:0 0 0 4px color-mix(in srgb,var(--pr) 20%,transparent)}
+.lx{font-size:17px;line-height:2}
+.lx p{margin:.6em 0}
+.lx code,.tip code,.ex span code{background:color-mix(in srgb,var(--pr) 12%,transparent);color:var(--pr);padding:1px 7px;border-radius:7px;font-size:.92em}
+.lx pre,.card pre{background:#0d1020;color:#e8eaff;border:0;border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.8;margin:12px 0 6px}
+.lx pre code{background:none;color:inherit;padding:0}
+pre~button.g{padding:6px 12px;font-size:13px;margin:4px 3px}
+.card h4{margin:0 0 10px;font:800 17px var(--hf)}
+.ex{background:var(--bg);border-right:0;border-inline-start:4px solid var(--c);box-shadow:none}
+.act{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.act button{flex:1;min-width:120px;margin:0}
+.dots{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}
+.dots button.dot{width:34px;height:34px;padding:0;margin:0;border-radius:50%;background:var(--bg);color:var(--mu);border:var(--bw) solid var(--bd);box-shadow:none;font-size:13px}
+.dots button.dot.ok2{background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok);border-color:var(--ok)}
+.dots button.dot.on{background:linear-gradient(135deg,var(--pr),var(--pr2));color:#fff;border-color:transparent}
+.qq{font:800 20px/1.7 var(--hf);margin:6px 0 12px;unicode-bidi:plaintext}
+.opt{position:relative;padding:14px;margin:10px 0;border-width:2px;font-size:16px}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt b{flex:none;width:32px;height:32px;border-radius:10px;background:var(--bg);border:var(--bw) solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:14px}
+.opt.s b{background:linear-gradient(135deg,var(--pr),var(--pr2));color:#fff;border-color:transparent}
+.opt span{unicode-bidi:plaintext;flex:1}
+.task{font-size:18px;font-weight:700;margin:.3em 0;line-height:1.9}
+.ckl{list-style:none;padding:0;margin:8px 0 0;display:grid;gap:6px}
+.ckl li{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:10px;background:var(--bg);border:var(--bw) solid var(--bd);font-size:14.5px;transition:all .2s}
+.ckl li i{flex:none;width:22px;height:22px;border-radius:50%;border:2px solid var(--bd);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:12px;color:#fff}
+.ckl li.y{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 10%,transparent)}.ckl li.y i{background:var(--ok);border-color:var(--ok)}
+.ed{border-radius:16px;overflow:hidden;border:var(--bw) solid #23263a;background:#0d1020;margin:12px 0 0}
+.edh{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;background:#161a2e;color:#9aa0b8;font:700 12px ui-monospace,monospace;direction:ltr}
+.edh em{display:flex;gap:6px;font-style:normal}.edh em i{width:10px;height:10px;border-radius:50%;background:#ff5f57}.edh em i:nth-child(2){background:#febc2e}.edh em i:nth-child(3){background:#28c840}
+.ed textarea{border:0;border-radius:0;background:#0d1020;color:#e8eaff;min-height:230px;box-shadow:none!important}
+.sc{text-align:center}
+.ring{width:130px;height:130px;margin:6px auto 8px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1;border:8px solid var(--ok);color:var(--ok)}
+.ring.f{border-color:var(--bad);color:var(--bad)}.ring b{font:800 38px var(--hf)}.ring span{font-size:13px;color:var(--mu)}
+.sgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}
+.sgrid div{background:var(--bg);border:var(--bw) solid var(--bd);border-radius:12px;padding:8px;display:flex;flex-direction:column}
+.sgrid span{font-size:12.5px;color:var(--mu)}.sgrid b{font-size:16px}
+.tiles{display:grid;gap:12px;margin-top:10px}
+.tile{display:flex;align-items:center;gap:14px;width:100%;margin:0;padding:18px;text-align:start;background:var(--card);color:var(--tx);border:2px solid var(--bd);border-radius:18px;box-shadow:var(--sh)}
+.tile:not(:disabled):hover{border-color:var(--pr);opacity:1}
+.tile .ti{flex:none;width:56px;height:56px;border-radius:16px;background:color-mix(in srgb,var(--pr) 14%,transparent);display:flex;align-items:center;justify-content:center;font-size:26px}
+.tile .tt{display:flex;flex-direction:column;line-height:1.5}.tile b{font-size:19px}.tile small{color:var(--mu);font-size:14px;font-weight:600}
+.tile.ok{border-color:var(--ok)}.tile.ok .ti{background:var(--ok);color:#fff}
+.hook{display:flex;gap:10px;align-items:flex-start;background:color-mix(in srgb,var(--pr) 10%,transparent);border-radius:14px;padding:12px 14px;margin:0 0 12px;font-weight:700}
+.lx h4{margin:20px 0 6px;font:800 17px var(--hf);color:var(--pr)}.lx h4:first-child{margin-top:0}
+.lx ul{margin:8px 0;padding-inline-start:22px}.lx li{margin:6px 0}
+/* ===== مقدمة الدخول: شخصية تتسلق الحبل وصفحة الدخول تقع ===== */
+html.ni{background:#000}html.ni body>*{visibility:hidden}
+#intro{position:fixed;inset:0;z-index:6000;overflow:hidden;perspective:600px;transition:opacity .9s ease;
+ background:radial-gradient(60% 45% at 50% 100%,#2a1f6b55,transparent 70%),radial-gradient(1px 1px at 20% 30%,#fff8 50%,transparent 51%),radial-gradient(1px 1px at 70% 20%,#fff6 50%,transparent 51%),radial-gradient(1.5px 1.5px at 85% 65%,#fff7 50%,transparent 51%),radial-gradient(1px 1px at 35% 80%,#fff5 50%,transparent 51%),#000}
+#intro.out{opacity:0;pointer-events:none}
+#intro::before{content:"";position:absolute;inset:0;pointer-events:none;
+ background:radial-gradient(1.5px 1.5px at 12% 18%,#fff 50%,transparent 51%),radial-gradient(1.5px 1.5px at 58% 42%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 90% 12%,#fff 50%,transparent 51%),radial-gradient(1.5px 1.5px at 28% 62%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 76% 88%,#fff 50%,transparent 51%);animation:twk 2.6s ease-in-out infinite alternate}
+@keyframes twk{from{opacity:.25}to{opacity:.9}}
+#intro::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%,transparent 30%,#000 100%);pointer-events:none}
+#intro .skip{position:absolute;z-index:3;bottom:calc(18px + env(safe-area-inset-bottom,0px));inset-inline:0;text-align:center;color:#ffffff66;font-size:13px;animation:skipIn .6s 1.2s both}
+@keyframes skipIn{from{opacity:0}to{opacity:1}}
+#intro .prog{position:absolute;z-index:3;bottom:calc(46px + env(safe-area-inset-bottom,0px));left:50%;width:120px;height:3px;margin-left:-60px;border-radius:9px;background:#ffffff1f;overflow:hidden}
+#intro .prog i{display:block;height:100%;width:100%;border-radius:9px;background:linear-gradient(90deg,#8b7dff,#b18cff);transform-origin:0 50%;animation:progF 7s linear forwards}
+@keyframes progF{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+#intro .ttl{position:absolute;z-index:1;left:0;right:0;top:42%;text-align:center;color:#fff;font:800 30px/1 var(--hf);direction:ltr;opacity:0;text-shadow:0 0 22px #8b7dff,0 0 60px #8b7dff88;animation:ttlA 3.8s ease-out forwards}
+@keyframes ttlA{0%{opacity:0;letter-spacing:-2px;transform:scale(.92)}22%{opacity:1;letter-spacing:5px;transform:scale(1)}70%{opacity:.9;letter-spacing:6px}100%{opacity:0;letter-spacing:12px;transform:translateY(-30px)}}
+.rope{position:absolute;z-index:1;left:50%;top:0;bottom:0;width:4px;margin-left:-2px;border-radius:4px;background:repeating-linear-gradient(180deg,#c9bfff 0 7px,#7a68f0 7px 14px);background-size:100% 14px;box-shadow:0 0 16px #8b7dff,0 0 40px #8b7dff66;opacity:.9;animation:ropeF .45s linear infinite}
+@keyframes ropeF{to{background-position:0 14px}}
+.pt{position:absolute;bottom:-30px;color:#ffffff1f;font:700 20px ui-monospace,monospace;animation:pf linear infinite}
+@keyframes pf{to{transform:translateY(-115vh) rotate(25deg)}}
+/* الشخصية وهي بتتسلق */
+.clm{position:absolute;z-index:2;left:50%;width:62px;margin-left:-31px;bottom:-140px;animation:clmUp 7s forwards}
+.clm::after{content:"";position:absolute;left:50%;top:40%;width:150px;height:150px;margin:-75px 0 0 -75px;border-radius:50%;background:radial-gradient(circle,#8b7dff40,transparent 65%);pointer-events:none;z-index:-1}
+@keyframes clmUp{0%{bottom:-140px;animation-timing-function:cubic-bezier(.25,.1,.35,1)}38%{bottom:calc(50% - 54px);animation-timing-function:linear}64%{bottom:calc(50% - 54px);animation-timing-function:cubic-bezier(.55,0,.85,.7)}100%{bottom:calc(100% + 40px)}}
+.clmw{transform-style:preserve-3d;animation:clmX2 .55s ease-in-out infinite alternate}
+@keyframes clmX2{from{transform:translateX(-3px) rotateY(-20deg)}to{transform:translateX(3px) rotateY(20deg)}}
+.clm svg{animation:bob .55s ease-in-out infinite alternate}
+@keyframes bob{from{transform:rotate(-2.5deg) translateY(2px)}to{transform:rotate(2.5deg) translateY(-3px)}}
+.clm .a1{animation:armC1 .55s ease-in-out infinite alternate}.clm .a2{animation:armC2 .55s ease-in-out infinite alternate-reverse}
+@keyframes armC1{from{transform:translateY(-7px) rotate(16deg)}to{transform:translateY(11px) rotate(16deg)}}
+@keyframes armC2{from{transform:translateY(-7px) rotate(-16deg)}to{transform:translateY(11px) rotate(-16deg)}}
+.clm .l1{animation:legS .55s ease-in-out infinite alternate}.clm .l2{animation:legS .55s ease-in-out infinite alternate-reverse}
+@keyframes legS{from{transform:rotate(-24deg)}to{transform:rotate(24deg)}}
+/* الشخصية المعلّقة جنب كارت الدخول */
+#hang{position:absolute;z-index:8;width:56px;pointer-events:none;perspective:420px;display:none}
+.swing{transform-origin:50% 2%;transform-style:preserve-3d;animation:sw 2.6s ease-in-out infinite alternate}
+@keyframes sw{from{transform:rotate(-15deg) rotateY(-14deg)}to{transform:rotate(15deg) rotateY(14deg)}}
+.hg .bd{animation:lag 2.6s ease-in-out infinite alternate}
+@keyframes lag{from{transform:rotate(7deg)}to{transform:rotate(-7deg)}}
+.hg .l1{animation:legH 1.3s ease-in-out infinite alternate}.hg .l2{animation:legH 1.3s ease-in-out infinite alternate-reverse}
+@keyframes legH{from{transform:rotate(-14deg)}to{transform:rotate(14deg)}}
+.hg .a1,.hg .a2{transform:none}
+.ey{animation:blink 4s infinite}@keyframes blink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+/* وقوع الصفحة */
+body.intro-on .w,body.intro-on #hang{transform:translateY(-135vh)}
+body.dropping .w,body.dropping #hang{animation:pgDrop 1.5s both;will-change:transform}
+@keyframes pgDrop{0%{transform:translateY(-135vh) rotate(-2.5deg);animation-timing-function:cubic-bezier(.55,0,.9,.45)}50%{transform:translateY(0) rotate(.6deg) scale(1.02,.955);animation-timing-function:cubic-bezier(.2,.6,.4,1)}64%{transform:translateY(-38px) rotate(-.4deg) scale(.99,1.015);animation-timing-function:ease-in}78%{transform:translateY(0) scale(1.01,.98);animation-timing-function:ease-out}88%{transform:translateY(-11px);animation-timing-function:ease-in}100%{transform:translateY(0)}}
+.puff{position:fixed;z-index:7;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;background:radial-gradient(circle,#ffffff66,#ffffff00 70%);pointer-events:none;animation:puff .9s ease-out forwards}
+@keyframes puff{to{transform:translate(var(--dx),-34px) scale(3.2);opacity:0}}
+.spark{position:fixed;z-index:7;width:5px;height:5px;margin:-2px 0 0 -2px;border-radius:50%;background:var(--pr2);box-shadow:0 0 8px var(--pr);pointer-events:none;animation:spark .8s cubic-bezier(.2,.7,.4,1) forwards}
+@keyframes spark{to{transform:translate(var(--dx),var(--dy));opacity:0}}
+.shock{position:fixed;z-index:7;height:26px;margin:-13px 0 0 0;border-radius:50%;border:2px solid color-mix(in srgb,var(--pr) 70%,transparent);pointer-events:none;animation:shock .8s ease-out forwards}
+@keyframes shock{from{transform:scale(.2);opacity:.9}to{transform:scale(1.15,1.8);opacity:0}}
+/* دخول عناصر كارت الدخول بالتتابع بعد الوقوع */
+body.dropping .auth>*:not(.hero){animation:aIn .55s cubic-bezier(.2,.8,.3,1) both!important}
+body.dropping .auth>*:nth-child(2){animation-delay:.85s}body.dropping .auth>*:nth-child(3){animation-delay:.92s}body.dropping .auth>*:nth-child(4){animation-delay:.99s}body.dropping .auth>*:nth-child(5){animation-delay:1.06s}body.dropping .auth>*:nth-child(6){animation-delay:1.13s}body.dropping .auth>*:nth-child(7){animation-delay:1.2s}body.dropping .auth>*:nth-child(n+8){animation-delay:1.27s}
+@keyframes aIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.hero .logo{animation:logoPop .8s .8s cubic-bezier(.3,1.4,.5,1) both,logoFloat 3.2s 1.7s ease-in-out infinite;box-shadow:0 14px 30px -12px var(--pr)}
+@keyframes logoPop{0%{transform:scale(.4) rotate(-14deg);opacity:0}60%{transform:scale(1.15) rotate(4deg);opacity:1}100%{transform:none;opacity:1}}
+@keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.auth button.full:not(.g){background:linear-gradient(110deg,var(--pr),var(--pr2),var(--pr),var(--pr2));background-size:240% 100%;animation:sheen 5s linear infinite}
+@keyframes sheen{to{background-position:-240% 0}}
+body::before,body::after{content:"";position:fixed;z-index:0;width:70vmax;height:70vmax;border-radius:50%;pointer-events:none;opacity:.2;background:radial-gradient(circle,var(--pr) 0,transparent 62%)}
+body::before{top:-35vmax;right:-30vmax;animation:blob 16s ease-in-out infinite alternate}
+body::after{bottom:-40vmax;left:-35vmax;background:radial-gradient(circle,var(--pr2) 0,transparent 62%);animation:blob 20s ease-in-out infinite alternate-reverse}
+@keyframes blob{to{transform:translate(8vmax,6vmax) scale(1.15)}}
+.w{position:relative;z-index:1}
+.mxw{display:none!important}
 .adm-on .w{position:relative;z-index:1}
-.matrix-container{position:relative;width:100%;height:100%;background:#000;display:flex}
-.matrix-pattern{position:relative;width:1000px;height:100%;flex-shrink:0}
-.matrix-column{position:absolute;top:-100%;width:20px;height:100%;font-size:16px;line-height:18px;font-weight:bold;animation:mxfall linear infinite;white-space:nowrap}
-.matrix-column::before{content:"アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";position:absolute;top:0;left:0;background:linear-gradient(to bottom,#fff 0%,#fff 5%,#00ff41 10%,#00ff41 20%,#00dd33 30%,#00bb22 40%,#009911 50%,#007700 60%,#005500 70%,#003300 80%,rgba(0,255,65,.5) 90%,transparent 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;writing-mode:vertical-lr;letter-spacing:1px;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
-.matrix-column:nth-child(1){left:0px;animation-delay:-2.5s;animation-duration:3s}
-.matrix-column:nth-child(2){left:25px;animation-delay:-3.2s;animation-duration:4s}
-.matrix-column:nth-child(3){left:50px;animation-delay:-1.8s;animation-duration:2.5s}
-.matrix-column:nth-child(4){left:75px;animation-delay:-2.9s;animation-duration:3.5s}
-.matrix-column:nth-child(5){left:100px;animation-delay:-1.5s;animation-duration:3s}
-.matrix-column:nth-child(6){left:125px;animation-delay:-3.8s;animation-duration:4.5s}
-.matrix-column:nth-child(7){left:150px;animation-delay:-2.1s;animation-duration:2.8s}
-.matrix-column:nth-child(8){left:175px;animation-delay:-2.7s;animation-duration:3.2s}
-.matrix-column:nth-child(9){left:200px;animation-delay:-3.4s;animation-duration:3.8s}
-.matrix-column:nth-child(10){left:225px;animation-delay:-1.9s;animation-duration:2.7s}
-.matrix-column:nth-child(11){left:250px;animation-delay:-3.6s;animation-duration:4.2s}
-.matrix-column:nth-child(12){left:275px;animation-delay:-2.3s;animation-duration:3.1s}
-.matrix-column:nth-child(13){left:300px;animation-delay:-3.1s;animation-duration:3.6s}
-.matrix-column:nth-child(14){left:325px;animation-delay:-2.6s;animation-duration:2.9s}
-.matrix-column:nth-child(15){left:350px;animation-delay:-3.7s;animation-duration:4.1s}
-.matrix-column:nth-child(16){left:375px;animation-delay:-2.8s;animation-duration:3.3s}
-.matrix-column:nth-child(17){left:400px;animation-delay:-3.3s;animation-duration:3.7s}
-.matrix-column:nth-child(18){left:425px;animation-delay:-2.2s;animation-duration:2.6s}
-.matrix-column:nth-child(19){left:450px;animation-delay:-3.9s;animation-duration:4.3s}
-.matrix-column:nth-child(20){left:475px;animation-delay:-2.4s;animation-duration:3.4s}
-.matrix-column:nth-child(21){left:500px;animation-delay:-1.7s;animation-duration:2.4s}
-.matrix-column:nth-child(22){left:525px;animation-delay:-3.5s;animation-duration:3.9s}
-.matrix-column:nth-child(23){left:550px;animation-delay:-2s;animation-duration:3s}
-.matrix-column:nth-child(24){left:575px;animation-delay:-4s;animation-duration:4.4s}
-.matrix-column:nth-child(25){left:600px;animation-delay:-1.6s;animation-duration:2.3s}
-.matrix-column:nth-child(26){left:625px;animation-delay:-3s;animation-duration:3.5s}
-.matrix-column:nth-child(27){left:650px;animation-delay:-3.8s;animation-duration:4s}
-.matrix-column:nth-child(28){left:675px;animation-delay:-2.5s;animation-duration:2.8s}
-.matrix-column:nth-child(29){left:700px;animation-delay:-3.2s;animation-duration:3.6s}
-.matrix-column:nth-child(30){left:725px;animation-delay:-2.7s;animation-duration:3.2s}
-.matrix-column:nth-child(31){left:750px;animation-delay:-1.8s;animation-duration:2.7s}
-.matrix-column:nth-child(32){left:775px;animation-delay:-3.6s;animation-duration:4.1s}
-.matrix-column:nth-child(33){left:800px;animation-delay:-2.1s;animation-duration:3.1s}
-.matrix-column:nth-child(34){left:825px;animation-delay:-3.4s;animation-duration:3.7s}
-.matrix-column:nth-child(35){left:850px;animation-delay:-2.8s;animation-duration:2.9s}
-.matrix-column:nth-child(36){left:875px;animation-delay:-3.7s;animation-duration:4.2s}
-.matrix-column:nth-child(37){left:900px;animation-delay:-2.3s;animation-duration:3.3s}
-.matrix-column:nth-child(38){left:925px;animation-delay:-1.9s;animation-duration:2.5s}
-.matrix-column:nth-child(39){left:950px;animation-delay:-3.5s;animation-duration:3.8s}
-.matrix-column:nth-child(40){left:975px;animation-delay:-2.6s;animation-duration:3.4s}
-.matrix-column:nth-child(odd)::before{content:"アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン123456789"}
-.matrix-column:nth-child(even)::before{content:"ガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポヴァィゥェォャュョッABCDEFGHIJKLMNOPQRSTUVWXYZ"}
-.matrix-column:nth-child(3n)::before{content:"アカサタナハマヤラワイキシチニヒミリウクスツヌフムユルエケセテネヘメレオコソトノホモヨロヲン0987654321"}
-.matrix-column:nth-child(4n)::before{content:"ンヲロヨモホノトソコオレメヘネテセケエルユムフヌツスクウリミヒニチシキイワラヤマハナタサカア"}
-.matrix-column:nth-child(5n)::before{content:"ガザダバパギジヂビピグズヅブプゲゼデベペゴゾドボポヴァィゥェォャュョッ!@#$%^&*()_+-=[]{}|;:,.<>?"}
-@keyframes mxfall{0%{transform:translateY(-10%);opacity:1}100%{transform:translateY(200%);opacity:0}}
-@media(max-width:768px){.matrix-column{font-size:14px;line-height:16px;width:18px}}
-@media(max-width:480px){.matrix-column{font-size:12px;line-height:14px;width:15px}}
-</style></head><body><svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><defs><filter id="sketchy" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="turbulence" baseFrequency="0.035 0.042" numOctaves="4" result="noise" seed="42"></feTurbulence><feDisplacementMap in="SourceGraphic" in2="noise" scale="4.5" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap></filter><filter id="sketchy-sm" x="-18%" y="-18%" width="136%" height="136%"><feTurbulence type="turbulence" baseFrequency="0.06" numOctaves="3" result="noise" seed="7"></feTurbulence><feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap></filter></defs></svg>
-<label class="theme-switch" id="tg" title="Light / Dark"><input class="theme-switch__checkbox" id="tgc" type="checkbox" onchange="tgl(this)"><div class="theme-switch__container"><div class="theme-switch__clouds"></div><div class="theme-switch__stars-container"><svg fill="none" viewBox="0 0 144 55" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M135.831 3.00688C135.055 3.85027 134.111 4.29946 133 4.35447C134.111 4.40947 135.055 4.85867 135.831 5.71123C136.607 6.55462 136.996 7.56303 136.996 8.72727C136.996 7.95722 137.172 7.25134 137.525 6.59129C137.886 5.93124 138.372 5.39954 138.98 5.00535C139.598 4.60199 140.268 4.39114 141 4.35447C139.88 4.2903 138.936 3.85027 138.16 3.00688C137.384 2.16348 136.996 1.16425 136.996 0C136.996 1.16425 136.607 2.16348 135.831 3.00688ZM31 23.3545C32.1114 23.2995 33.0551 22.8503 33.8313 22.0069C34.6075 21.1635 34.9956 20.1642 34.9956 19C34.9956 20.1642 35.3837 21.1635 36.1599 22.0069C36.9361 22.8503 37.8798 23.2903 39 23.3545C38.2679 23.3911 37.5976 23.602 36.9802 24.0053C36.3716 24.3995 35.8864 24.9312 35.5248 25.5913C35.172 26.2513 34.9956 26.9572 34.9956 27.7273C34.9956 26.563 34.6075 25.5546 33.8313 24.7112C33.0551 23.8587 32.1114 23.4095 31 23.3545ZM0 36.3545C1.11136 36.2995 2.05513 35.8503 2.83131 35.0069C3.6075 34.1635 3.99559 33.1642 3.99559 32C3.99559 33.1642 4.38368 34.1635 5.15987 35.0069C5.93605 35.8503 6.87982 36.2903 8 36.3545C7.26792 36.3911 6.59757 36.602 5.98015 37.0053C5.37155 37.3995 4.88644 37.9312 4.52481 38.5913C4.172 39.2513 3.99559 39.9572 3.99559 40.7273C3.99559 39.563 3.6075 38.5546 2.83131 37.7112C2.05513 36.8587 1.11136 36.4095 0 36.3545ZM56.8313 24.0069C56.0551 24.8503 55.1114 25.2995 54 25.3545C55.1114 25.4095 56.0551 25.8587 56.8313 26.7112C57.6075 27.5546 57.9956 28.563 57.9956 29.7273C57.9956 28.9572 58.172 28.2513 58.5248 27.5913C58.8864 26.9312 59.3716 26.3995 59.9802 26.0053C60.5976 25.602 61.2679 25.3911 62 25.3545C60.8798 25.2903 59.9361 24.8503 59.1599 24.0069C58.3837 23.1635 57.9956 22.1642 57.9956 21C57.9956 22.1642 57.6075 23.1635 56.8313 24.0069ZM81 25.3545C82.1114 25.2995 83.0551 24.8503 83.8313 24.0069C84.6075 23.1635 84.9956 22.1642 84.9956 21C84.9956 22.1642 85.3837 23.1635 86.1599 24.0069C86.9361 24.8503 87.8798 25.2903 89 25.3545C88.2679 25.3911 87.5976 25.602 86.9802 26.0053C86.3716 26.3995 85.8864 26.9312 85.5248 27.5913C85.172 28.2513 84.9956 28.9572 84.9956 29.7273C84.9956 28.563 84.6075 27.5546 83.8313 26.7112C83.0551 25.8587 82.1114 25.4095 81 25.3545ZM136 36.3545C137.111 36.2995 138.055 35.8503 138.831 35.0069C139.607 34.1635 139.996 33.1642 139.996 32C139.996 33.1642 140.384 34.1635 141.16 35.0069C141.936 35.8503 142.88 36.2903 144 36.3545C143.268 36.3911 142.598 36.602 141.98 37.0053C141.372 37.3995 140.886 37.9312 140.525 38.5913C140.172 39.2513 139.996 39.9572 139.996 40.7273C139.996 39.563 139.607 38.5546 138.831 37.7112C138.055 36.8587 137.111 36.4095 136 36.3545ZM101.831 49.0069C101.055 49.8503 100.111 50.2995 99 50.3545C100.111 50.4095 101.055 50.8587 101.831 51.7112C102.607 52.5546 102.996 53.563 102.996 54.7273C102.996 53.9572 103.172 53.2513 103.525 52.5913C103.886 51.9312 104.372 51.3995 104.98 51.0053C105.598 50.602 106.268 50.3911 107 50.3545C105.88 50.2903 104.936 49.8503 104.16 49.0069C103.384 48.1635 102.996 47.1642 102.996 46C102.996 47.1642 102.607 48.1635 101.831 49.0069Z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></div><div class="theme-switch__circle-container"><div class="theme-switch__sun-moon-container"><div class="theme-switch__moon"><div class="theme-switch__spot"></div><div class="theme-switch__spot"></div><div class="theme-switch__spot"></div></div></div></div><div class="theme-switch__shooting-star"></div><div class="theme-switch__shooting-star-2"></div><div class="theme-switch__meteor"></div><div class="theme-switch__stars-cluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="theme-switch__aurora"></div><div class="theme-switch__comets"><div class="comet"></div><div class="comet"></div></div></div></label><div class="w" id="app"></div>
+
+/* ===================== لمسة التصميم v4 ===================== */
+@property --ang{syntax:"<angle>";inherits:false;initial-value:0deg}
+html{scroll-behavior:smooth}
+::selection{background:color-mix(in srgb,var(--pr) 35%,transparent)}
+html::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(color-mix(in srgb,var(--tx) 14%,transparent) 1px,transparent 1.6px) 0 0/28px 28px;-webkit-mask-image:radial-gradient(ellipse 80% 55% at 50% 18%,#000,transparent 75%);mask-image:radial-gradient(ellipse 80% 55% at 50% 18%,#000,transparent 75%);opacity:.55}
+h1 span{background-size:220% 100%;animation:txtShift 6s ease-in-out infinite alternate}
+@keyframes txtShift{to{background-position:100% 0}}
+.card{transition:border-color .25s,box-shadow .25s}
+.card:hover{border-color:color-mix(in srgb,var(--pr) 30%,var(--bd))}
+.tile{transition:transform .25s cubic-bezier(.3,1.3,.5,1),border-color .2s,box-shadow .25s}
+.tile:not(:disabled):hover{transform:translateY(-3px);box-shadow:0 16px 30px -16px var(--pr)}
+.tile .ti{transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.tile:not(:disabled):hover .ti{transform:rotate(-7deg) scale(1.1)}
+.bar i{position:relative;overflow:hidden}
+.bar i::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,#ffffff66 50%,transparent 70%);transform:translateX(-100%);animation:barShine 2.8s ease-in-out infinite}
+@keyframes barShine{to{transform:translateX(100%)}}
+.l{transition:background .15s,border-color .15s,transform .15s}.l:hover{transform:translateX(-3px)}
+/* ---- كارت الدخول: زجاج + حدود متوهجة بتلف ---- */
+#sta{position:relative;border:0;padding:24px 20px 22px;border-radius:26px;background:color-mix(in srgb,var(--card) 74%,transparent);-webkit-backdrop-filter:blur(18px) saturate(1.3);backdrop-filter:blur(18px) saturate(1.3);box-shadow:0 30px 60px -30px color-mix(in srgb,var(--pr) 55%,transparent),0 2px 0 0 color-mix(in srgb,#fff 6%,transparent) inset}
+#sta::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.5px;pointer-events:none;background:conic-gradient(from var(--ang),color-mix(in srgb,var(--pr) 10%,transparent),var(--pr),var(--pr2),color-mix(in srgb,var(--pr2) 10%,transparent) 55%,color-mix(in srgb,var(--pr) 10%,transparent));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);animation:angSpin 7s linear infinite}
+@keyframes angSpin{to{--ang:360deg}}
+body.dropping #sta{animation:cardGlow 1.4s .75s ease-out}
+@keyframes cardGlow{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--pr) 70%,transparent)}40%{box-shadow:0 0 60px 6px color-mix(in srgb,var(--pr) 55%,transparent)}100%{box-shadow:0 30px 60px -30px color-mix(in srgb,var(--pr) 55%,transparent)}}
+body.dropping .auth>*:not(.hero){animation:aIn .55s cubic-bezier(.2,.8,.3,1) backwards!important}
+.hero{padding:6px 0 10px}
+.hero h2{font:800 25px/1.35 var(--hf);letter-spacing:-.2px}
+.hero .logo{position:relative;width:72px;height:72px;border-radius:22px;font-size:27px;margin-bottom:14px;box-shadow:0 18px 34px -14px var(--pr),inset 0 1px 0 #ffffff55}
+.hero .logo::before{content:"";position:absolute;inset:-9px;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 65%,var(--pr2));-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 1.5px));mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 1.5px));animation:spin 4s linear infinite;opacity:.9}
+.hero .logo::after{content:"";position:absolute;inset:-26px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--pr) 35%,transparent),transparent 65%);z-index:-1;animation:glowP 3.2s ease-in-out infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes glowP{0%,100%{opacity:.55;transform:scale(.9)}50%{opacity:1;transform:scale(1.08)}}
+/* تابات بمؤشر بيتزحلق */
+.auth .tabs{position:relative;isolation:isolate;padding:4px;border-radius:16px;background:color-mix(in srgb,var(--bg) 80%,transparent)}
+.auth .tabs::before{content:"";position:absolute;z-index:-1;top:4px;bottom:4px;inset-inline-start:4px;width:calc(50% - 7px);border-radius:12px;background:linear-gradient(135deg,var(--pr),var(--pr2));box-shadow:0 8px 18px -8px var(--pr);animation:pillL .45s cubic-bezier(.3,1.25,.5,1)}
+.auth .tabs.r::before{inset-inline-start:calc(50% + 3px);animation-name:pillR}
+@keyframes pillL{from{transform:translateX(-105%)}}
+@keyframes pillR{from{transform:translateX(105%)}}
+.auth .tabs button{background:transparent!important;box-shadow:none!important;color:var(--mu);transition:color .25s}
+.auth .tabs button.on{color:var(--onpr)}
+/* خانات الإدخال بأيقونات */
+#sta input#se,#sta input#sp,#sta input#sn{height:52px;border-radius:14px;background-color:color-mix(in srgb,var(--bg) 70%,transparent);background-repeat:no-repeat;background-size:20px}
+#sta input#se,#sta input#sp{padding-left:48px;background-position:left 15px center}
+#sta input#sn{padding-right:48px;background-position:right 15px center}
+#sta input#se{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b8fb0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='5' width='18' height='14' rx='3'/%3E%3Cpath d='m4 7 8 6 8-6'/%3E%3C/svg%3E")}
+#sta input#sp{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b8fb0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='5' y='11' width='14' height='9' rx='2.5'/%3E%3Cpath d='M8 11V8a4 4 0 0 1 8 0v3'/%3E%3C/svg%3E")}
+#sta input#sn{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b8fb0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cpath d='M4 20c0-4 4-6 8-6s8 2 8 6'/%3E%3C/svg%3E")}
+#sta input:focus{background-color:var(--bg)}
+/* الأزرار */
+.auth button.full{height:50px;margin-top:10px;border-radius:14px;font-size:16px;display:flex;align-items:center;justify-content:center;gap:10px}
+.auth button.full:not(.g){box-shadow:0 14px 28px -12px var(--pr);transition:transform .2s cubic-bezier(.3,1.4,.5,1),box-shadow .2s}
+.auth button.full:not(.g):not(:disabled):hover{transform:translateY(-2px);box-shadow:0 18px 32px -12px var(--pr)}
+.auth button.g.full{background:color-mix(in srgb,var(--card) 80%,transparent);transition:transform .2s cubic-bezier(.3,1.4,.5,1),background .2s,border-color .2s}
+.auth button.g.full:not(:disabled):hover{transform:translateY(-2px);border-color:var(--pr)}
+.gG{width:19px;height:19px;flex:none}
+#sm:not(:empty){animation:msgIn .35s cubic-bezier(.3,1.5,.5,1)}
+@keyframes msgIn{from{opacity:0;transform:translateY(-5px)}}
+/* ---- مقدمة أحلى ---- */
+#intro .ttl{top:15%;opacity:1;animation:ttlOut 7s ease-in forwards;text-shadow:none;font:800 38px/1 var(--hf)}
+@keyframes ttlOut{0%,68%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-34px) scale(1.06)}}
+#intro .ttl b{display:inline-block;font-weight:800;opacity:0;text-shadow:0 0 18px #8b7dff,0 0 50px #8b7dff99;animation:chIn .6s cubic-bezier(.3,1.7,.5,1) forwards}
+@keyframes chIn{from{opacity:0;transform:translateY(26px) scale(.5) rotate(-8deg)}to{opacity:1;transform:none}}
+#intro .sub{position:absolute;z-index:1;left:0;right:0;top:calc(15% + 54px);text-align:center;color:#c9c2ff;font:600 15px var(--hf);opacity:0;animation:subLife 7s 0s ease-out forwards}
+@keyframes subIn{from{opacity:0;transform:translateY(10px)}to{opacity:.9;transform:none}}
+#intro .st{position:absolute;z-index:0;top:-30%;width:2px;border-radius:2px;background:linear-gradient(transparent,#b8aeff);opacity:.45;animation:stf linear infinite}
+@keyframes stf{to{transform:translateY(170vh)}}
+.clm::before{content:"";position:absolute;left:50%;top:78%;width:8px;height:260px;margin-left:-4px;border-radius:8px;background:linear-gradient(#8b7dffcc,#8b7dff00);filter:blur(4px);z-index:-1}
+.flash{position:fixed;inset:0;z-index:6;pointer-events:none;background:radial-gradient(65% 45% at 50% 72%,color-mix(in srgb,var(--pr) 38%,transparent),transparent 70%);animation:fl .8s ease-out forwards}
+@keyframes fl{from{opacity:1}to{opacity:0}}
+.auth button.full:not(.g){background:linear-gradient(110deg,var(--pr),var(--pr2),var(--pr));background-size:200% 100%;animation:sheen2 4s linear infinite}
+@keyframes sheen2{to{background-position:200% 0}}
+
+/* ---- الراجل: وقفة في نص الشاشة وكلمة ---- */
+@keyframes subLife{0%{opacity:0;transform:translateY(10px)}22%{opacity:.9;transform:none}68%{opacity:.9;transform:none}100%{opacity:0;transform:translateY(-34px)}}
+@keyframes lean{from{transform:rotate(-2.2deg)}to{transform:rotate(2.2deg)}}
+.clm .bd{animation:lean .55s ease-in-out infinite alternate}
+.clm.talk .bd,.clm.hush .bd{animation-duration:2.2s}
+#intro.hold .rope{animation-play-state:paused}
+.clm.talk .a1{animation:none}
+.clm.talk .a2{animation:wv .42s ease-in-out infinite alternate}
+@keyframes wv{from{transform:rotate(14deg)}to{transform:rotate(40deg)}}
+.clm.talk .l1{animation:legT 1.5s ease-in-out infinite alternate}.clm.talk .l2{animation:legT 1.5s ease-in-out infinite alternate-reverse}
+@keyframes legT{from{transform:rotate(-7deg)}to{transform:rotate(7deg)}}
+.clm.talk svg{animation:hangS 1.8s ease-in-out infinite alternate}
+@keyframes hangS{from{transform:rotate(-2deg) translateY(1px)}to{transform:rotate(2deg) translateY(-2px)}}
+.clm.talk .clmw{animation-duration:2.4s}
+.say{position:absolute;left:50%;bottom:calc(100% + 18px);translate:-50% 0;white-space:nowrap;direction:rtl;padding:11px 20px 12px;border-radius:20px;font:800 20px/1.3 var(--hf);color:#fff;background:linear-gradient(135deg,#2e2578f2,#1b1556f2);border:1.5px solid #8b7dff;box-shadow:0 0 34px #8b7dff80,0 14px 30px -10px #000;scale:.3;opacity:0;transform-origin:50% 100%;pointer-events:none}
+.say::after{content:"";position:absolute;left:50%;bottom:-8px;width:14px;height:14px;margin-left:-7px;background:#1d1759;border-right:1.5px solid #8b7dff;border-bottom:1.5px solid #8b7dff;transform:rotate(45deg)}
+.say b{display:inline-block;opacity:0}
+.clm.talk .say{animation:sayIn .5s cubic-bezier(.3,1.6,.5,1) forwards}
+.clm.talk .say b{animation:wIn .45s cubic-bezier(.3,1.7,.5,1) forwards}
+.clm.hush .say{animation:sayOut .3s ease-in forwards}
+.clm.hush .say b{opacity:1}
+@keyframes sayIn{from{scale:.3;opacity:0}to{scale:1;opacity:1}}
+@keyframes sayOut{from{scale:1;opacity:1}to{scale:.6;opacity:0}}
+@keyframes wIn{from{opacity:0;transform:translateY(10px) scale(.6)}to{opacity:1;transform:none}}
+.bst{position:absolute;z-index:3;margin:-10px 0 0 -10px;font:800 18px ui-monospace,monospace;color:#d4ccff;text-shadow:0 0 10px #8b7dff;pointer-events:none;animation:bst 1.2s ease-out forwards}
+@keyframes bst{0%{opacity:0;transform:translate(0,0) scale(.4)}20%{opacity:1}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(1.25) rotate(var(--r))}}
+
+/* ===================== أداء: موبايلات ضعيفة ===================== */
+html::before{display:none}
+body{background:var(--bg)!important}
+body::before,body::after{display:none!important}
+html::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(900px 420px at 85% -80px,color-mix(in srgb,var(--pr) 16%,transparent),transparent 70%),radial-gradient(700px 360px at -10% 0,color-mix(in srgb,var(--pr2) 12%,transparent),transparent 70%)}
+h1 span{animation:none}
+.bar i::after{display:none}
+.auth button.full:not(.g){animation:none;background:linear-gradient(135deg,var(--pr),var(--pr2))}
+#sta{-webkit-backdrop-filter:none;backdrop-filter:none;background:var(--card)}
+#sta::before{animation:none}
+body.dropping #sta{animation:none}
+.hero .logo{animation:logoPop .6s .7s cubic-bezier(.3,1.4,.5,1) both}
+.hero .logo::before{display:none}
+.hero .logo::after{animation:none;opacity:.7}
+#intro{perspective:none}
+#intro::before{animation:none;opacity:.55}
+.rope{top:-14px;animation:ropeT .45s linear infinite;will-change:transform}
+@keyframes ropeT{to{transform:translateY(14px)}}
+.clm{bottom:0;animation:clmUp2 7s forwards;will-change:transform}
+@keyframes clmUp2{0%{transform:translateY(150px);animation-timing-function:cubic-bezier(.25,.1,.35,1)}38%{transform:translateY(calc(var(--H,780px)*-.5 + 54px));animation-timing-function:linear}64%{transform:translateY(calc(var(--H,780px)*-.5 + 54px));animation-timing-function:cubic-bezier(.55,0,.85,.7)}100%{transform:translateY(calc(var(--H,780px)*-1 - 40px))}}
+.clmw{transform-style:flat;animation:none}
+.clm::before{filter:none;opacity:.55}
+.bst{text-shadow:none}
+@keyframes pgDrop{0%{transform:translateY(-135vh);animation-timing-function:cubic-bezier(.55,0,.9,.45)}50%{transform:translateY(0);animation-timing-function:cubic-bezier(.2,.6,.4,1)}64%{transform:translateY(-34px);animation-timing-function:ease-in}78%{transform:translateY(0);animation-timing-function:ease-out}88%{transform:translateY(-10px);animation-timing-function:ease-in}100%{transform:translateY(0)}}
+#hang{perspective:none}
+.swing{transform-style:flat;animation:sw 2.6s ease-in-out infinite alternate}
+@keyframes sw{from{transform:rotate(-11deg)}to{transform:rotate(11deg)}}
+.hg .bd,.hg .l1,.hg .l2,.ey{animation:none}
+/* وضع خفيف: بيتفعّل تلقائياً على الجهاز الضعيف */
+html.lite #intro::before,html.lite #intro::after,html.lite .pt,html.lite .st,html.lite .clm::after,html.lite .clm::before,html.lite .bst,html.lite .puff,html.lite .spark,html.lite .shock,html.lite .flash,html.lite .hero .logo::after{display:none!important}
+html.lite .rope{box-shadow:none}
+html.lite .clm .bd,html.lite .clm svg{animation:none}
+html.lite body.dropping .auth>*:not(.hero){animation:none!important}
+html.lite .say,html.lite #sta,html.lite .card,html.lite .hero .logo{box-shadow:none}
+html.lite .ttl b{text-shadow:none}
+html.lite .swing{animation:none}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<label class="tsw" id="tg" title="فاتح / غامق"><input id="tgc" type="checkbox" onchange="tgl(this)"><span class="tk"><i></i></span></label><button class="adb" id="adb" type="button" onclick="adm()">🔐 تسجيل كأدمن</button><div class="w" id="app"></div>
 <script>
-const PH="201094393622",PASS=85;let R={op:0,rp:{},al:null,ban:false};const ADM=/^د{6,}اما$/,rs=i=>({w:" — ⏳ بانتظار تأكيد استلام تقريرك",ok:" — ✅ تم استلام تقريرك",no:" — ❌ لم يصل تقريرك، أعد إرساله"})[R.rp[i]]||"";
+const PH="201094393622",PASS=85;let R={op:0,rp:{},al:null,ban:false};const ADM=/^د{6,}اما$/,rs=i=>"";
 const L=[
 {t:"ما هي البرمجة؟",x:`<p>البرمجة هي كتابة تعليمات يفهمها الحاسوب لينفّذ مهمة معيّنة، والكمبيوتر ينفّذ الأوامر <b>بالترتيب</b> وبالحرف. سنستخدم لغة JavaScript لأنها تعمل في أي متصفح.</p><p>أمر الطباعة:</p><pre>console.log("مرحبا");</pre><p>كل أمر ينتهي بفاصلة منقوطة <code>;</code>، والنص يُكتب بين علامتي تنصيص.</p>`,
 q:[["ماذا يفعل الحاسوب بالأوامر؟",["ينفذها بالترتيب","يخمّن ما نقصد","ينفذها عشوائيا"],0],["أي أمر يطبع نصا في JavaScript؟",["print()","console.log()","echo()"],1],["النص يُكتب بين:",["علامتي تنصيص","أقواس مربعة","لا يحتاج علامات"],0]],
@@ -258,7 +425,7 @@ p:"عرّف متغيرين --bg و--tx في :root، وأعد تعريفهما د
 const E={"ما هي البرمجة؟": "console¦ده الكائن اللي بيتحكم في «الكونسول» يعني شاشة الطباعة بتاعة المتصفح؛؛ .¦النقطة معناها «هات اللي جوه»: console.log يعني هات أمر log من جوه console؛؛ log¦اسم الأمر، ومعناه «اطبع» اللي في القوسين؛؛ ( )¦القوسين بيشيلوا الحاجة اللي عايزين نطبعها؛؛ \" \"¦علامتين التنصيص بيقولوا للكمبيوتر «ده كلام عادي مش أمر»؛؛ ;¦الفاصلة المنقوطة زي النقطة في آخر الجملة: خلصنا الأمر؛؛مرحبا¦الكلام اللي بين التنصيص بيتطبع زي ما هو بالظبط، حتى العربي؛؛ حروف كبيرة وصغيرة¦Console مش زي console: أي حرف كبير غلط والأمر مش هيشتغل؛؛ ' '¦التنصيص المفرد شغال زي المزدوج، المهم تقفل بنفس النوع اللي فتحت بيه؛؛ ` `¦علامة الباك تيك بتسمح تحط متغير جوه النص بالشكل ${اسم}؛؛ ${ }¦بتدخل قيمة متغير وسط نص مكتوب بباك تيك؛؛ =¦واحدة معناها «ضع القيمة»؛؛ ==¦اتنين يساووا معناها «هل القيمتين متساويتين؟»؛؛ ===¦تلاتة يساووا نفس السؤال لكن بتقارن النوع كمان فهي الأدق؛؛ !=¦معناها «مش يساوي»؛؛ <¦أصغر من؛؛ >¦أكبر من؛؛ <=¦أصغر من أو يساوي؛؛ >=¦أكبر من أو يساوي؛؛ +=¦زوّد على القيمة الحالية: x += 2 يعني x = x + 2؛؛ ++¦زوّد واحد؛؛ --¦نقّص واحد؛؛ -¦طرح؛؛ *¦ضرب؛؛ /¦قسمة؛؛ %¦باقي القسمة؛؛ &&¦معناها «و»؛؛ ||¦معناها «أو»؛؛ !¦معناها «مش»؛؛ :¦نقطتين، بتفصل المفتاح عن قيمته جوه الكائن؛؛ ,¦فاصلة بتفصل بين العناصر؛؛ /* */¦تعليق طويل بيتكتب على كذا سطر والكمبيوتر بيتجاهله", "المتغيرات": "let¦كلمة بتعمل متغير جديد ممكن قيمته تتغير بعدين؛؛ const¦بتعمل متغير ثابت، أول ما تحط فيه قيمة مش هتقدر تغيرها؛؛ age / name¦اسم المتغير، إنت اللي بتختاره بس من غير مسافات؛؛ =¦علامة الوضع: بتحط القيمة اللي على اليمين جوه المتغير (مش معناها «يساوي»)؛؛ 20¦رقم بنكتبه من غير تنصيص؛؛ +¦بتجمع الأرقام، وبتلزّق النصوص ببعض؛؛ \" \"¦تنصيص فيه مسافة عشان الاسم والسن ما يلزقوش في بعض؛؛Ali¦نص بيتحط بين تنصيص، وأول حرف كبير مجرد عادة مش قاعدة؛؛ ;¦في آخر كل سطر تعريف؛؛ المسافات حوالين =¦للراحة بس، لكن مسافة بعد let ضرورية؛؛ حروف الاسم¦الاسم لازم يبدأ بحرف مش برقم، وما يكونش فيه مسافة", "أنواع البيانات": "typeof¦كلمة بتقولك نوع القيمة اللي بعدها؛؛ \"hi\"¦نص (string) لأنه بين تنصيص؛؛ 25¦رقم (number) لأنه من غير تنصيص؛؛ true¦قيمة منطقية معناها «صح»؛؛ false¦قيمة منطقية معناها «غلط» ومفيش قيمة تالتة؛؛ //¦بداية تعليق: الكمبيوتر بيتجاهله وده كلام لينا إحنا؛؛ string¦ده اللي هيظهر: نوع النص؛؛console.log( )¦بيطبع النتيجة اللي بيرجعها typeof؛؛ ;¦نهاية الأمر؛؛ string¦هو الناتج اللي هيتطبع، معناه نص", "الشروط if / else": "if¦معناها «لو»، بتبدأ بيها القرار؛؛ ( )¦جواهم الشرط اللي هنفحصه؛؛ age >= 18¦الشرط: هل السن أكبر من أو يساوي 18؟؛؛ { }¦بيلموا الأوامر اللي هتتنفذ لما الشرط يتحقق؛؛ else¦معناها «وإلا»: بتتنفذ لما الشرط ما يتحققش؛؛ console.log¦الأمر اللي بيطبع النتيجة في كل حالة؛؛age¦اسم متغير فيه السن؛؛ 18¦الرقم اللي بنقارن بيه؛؛ \"adult\" / \"minor\"¦النصوص اللي هتتطبع في كل حالة؛؛ } else {¦القوس اللي بيقفل if وبعده else وبيفتح جسم else في نفس السطر؛؛ الإزاحة¦المسافات في أول السطر بتوضح إن الأوامر جوه القوس", "الحلقات": "for¦كلمة بتبدأ بيها الحلقة (التكرار)؛؛ let i = 1¦أول جزء: عداد اسمه i بيبدأ من 1؛؛ i <= 5¦تاني جزء: كمّل لحد ما i تبقى أكبر من 5؛؛ i++¦تالت جزء: زوّد i بواحد بعد كل لفة؛؛ ;¦بتفصل بين الأجزاء التلاتة؛؛ { }¦الأوامر اللي هتتكرر كل لفة؛؛ console.log(i)¦بيطبع قيمة العداد في كل لفة؛؛let¦عشان نعمل العداد i؛؛ 1 و 5¦بداية ونهاية العد؛؛ i¦اسم العداد، الحرف i من كلمة index وهو متعارف عليه", "الدوال": "function¦كلمة بتعمل دالة يعني مجموعة أوامر ليها اسم؛؛ add¦اسم الدالة وإنت اللي بتختاره؛؛ (a, b)¦المدخلات اللي الدالة بتستناها، والفاصلة بتفصل بينهم؛؛ { }¦جسم الدالة: الأوامر اللي جواها؛؛ return¦بترجّع النتيجة لمكان النداء وبتنهي الدالة؛؛ a + b¦العملية اللي هتترجع؛؛ add(2, 3)¦النداء: نشغل الدالة ونديها 2 و3، والناتج 5؛؛a + b¦جمع القيمتين؛؛ console.log(add(2, 3))¦نداء الدالة جوه القوسين وبعدين طباعة الناتج؛؛ 2 و 3¦القيم اللي هتدخل مكان a و b", "المصفوفات": "[ ]¦القوسين المربعين هما اللي بيعملوا المصفوفة (قايمة)؛؛ \"apple\", \"banana\"¦العناصر، والفاصلة بتفصل بينهم؛؛ fruits[0]¦الرقم بين [ ] هو ترتيب العنصر وبيبدأ من صفر مش من واحد؛؛ .length¦بتقولك عدد العناصر اللي في المصفوفة؛؛ .push(\"mango\")¦بتضيف عنصر جديد في آخر المصفوفة؛؛ //¦تعليق بيشرح الناتج؛؛const fruits =¦بنحط المصفوفة في متغير ثابت؛؛ ;¦نهاية كل أمر؛؛ // apple¦تعليق بيقولك الناتج المتوقع؛؛ // 2¦تعليق بيقولك عدد العناصر", "الكائنات Objects": "{ }¦القوسين المعقوفين بيلموا بيانات الكائن؛؛ name: \"Ali\"¦اسم الخاصية ونقطتين وبعدين القيمة؛؛ ,¦بتفصل بين خاصية والتانية؛؛ student.name¦النقطة بتجيب خاصية من الكائن؛؛ student.city = \"Cairo\"¦بتضيف خاصية جديدة اسمها city، ولو موجودة بتغير قيمتها؛؛ const student¦الكائن اتحط في متغير اسمه student؛؛const student =¦بنحط الكائن في متغير ثابت؛؛ age: 20¦خاصية تانية: السن؛؛ ;¦نهاية الأمر", "العوامل الحسابية والمنطقية": "+¦جمع؛؛ -¦طرح؛؛ *¦علامة النجمة معناها ضرب؛؛ /¦السلاش معناها قسمة؛؛ %¦باقي القسمة: 10 % 3 الناتج 1؛؛ &&¦معناها «و»: الشرطين لازم يتحققوا سوا؛؛ ||¦معناها «أو»: يكفي شرط واحد منهم؛؛ !¦معناها «مش»: بتعكس صح لغلط؛؛ >¦أكبر من؛؛ hasId¦متغير منطقي بيقول هل معاه هوية ولا لأ؛؛if ( )¦الشرط بيتحط بين القوسين؛؛ { }¦قوسين فاضيين، ممكن تكتب جواهم أوامر؛؛ 10 و 3¦الرقمين في عملية الباقي؛؛ 18¦الرقم اللي بنقارن بيه", "حلقة while": "while¦معناها «طالما»: كرر طالما الشرط صح؛؛ let i = 1¦بنجهز العداد قبل الحلقة؛؛ i <= 3¦الشرط، بيتفحص قبل كل لفة؛؛ { }¦الأوامر اللي بتتكرر؛؛ console.log(i)¦بيطبع العداد؛؛ i++¦بيزود العداد؛ من غيره الشرط يفضل صح والحلقة ما تخلصش أبدا", "المشروع الختامي: حاسبة التقديرات": "function grade(score)¦دالة اسمها grade بتاخد الدرجة وتقولك التقدير؛؛ if (score >= 90)¦أول شرط: لو الدرجة 90 أو أكتر؛؛ return \"A\"¦بترجع الحرف A وتخرج من الدالة على طول؛؛ else if¦شرط تاني بيتفحص لو اللي قبله ما اتحققش؛؛ else¦آخر حالة: أي حاجة ما طابقتش اللي فات؛؛ { }¦بيلموا كل حالة؛؛75¦حد الدرجة لتقدير B؛؛ \"B\" و \"C\"¦الحروف اللي هترجع؛؛ ;¦نهاية كل return؛؛ score¦اسم المدخل جوه الدالة", "HTML: هيكل الصفحة": "<!DOCTYPE html>¦دي بتقول للمتصفح «خلي بالك إحنا هنكتب بلغة HTML5 الحديثة»؛؛ <html> … </html>¦ده البيت الكبير اللي شايل الموقع كله، أي حاجة هتكتبها لازم تكون جواه؛؛ <head> … </head>¦دي دماغ الموقع، فيها معلومات ما حدش بيشوفها غير المتصفح؛؛ <title>صفحتي</title>¦اسم الصفحة اللي بيظهر فوق في تاب المتصفح؛؛ <body> … </body>¦جسم الموقع، أي حاجة عايزها تظهر للناس تكتبها جواه؛؛ <h1>مرحبا</h1>¦أكبر عنوان، و h1 معناها Heading 1؛؛<¦علامة أصغر من، في HTML معناها «هنا بيبدأ وسم»؛؛ >¦علامة أكبر من، معناها «هنا الوسم خلص»؛؛ /¦السلاش قبل اسم الوسم معناها «ده وسم القفل»؛؛ !¦علامة التعجب في أول DOCTYPE معناها «ده مش وسم عادي، ده إعلان للمتصفح»؛؛ DOCTYPE¦كلمة معناها «نوع المستند»؛؛ html (اللي بعد DOCTYPE)¦بتحدد إن نوع المستند صفحة HTML؛؛ المسافة بين DOCTYPE و html¦لازم تفصل بين الكلمتين؛؛ الكلام العربي بين الوسمين¦نص عادي بيظهر في الصفحة زي ما هو؛؛ النزول لسطر جديد والإزاحة¦للترتيب بس والمتصفح بيتجاهلها؛؛ حروف كبيرة وصغيرة¦مالهاش فرق في HTML لكن الأفضل تكتب الوسوم بحروف صغيرة", "HTML: العناوين والفقرات والتنسيق": "<h1>¦أكبر عنوان وأهمه، بنستخدمه مرة واحدة بس في الصفحة للعنوان الرئيسي؛؛ <h2>¦عنوان فرعي تحت h1 وأصغر منه شوية، بنستخدمه لأقسام الصفحة زي «عن الكورس»؛؛ <h3>¦عنوان تحت h2، بيقسّم القسم لأجزاء أصغر؛؛ <h4>¦عنوان تحت h3، بيتستخدم لتفاصيل دقيقة وقليل ما بتحتاجه؛؛ <h5>¦عنوان صغير جدا تحت h4؛؛ <h6>¦أصغر عنوان وأقلهم أهمية، حجمه قريب من الكلام العادي؛؛ h1 ← h6¦الرقم بيصغّر العنوان: 1 الأكبر و6 الأصغر، والأفضل تمشي بالترتيب ومتقفزش من h2 لـ h5؛؛ </h2> </h3> </h4> </h5> </h6>¦كل عنوان بيتقفل بنفس رقمه، فتحت h3 يبقى تقفله </h3> مش </h2>؛؛ <h7>¦مفيش h7! لو كتبته المتصفح مش هيعتبره عنوان وهيطلع كلام عادي؛؛ <p>¦الـ p اختصار Paragraph يعني فقرة؛؛ <strong>¦بيخلي الكلمة عريضة (Bold) ومهمة؛؛ <em>¦بيخلي الكلمة مايلة عشان نأكد عليها؛؛ <br>¦بينزّل سطر جديد، وده مش بيتقفل؛؛ </p>¦السلاش / معناها «قفلنا»؛ نفس اسم الوسم بس بسلاش؛؛<strong> جوه <p>¦وسم جوه وسم: لازم تقفل الداخلي الأول وبعدين الخارجي؛؛ عن الكورس¦نص العنوان اللي هيظهر للناس؛؛ جدا¦كلام عادي بعد الوسم بيكمل الجملة", "HTML: الروابط والصور": "<a>¦الـ a اختصار Anchor يعني رابط الواحد بيدوس عليه؛؛ href¦عنوان المكان اللي الرابط هيودّيك له؛؛ =¦بتربط اسم الخاصية بقيمتها؛؛ \"https://…\"¦علامتين التنصيص بيلفوا قيمة الخاصية؛؛ زر الموقع¦الكلام اللي بين الوسمين هو اللي بيظهر للناس؛؛ <img>¦صورة (Image)، وملهاش وسم قفل؛؛ src¦مكان ملف الصورة (Source)؛؛ alt¦وصف للصورة بالكلام لو ما فتحتش أو للمكفوفين؛؛المسافة بين a و href¦لازم تفصل اسم الوسم عن الخاصية؛؛ example.com¦عنوان الموقع اللي هيروحله الرابط؛؛ logo.png¦اسم ملف الصورة وامتداده png؛؛ \"شعار\"¦الوصف اللي هيتقري لو الصورة ما ظهرتش", "HTML: القوائم": "<ul>¦قايمة بنقط (Unordered List)؛؛ <ol>¦قايمة مرقمة 1 2 3 (Ordered List)؛؛ <li>¦كل عنصر جوه القايمة (List Item)؛؛ المسافات قبل li¦ترتيب بس عشان الكود يتقري، المتصفح مش بيهتم بيها؛؛ </ul>¦لازم تقفل القايمة بعد آخر li", "HTML: الجداول": "<table>¦الجدول كله؛؛ <tr>¦صف أفقي (Table Row)؛؛ <th>¦خلية العنوان وبتظهر عريضة (Table Header)؛؛ <td>¦خلية بيانات عادية (Table Data)؛؛ الترتيب¦table فيها tr، وكل tr فيها خلايا th أو td؛؛الاسم / العمر / علي / 20¦كلام عادي جوه الخلايا؛؛ </tr>¦قفل الصف قبل ما تبدأ صف جديد", "HTML: النماذج Forms": "<form>¦الاستمارة اللي بتلم كل الحقول؛؛ <label>¦الكلمة اللي بتشرح الحقل زي «الاسم»؛؛ for¦بتربط الـ label بالحقل اللي الـ id بتاعه نفس القيمة؛؛ <input>¦الحقل اللي الواحد بيكتب فيه، وملوش وسم قفل؛؛ type=\"text\"¦نوع الحقل: نص عادي (email بريد، password سر)؛؛ id=\"n\"¦اسم مميز للحقل ماينفعش يتكرر؛؛ <button type=\"submit\">¦زرار بيبعت الاستمارة؛؛المسافة بين type و id¦كل خاصية بتتفصل عن اللي بعدها بمسافة؛؛ الاسم¦نص الـ label اللي بيظهر جنب الحقل؛؛ إرسال¦الكلمة اللي بتظهر على الزرار؛؛ <select>¦القايمة المنسدلة اللي بتختار منها؛؛ <option>¦كل اختيار جوه القايمة المنسدلة؛؛ </select>¦قفل القايمة بعد آخر option", "HTML: الوسوم الدلالية والمشروع الختامي": "<header>¦راس الصفحة (اللوجو والعنوان)؛؛ <nav>¦قايمة الروابط اللي بتنقلك بين الصفحات؛؛ <main>¦المحتوى الأساسي، مرة واحدة بس في الصفحة؛؛ <section>¦قسم جوه المحتوى ليه موضوع؛؛ <footer>¦آخر الصفحة (حقوق وتواصل)؛؛ ...¦النقط في المثال معناها «هنا تحط المحتوى»", "CSS: المحددات والربط": "h1¦اسم الوسم اللي عايز أنسقه، وكده هنسق كل h1؛؛ .box¦النقطة معناها كلاس (class) يعني مجموعة عناصر ليها نفس الاسم؛؛ #main¦علامة # معناها id يعني عنصر واحد بس؛؛ { }¦القوسين بيلموا كل التنسيقات؛؛ color¦اسم الخاصية اللي هغيرها؛؛ :¦النقطتين بتفصل اسم الخاصية عن قيمتها؛؛ blue¦القيمة اللي هحطها؛؛ ;¦آخر كل خاصية زي النقطة؛؛حروف كبيرة وصغيرة¦اكتب الخصائص بحروف صغيرة زي color؛؛ المسافات حوالين { }¦للراحة بس؛؛ #eee¦لون رمادي فاتح، بيتكتب بـ 3 خانات؛؛ 10px¦عشرة بكسل؛؛ background¦خاصية خلفية العنصر؛؛ padding¦مسافة جوه العنصر؛؛ /* */¦تعليق في CSS، المتصفح بيتجاهله؛؛ h1, h2¦الفاصلة بتخليك تنسق أكتر من وسم بنفس القاعدة", "CSS: الألوان والخطوط": "color¦لون الكلام؛؛ background-color¦لون خلفية العنصر؛؛ font-size¦حجم الكلام؛؛ 18px¦الرقم 18 ووحدة px يعني بكسل؛؛ #333¦لون بكود: # وبعدها 3 أو 6 خانات للأحمر والأخضر والأزرق؛؛ font-family¦نوع الخط؛؛ Arial, sans-serif¦الفاصلة بتحط خط بديل لو الأول مش موجود؛؛p¦اسم الوسم اللي بننسقه (الفقرات)؛؛ Arial¦اسم خط معروف؛؛ sans-serif¦نوع خط عام بدون زوائد، بيتحط كبديل أخير؛؛ 333¦الرقم اللي بعد # بيدرّج من الأسود للأبيض", "CSS: الـ Box Model": "width¦عرض الصندوق؛؛ padding¦مسافة جوه الصندوق بين الكلام والحد؛؛ border: 2px solid black¦3 حاجات: سُمك الحد 2px، وشكله solid خط مصمت، ولونه أسود؛؛ margin¦مسافة برا الصندوق بتبعده عن اللي جنبه؛؛ border-radius¦بيدوّر الزوايا؛؛.card¦كلاس بنستهدفه بالنقطة؛؛ 300px و 16px و 20px و 12px¦أرقام بوحدة بكسل، كل واحد لخاصية بتاعته؛؛ solid¦شكل الخط: متصل؛؛ black¦اسم لون جاهز", "CSS: Flexbox": "display: flex¦بيحوّل الصندوق لـ Flexbox يعني عناصره تترتب جنب بعض؛؛ justify-content¦بيوزع العناصر بالعرض؛؛ space-between¦مسافة متساوية بين العناصر؛؛ align-items¦بيظبط العناصر بالطول؛؛ center¦في النص؛؛ gap¦مسافة ثابتة بين كل عنصرين؛؛.row¦كلاس بنستهدفه بالنقطة؛؛ 12px¦مسافة اثنا عشر بكسل بين العناصر؛؛ column¦قيمة flex-direction معناها ترتيب العناصر فوق بعض", "CSS: التجاوب والوحدات": "%¦نسبة من الصندوق الحاوي، 50% يعني نصه؛؛ @media¦تنسيق بيشتغل بس لو الشرط اتحقق؛؛ (max-width: 600px)¦الشرط: لو عرض الشاشة 600 بكسل أو أقل يعني موبايل؛؛ { { } }¦القوس الأول بتاع media واللي جواه بتاع القاعدة؛؛ rem¦وحدة نسبية لحجم الخط الأساسي، 2rem يعني ضعفه؛؛.box¦كلاس بنستهدفه بالنقطة؛؛ width¦عرض العنصر؛؛ 100%¦كامل عرض الصندوق الحاوي؛؛ @¦علامة @ في أول كلمة media بتدل إنها تعليمة خاصة مش خاصية", "CSS: المشروع الختامي (متغيرات + دارك مود)": ":root¦أعلى عنصر في الصفحة، فالمتغير بيشتغل في كل مكان؛؛ --bg¦اسم متغير من عندك لازم يبدأ بشرطتين؛؛ var(--bg)¦بيقرا قيمة المتغير؛؛ prefers-color-scheme: dark¦بيسأل: هل الجهاز على الوضع الليلي؟؛؛ @media¦تنسيق بشرط؛؛ transition¦بيخلي التغيير يحصل بنعومة مش فجأة؛؛ :hover¦لما الماوس أو الصباع يقف على الزرار؛؛#fff و #111 و #eee¦ألوان بكود: أبيض وأسود تقريبا ورمادي فاتح؛؛ body¦وسم الجسم اللي بنطبق عليه المتغيرات؛؛ background¦خاصية الخلفية؛؛ color¦لون الكلام؛؛ ( )¦قوسين بيشيلوا القيمة اللي بتسأل عنها؛؛ --tx¦متغير تاني للون النص"};
 const T={"ما هي البرمجة؟": "الكمبيوتر بينفذ سطر سطر من فوق لتحت زي وصفة الأكل، ولو غلطت في حرف واحد مش هيفهمك.", "المتغيرات": "المتغير زي علبة عليها اسم: بتحط فيها حاجة وبعدين تنده عليها بالاسم.", "أنواع البيانات": "النص بين تنصيص، الرقم من غير تنصيص، وصح/غلط من غير تنصيص برضه. \"10\" نص لكن 10 رقم!", "الشروط if / else": "زي ما بتقول: لو الجو بارد البس جاكت، وإلا ما تلبسوش. الكمبيوتر بيختار طريق واحد بس.", "الحلقات": "بدل ما تكتب console.log خمس مرات، بتكتبه مرة واحدة والحلقة تكرره. أجزاء for التلاتة: بداية ; شرط ; زيادة.", "الدوال": "الدالة زي ماكينة العصير: تعملها مرة، وكل مرة تديها فاكهة تطلعلك عصير (return).", "المصفوفات": "الترتيب في البرمجة بيبدأ من 0: أول عنصر رقمه 0، تاني عنصر رقمه 1 وهكذا.", "الكائنات Objects": "الكائن زي بطاقة الهوية: اسم وسن ومدينة، كل معلومة ليها عنوان.", "العوامل الحسابية والمنطقية": "&& لازم الاتنين صح، || يكفي واحد صح. زي: تدخل النادي لو معاك كارنيه && دفعت.", "حلقة while": "احذر من الحلقة اللانهائية: لو نسيت تغيّر العداد الشرط هيفضل صح للأبد والصفحة هتهنّج.", "المشروع الختامي: حاسبة التقديرات": "ده تجميع كل اللي اتعلمناه: دالة + شروط + مصفوفة + حلقة.", "HTML: هيكل الصفحة": "الترتيب عامل زي كده:\nالبيت الكبير html\n   ├── الدماغ head ← جواه العنوان title\n   └── الجسم body ← جواه الكلام اللي الناس بتشوفه h1\nكل حاجة بتفتحها لازم تقفلها: فتحت <h1> يبقى لازم تقفلها </h1>", "HTML: العناوين والفقرات والتنسيق": "العنوان h1 مرة واحدة بس في الصفحة، وبعدها h2 و h3 بالترتيب. كل وسم بتفتحه لازم تقفله.", "HTML: الروابط والصور": "الرابط والصورة الاتنين بيحتاجوا خاصية: الرابط href، والصورة src و alt.", "HTML: القوائم": "القايمة دايما فيها وسمين: الحاوية (ul أو ol) والعناصر (li).", "HTML: الجداول": "فكّر في الجدول زي إكسل: صفوف (tr) وجواها خلايا (td).", "HTML: النماذج Forms": "كل حقل ليه label، وكل label بيتربط بالحقل عن طريق نفس القيمة في for و id.", "HTML: الوسوم الدلالية والمشروع الختامي": "الوسوم دي ما بتغيّرش الشكل، بس بتقول للمتصفح ولمحركات البحث المعنى: ده راس وده تذييل.", "CSS: المحددات والربط": "القاعدة: محدد { خاصية: قيمة; }. اللي قبل القوس بتختار بيه العنصر، واللي جواه بتقول تعمل فيه إيه.", "CSS: الألوان والخطوط": "الخاصية دايما ليها قيمة، وبينهم نقطتين، وفي الآخر فاصلة منقوطة.", "CSS: الـ Box Model": "كل عنصر صندوق: الكلام في النص، وبعده padding، وبعده border، وبعده margin.", "CSS: Flexbox": "justify-content للعرض (أفقي)، و align-items للطول (رأسي).", "CSS: التجاوب والوحدات": "التجاوب معناه إن الصفحة تتظبط لوحدها على الموبايل والكمبيوتر.", "CSS: المشروع الختامي (متغيرات + دارك مود)": "غيّر لون واحد في المتغير والصفحة كلها تتغير. وده أساس الوضع الليلي."};
 const esc=t=>t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-const tbl=(e,t)=>e?'<h4>🎨 الشرح خطوة بخطوة</h4>'+e.split("؛؛").map((p,i)=>{const[a,...b]=p.split("¦");return '<div class="ex c'+(i%6)+'"><code dir="ltr">'+esc(a.trim())+'</code><span>'+esc(b.join("¦"))+'</span></div>'}).join("")+(t?'<div class="tip">💡 '+esc(t)+"</div>":""):"";
+const tbl=(e,t)=>e?'<h4>🔍 كل جزء معناه إيه</h4>'+e.split("؛؛").map((p,i)=>{const[a,...b]=p.split("¦");return '<div class="ex c'+(i%6)+'"><code dir="ltr">'+esc(a.trim())+'</code><span>'+esc(b.join("¦"))+'</span></div>'}).join("")+(t?'<div class="tip">💡 '+esc(t)+"</div>":""):"";
 const GN={html:"🌐 الجزء الأول: HTML",css:"🎨 الجزء الثاني: CSS",js:"⚡ الجزء الثالث: JavaScript"},ORD=["html","css","js"];
 const Q={"ما هي البرمجة؟": "ماذا يحدث لو كتبت Console.log بحرف C كبير؟¦يحدث خطأ لأن الحروف حساسة للحالة¦يعمل بشكل طبيعي¦يطبع كلمة Console؛؛ ماذا تعني ; في آخر السطر؟¦انتهاء الأمر¦بداية تعليق¦تكرار الأمر؛؛ ما ناتج console.log(\"5\" + \"5\")؟¦55¦10¦خطأ؛؛ لغة JavaScript تعمل في:¦المتصفح ومواقع الويب¦الطابعة فقط¦الكاميرا فقط؛؛ التنصيص المفرد ' ' يُستخدم لكتابة:¦نص¦أمر¦رقم فقط", "المتغيرات": "أي اسم متغير صحيح؟¦userName¦2name¦my name؛؛ ماذا يحدث لو غيّرت قيمة const؟¦يحدث خطأ¦تتغير القيمة¦يتجاهل الكمبيوتر السطر؛؛ ناتج: let x = 2; x = x + 3; console.log(x)¦5¦2¦3؛؛ ماذا تعني = في let a = 5؟¦ضع القيمة 5 في a¦a تساوي 5 للمقارنة¦اطبع 5؛؛ ناتج console.log(\"a\" + 1)¦a1¦1a¦خطأ", "أنواع البيانات": "ما ناتج typeof 42؟¦number¦string¦boolean؛؛ أي قيمة نصية؟¦\"true\"¦true¦25؛؛ ما ناتج typeof false؟¦boolean¦string¦number؛؛ ماذا تفعل // في الكود؟¦تبدأ تعليقا¦تقسم رقمين¦تطبع نصا؛؛ ما ناتج typeof \"25\"؟¦string¦number¦boolean", "الشروط if / else": "ما ناتج 18 > 18؟¦false¦true¦خطأ؛؛ ما ناتج 5 >= 5؟¦true¦false¦خطأ؛؛ كم كتلة تُنفَّذ من if/else في المرة الواحدة؟¦واحدة فقط¦كلتاهما دائما¦لا شيء؛؛ أين تُكتب الأوامر التي تُنفَّذ عند تحقق الشرط؟¦داخل { } بعد if¦بعد else فقط¦قبل if؛؛ هل else يحتاج شرطا؟¦لا¦نعم دائما¦أحيانا فقط", "الحلقات": "كم مرة يطبع for(let i=1;i<=3;i++)؟¦3¦2¦4؛؛ ما آخر قيمة تُطبع في for(let i=0;i<3;i++)؟¦2¦3¦0؛؛ أي جزء من for يزيد العداد؟¦الثالث¦الأول¦الثاني؛؛ ماذا يحدث إذا كان الشرط دائما صحيحا؟¦تدور الحلقة للأبد¦تدور مرة واحدة¦لا تعمل؛؛ تبدأ حلقة العد بكلمة:¦for¦loop¦repeat", "الدوال": "ماذا ترجع add(1,2) إذا كانت return a + b؟¦3¦12¦1؛؛ ما فائدة الدالة؟¦إعادة استخدام مجموعة أوامر¦تغيير لون الصفحة¦حذف المتغيرات؛؛ ما يدخل بين قوسي الدالة عند تعريفها يسمى:¦مدخلات (parameters)¦نتائج¦تعليقات؛؛ ماذا يحدث بعد تنفيذ return؟¦تنتهي الدالة¦تكمل الدالة¦تبدأ من جديد؛؛ كيف نشغّل الدالة؟¦باستدعائها باسمها وقوسين¦بكتابة اسمها فقط¦بحذفها", "المصفوفات": "كم عنصرا في [\"a\",\"b\",\"c\"]؟¦3¦2¦4؛؛ ما رقم آخر عنصر في مصفوفة من 4 عناصر؟¦3¦4¦1؛؛ ماذا يعطي arr[1] في [\"a\",\"b\",\"c\"]؟¦b¦a¦c؛؛ ماذا يعطي arr[5] إذا كان طولها 3؟¦undefined¦0¦c؛؛ ماذا تفعل push؟¦تضيف عنصرا في النهاية¦تضيف عنصرا في البداية¦تحذف آخر عنصر", "الكائنات Objects": "كيف نقرأ city من user؟¦user.city¦user->city¦user(city)؛؛ ماذا يسمى name في { name: \"Ali\" }؟¦مفتاح (key)¦دالة¦مصفوفة؛؛ ما الذي يفصل بين خاصيتين؟¦فاصلة ,¦نقطتان :¦فاصلة منقوطة ;؛؛ ماذا تفعل user.age = 25 إذا كانت age موجودة؟¦تغيّر قيمتها¦تحذفها¦تسبب خطأ؛؛ بأي قوسين يُكتب الكائن؟¦{ }¦[ ]¦( )", "العوامل الحسابية والمنطقية": "ما ناتج 7 % 2؟¦1¦3¦0؛؛ ما ناتج true && false؟¦false¦true¦خطأ؛؛ ما ناتج false || true؟¦true¦false¦خطأ؛؛ ما ناتج !true؟¦false¦true¦0؛؛ ما ناتج 2 + 3 * 4؟¦14¦20¦24", "حلقة while": "متى تتوقف while؟¦عندما يصبح الشرط false¦بعد 10 مرات دائما¦لا تتوقف أبدا؛؛ كم مرة تدور: let i=1; while(i<3){ i++ }؟¦2¦3¦1؛؛ ما الفرق بين while و for؟¦while تكتفي بالشرط والعداد خارجها¦while لا تكرر¦for لا تحتاج شرطا؛؛ ماذا لو كان الشرط false من البداية؟¦لا تُنفَّذ أي مرة¦تُنفَّذ مرة¦خطأ؛؛ ما آخر قيمة تُطبع في while(i<=3) بدءا من i=1؟¦3¦4¦2", "المشروع الختامي: حاسبة التقديرات": "ماذا ترجع grade(95) في مثال الدرس؟¦A¦B¦C؛؛ ماذا ترجع grade(80)؟¦B¦A¦C؛؛ ماذا ترجع grade(10)؟¦C¦A¦B؛؛ لماذا نستخدم else if؟¦لفحص شرط آخر إذا فشل الأول¦لتكرار الأمر¦لتعريف متغير؛؛ ما فائدة الحلقة مع المصفوفة؟¦المرور على كل عنصر¦حذف العناصر¦تغيير النوع", "HTML: هيكل الصفحة": "أي وسم يُوضع بداخله المحتوى المرئي؟¦body¦head¦title؛؛ ما فائدة DOCTYPE؟¦إخبار المتصفح بإصدار HTML¦تغيير الألوان¦إضافة صورة؛؛ أين يظهر محتوى title؟¦تبويب المتصفح¦داخل الصفحة¦أسفل الصفحة؛؛ أي وسم يحتوي الصفحة كلها؟¦html¦body فقط¦head فقط؛؛ كيف يُكتب وسم إغلاق h1؟¦بسلاش قبل الاسم¦بنقطة¦لا يُغلق", "HTML: العناوين والفقرات والتنسيق": "كم مستوى للعناوين في HTML؟¦6¦3¦10؛؛ أي وسم لا يحتاج إغلاقا؟¦br¦p¦strong؛؛ ما الفرق بين strong و em؟¦الأول عريض والثاني مائل¦الأول مائل والثاني عريض¦لا فرق؛؛ أي وسم يُستخدم للفقرة؟¦p¦para¦text؛؛ كيف نجعل نصا عريضا؟¦نضعه بين strong¦نضعه بين em¦نضعه بين br؛؛ أي عنوان أصغر حجما؟¦h5¦h2¦متساويان؛؛ هل يوجد وسم h7؟¦لا¦نعم¦أحيانا", "HTML: الروابط والصور": "كيف تُكتب الصورة؟¦img مع src¦image مع href¦picture مع link؛؛ أي خاصية تحدد وجهة الرابط؟¦href¦src¦alt؛؛ ما الذي يظهر للمستخدم كنص الرابط؟¦الكلام بين وسمي a¦قيمة href¦قيمة alt؛؛ لماذا نكتب alt؟¦لوصف الصورة عند تعذرها وللمكفوفين¦لتكبيرها¦لتغيير لونها؛؛ أي وسم يمثل الرابط؟¦a¦link¦href", "HTML: القوائم": "أي وسم لعنصر القائمة؟¦li¦ul¦ol؛؛ أي قائمة تُظهر أرقاما؟¦ol¦ul¦li؛؛ ماذا يوجد داخل ul؟¦عناصر li¦عناصر td¦عناصر tr؛؛ هل المسافات قبل li تغيّر الشكل؟¦لا¦نعم دائما¦أحيانا؛؛ ما معنى ul؟¦Unordered List¦Ultra Link¦Upper Line", "HTML: الجداول": "أي وسم لخلية العنوان؟¦th¦td¦tr؛؛ أي وسم للصف؟¦tr¦td¦th؛؛ أين توضع td؟¦داخل tr¦خارج table¦داخل head؛؛ كم td في صف فيه 3 أعمدة؟¦3¦1¦6؛؛ أي وسم يحيط بالجدول؟¦table¦grid¦tab", "HTML: النماذج Forms": "أي type لحقل كلمة السر؟¦password¦hidden¦text؛؛ ما وظيفة for في label؟¦ربطه بـ id الحقل¦تغيير لون الحقل¦إخفاء الحقل؛؛ ما وسم القائمة المنسدلة؟¦select¦dropdown¦list؛؛ أي type للزر الذي يرسل النموذج؟¦submit¦send¦go؛؛ هل input يحتاج وسم إغلاق؟¦لا¦نعم¦أحيانا", "HTML: الوسوم الدلالية والمشروع الختامي": "ما الوسم الدلالي لرأس الصفحة؟¦header¦top¦start؛؛ أي وسم للتنقل؟¦nav¦menu¦go؛؛ كم مرة يظهر main في الصفحة؟¦مرة واحدة¦مرات كثيرة¦لا يظهر؛؛ ما فائدة الوسوم الدلالية؟¦توضّح معنى الأقسام¦تغيّر الألوان¦تسرّع الإنترنت؛؛ أي وسم لتذييل الصفحة؟¦footer¦bottom¦end", "CSS: المحددات والربط": "ماذا يستهدف .box؟¦عناصر class=\"box\"¦عنصرا id=\"box\"¦وسم box؛؛ ماذا يستهدف #main؟¦عنصرا id=\"main\"¦كل الفقرات¦class=\"main\"؛؛ كيف تنتهي كل خاصية؟¦بفاصلة منقوطة ;¦بنقطتين¦بسلاش؛؛ ما الفاصل بين الخاصية وقيمتها؟¦نقطتان :¦فاصلة ,¦نقطة .؛؛ أي قوسين تحيط بالتنسيقات؟¦{ }¦[ ]¦( )", "CSS: الألوان والخطوط": "ما وحدة px؟¦بكسل¦نسبة مئوية¦سنتيمتر؛؛ أي خاصية للون الخلفية؟¦background-color¦bg¦back؛؛ ما لون #ff0000؟¦أحمر¦أزرق¦أخضر؛؛ أي خاصية لنوع الخط؟¦font-family¦font-type¦text-font؛؛ ما قيمة text-align للتوسيط؟¦center¦middle¦mid", "CSS: الـ Box Model": "أي مسافة داخل الحد؟¦padding¦margin¦border؛؛ أي مسافة خارج الحد؟¦margin¦padding¦width؛؛ ما ترتيب الصندوق من الداخل للخارج؟¦محتوى ثم padding ثم border ثم margin¦margin ثم border ثم padding¦border ثم margin ثم padding؛؛ أي خاصية تدوّر الزوايا؟¦border-radius¦corner¦round؛؛ ماذا يعني solid؟¦خط متصل¦خط منقط¦بدون خط", "CSS: Flexbox": "ما فائدة gap؟¦مسافة بين العناصر¦لون الخلفية¦حجم الخط؛؛ أي قيمة تضع العناصر فوق بعض؟¦flex-direction: column¦flex-direction: row¦flex-wrap: nowrap؛؛ ما وظيفة align-items؟¦المحاذاة الرأسية¦المحاذاة الأفقية¦الحجم؛؛ ما وظيفة justify-content؟¦توزيع العناصر أفقيا¦تغيير اللون¦تدوير الزوايا؛؛ ما معنى space-between؟¦مسافة متساوية بين العناصر¦لا مسافات¦مسافة على الأطراف فقط", "CSS: التجاوب والوحدات": "ماذا تعني max-width: 600px؟¦الشاشات حتى 600 بكسل¦الشاشات فوق 600¦عرض ثابت؛؛ ماذا يعني width: 50%؟¦نصف عرض الحاوي¦نصف الشاشة دائما¦50 بكسل؛؛ rem نسبة إلى:¦حجم خط الصفحة الأساسي¦عرض الشاشة¦ارتفاع الشاشة؛؛ بأي كلمة تبدأ media query؟¦@media¦media¦#media؛؛ لماذا التجاوب مهم؟¦لتناسب الصفحة كل الشاشات¦لتغيير اللغة¦لتسريع الاتصال", "CSS: المشروع الختامي (متغيرات + دارك مود)": "كيف نعرّف متغير CSS؟¦--name: value¦var name = value¦$name: value؛؛ أين تُعرَّف المتغيرات العامة؟¦:root¦body فقط¦head؛؛ ماذا تفعل var(--bg)؟¦تقرأ قيمة المتغير¦تعرّف متغيرا¦تحذف متغيرا؛؛ ما فائدة transition؟¦تغيير ناعم¦تغيير اللون¦إخفاء العنصر؛؛ متى يعمل :hover؟¦عند وقوف الماوس على العنصر¦عند تحميل الصفحة¦عند إغلاقها"};
 const Q2={"ما هي البرمجة؟": "ما الأداة التي تعرض رسائل الأخطاء أثناء تجربة الكود؟¦console في المتصفح¦الطابعة¦السماعة؛؛ ما ناتج console.log(2 + 3)؟¦5¦23¦خطأ", "المتغيرات": "ما الفرق بين let و const؟¦let تقبل التغيير و const لا¦const تقبل التغيير و let لا¦لا فرق بينهما؛؛ أي سطر صحيح؟¦let score = 10;¦let 10 = score;¦score let = 10;", "أنواع البيانات": "ما ناتج typeof []؟¦object¦array¦list؛؛ ما نوع القيمة 3.14؟¦number¦float¦decimal", "الشروط if / else": "ماذا يطبع: if (0 > 1) { A } else { B }؟¦B¦A¦AB؛؛ ما معنى ===؟¦يساوي في القيمة والنوع¦يساوي في القيمة فقط¦يسند قيمة", "الحلقات": "كم مرة تدور for(let i=0;i<5;i++)؟¦5¦4¦6؛؛ ماذا تفعل break داخل حلقة؟¦توقف الحلقة فورا¦تتخطى دورة واحدة¦تعيد الحلقة من البداية", "الدوال": "ماذا ترجع دالة لا تحتوي return؟¦undefined¦0¦null؛؛ في function hi(name) ما هي name؟¦معامل (parameter)¦اسم الملف¦نتيجة", "المصفوفات": "ماذا تعطي [1,2,3].length؟¦3¦2¦4؛؛ ماذا تفعل pop؟¦تحذف آخر عنصر¦تحذف أول عنصر¦تضيف عنصرا", "الكائنات Objects": "ما ناتج user['age'] إذا كان user = {age: 20}؟¦20¦age¦undefined؛؛ ماذا نحصل عند قراءة خاصية غير موجودة؟¦undefined¦خطأ يوقف الموقع¦0", "العوامل الحسابية والمنطقية": "ما ناتج 10 % 3؟¦1¦3¦0؛؛ ما ناتج 5 !== 5؟¦false¦true¦خطأ", "حلقة while": "ماذا يحدث لو نسيت i++ داخل while؟¦قد تدور للأبد¦تتوقف فورا¦لا يحدث شيء؛؛ كم دورة: let i=0; while(i<4){ i++ }؟¦4¦3¦5", "المشروع الختامي: حاسبة التقديرات": "أين نضع else if؟¦بعد if وقبل else¦قبل if¦بعد else؛؛ لماذا نضع return داخل الدالة؟¦لتعيد النتيجة لمن استدعاها¦لتحذف الدالة¦لتطبع في الصفحة فقط", "HTML: هيكل الصفحة": "أين يوضع meta charset؟¦داخل head¦داخل body¦قبل DOCTYPE؛؛ ما الخاصية التي تجعل الصفحة من اليمين لليسار؟¦dir=rtl¦lang=rtl¦align=right", "HTML: العناوين والفقرات والتنسيق": "أي وسم يكتب نصا مهما بشكل دلالي؟¦strong¦big¦bold؛؛ كم مرة يستحسن استخدام h1؟¦مرة واحدة¦في كل فقرة¦لا يُستخدم", "HTML: الروابط والصور": "ماذا تفعل target=_blank؟¦تفتح الرابط في تبويب جديد¦تحذف الرابط¦تكبّر الصورة؛؛ أي كود صحيح لصورة؟¦<img src=a.png alt=logo>¦<img href=a.png>¦<image src=a.png>", "HTML: القوائم": "هل يمكن وضع قائمة داخل li؟¦نعم وتسمى قائمة متداخلة¦لا أبدا¦فقط في ol؛؛ ماذا نسمي li بدون ul أو ol؟¦خطأ في البنية¦الطريقة الأفضل¦لا فرق", "HTML: الجداول": "ما فائدة thead؟¦تجمع صف العناوين¦تلوّن الجدول¦تحذف الحدود؛؛ أي خاصية تدمج خليتين أفقيا؟¦colspan¦rowspan¦merge", "HTML: النماذج Forms": "أي خاصية تظهر نصا باهتا داخل الحقل؟¦placeholder¦title¦alt؛؛ أي type مناسب للبريد؟¦email¦mail¦text2", "HTML: الوسوم الدلالية والمشروع الختامي": "أي وسم يحيط بمقال مستقل؟¦article¦span¦b؛؛ أي وسم للمحتوى الجانبي؟¦aside¦side¦left", "CSS: المحددات والربط": "ماذا يستهدف p { color: red }؟¦كل الفقرات¦فقرة واحدة فقط¦كل الصفحة؛؛ أي محدد أقوى؟¦#id¦.class¦الوسم", "CSS: الألوان والخطوط": "أي خاصية لحجم الخط؟¦font-size¦text-size¦font-big؛؛ أي خاصية للون النص؟¦color¦text-color¦font-color", "CSS: الـ Box Model": "ما فائدة box-sizing: border-box؟¦العرض يشمل padding و border¦يخفي الحدود¦يلوّن الصندوق؛؛ ماذا تعني margin: 0 auto؟¦توسيط الصندوق أفقيا¦حذف الصندوق¦تكبيره", "CSS: Flexbox": "كيف نفعّل flexbox؟¦display: flex على الحاوية¦display: flex على كل ابن¦flex: on؛؛ ماذا تفعل flex-wrap: wrap؟¦تنزل العناصر لسطر جديد عند الضيق¦تخفي العناصر¦تكبّر العناصر", "CSS: التجاوب والوحدات": "ماذا يعني min-width في media query؟¦الشاشات بهذا العرض أو أكبر¦الشاشات الأصغر فقط¦الطباعة؛؛ أي وسم ضروري للتجاوب على الموبايل؟¦meta viewport¦meta charset¦link icon", "CSS: المشروع الختامي (متغيرات + دارك مود)": "كيف نغيّر متغيرا للوضع الليلي؟¦نعيد تعريفه داخل محدد آخر¦نحذف الصفحة¦لا يمكن؛؛ ما صيغة قيمة احتياطية للمتغير؟¦var(--x, red)¦get(--x)¦use(--x)"};const M={"ما هي البرمجة؟": "كتابة Console.log بحرف كبير أو نسيان علامة التنصيص.", "المتغيرات": "استخدام let مرتين لنفس الاسم، أو تغيير قيمة const.", "أنواع البيانات": "الخلط بين \"10\" النص و 10 الرقم.", "الشروط if / else": "استخدام = بدل === داخل الشرط.", "الحلقات": "كتابة <= بدل < فتزيد دورة عن المطلوب.", "الدوال": "نسيان () عند الاستدعاء أو نسيان return.", "المصفوفات": "نسيان أن العد يبدأ من 0 وليس من 1.", "الكائنات Objects": "نسيان الفاصلة بين الخصائص.", "العوامل الحسابية والمنطقية": "الخلط بين && التي تطلب الاثنين و || التي تكفي بواحد.", "حلقة while": "نسيان تغيير العداد فتصبح الحلقة لا نهائية.", "المشروع الختامي: حاسبة التقديرات": "ترتيب else if من الأصغر للأكبر بدل الأكبر أولا.", "HTML: هيكل الصفحة": "نسيان إغلاق الوسم أو وضع المحتوى المرئي داخل head.", "HTML: العناوين والفقرات والتنسيق": "استخدام h1 عدة مرات أو اختيار العنوان بحسب حجمه لا بحسب ترتيبه.", "HTML: الروابط والصور": "نسيان alt في الصورة، أو كتابة src في الرابط بدل href.", "HTML: القوائم": "وضع li خارج ul أو ol.", "HTML: الجداول": "وضع td مباشرة داخل table بدون tr.", "HTML: النماذج Forms": "ربط label بحقل بقيمة for لا تطابق id.", "HTML: الوسوم الدلالية والمشروع الختامي": "استخدام div في كل مكان مع أن هناك وسما دلاليا مناسبا.", "CSS: المحددات والربط": "نسيان الفاصلة المنقوطة أو خلط . مع #.", "CSS: الألوان والخطوط": "كتابة اللون بدون # في الأكواد السداسية.", "CSS: الـ Box Model": "نسيان أن padding و border يزيدان عرض الصندوق بدون border-box.", "CSS: Flexbox": "كتابة justify-content على الابن بدل الحاوية.", "CSS: التجاوب والوحدات": "نسيان meta viewport فلا يعمل التجاوب على الموبايل.", "CSS: المشروع الختامي (متغيرات + دارك مود)": "نسيان -- في اسم المتغير أو نسيان var() عند استخدامه."};for(const k in Q2)Q[k]=(Q[k]?Q[k]+"؛؛":"")+Q2[k];
@@ -271,41 +438,197 @@ const $=h=>document.getElementById("app").innerHTML=h;
 const wa=m=>"https://wa.me/"+PH+"?text="+encodeURIComponent(m);
 const fmt=s=>Math.floor(s/60)+" د "+(s%60)+" ث";
 function home(){try{speechSynthesis.cancel()}catch(e){}cur=null;
- let h=`<h1><span>DAMA</span> code</h1><p class="mu">كورس HTML ثم CSS ثم JavaScript — الدرس التالي لا يُفتح إلا بعد إرسال تقريرك على واتساب.</p>`;
+ let h=`${S.name?'<h1><span>DAMA</span> code</h1>':''}<p class="mu">${S.name?"كورس HTML ثم CSS ثم JavaScript — كل درس: شرح، امتحان، وتطبيق.":""}</p>`;
  if(!S.name)h+=`<div class="card"><b>اسم الطالب</b><div class="input-container"><input class="input" id="nm" name="text" type="text" placeholder="اكتب اسمك"></div><div class="wt-wrap"><label class="water-toggle"><input type="checkbox" id="toggle-wave" onchange="var c=this;setTimeout(function(){if(!nm())c.checked=false},700)"><div class="container"><button class="water-button" type="button">كمل</button><svg style="position:absolute;width:0;height:0"><filter id="water-rotate"><feTurbulence result="turbulence" seed="2" numOctaves="2" baseFrequency="0.0075 0.0075" type="turbulence"></feTurbulence><feComponentTransfer><feFuncR type="table"><animateTransform repeatCount="indefinite" dur="10s" values="0.01;0.02;0.01" attributeName="transform"></animateTransform></feFuncR></feComponentTransfer><feDisplacementMap yChannelSelector="G" xChannelSelector="R" scale="17.5" in2="turbulence" in="SourceGraphic"></feDisplacementMap></filter><filter id="still-water"><feTurbulence result="turbulence" seed="2" numOctaves="2" baseFrequency="0.0075 0.0075" type="turbulence"></feTurbulence><feComponentTransfer><feFuncR type="table"><animateTransform repeatCount="indefinite" dur="10s" values="0.01;0.02;0.01" attributeName="transform"></animateTransform></feFuncR></feComponentTransfer><feDisplacementMap yChannelSelector="G" xChannelSelector="R" scale="12.5" in2="turbulence" in="SourceGraphic"></feDisplacementMap></filter></svg></div></label></div></div>`;
  else{h+=`<div class="bar"><i style="width:${S.done/L.length*100}%"></i></div><p class="mu">أهلا ${S.name} — أنجزت ${S.done} من ${L.length}${S.recs.length?" — متوسط درجاتك "+Math.round(S.recs.reduce((a,r)=>a+r.t,0)/S.recs.length)+"/100":""}</p>`;
  const nh=L.filter(x=>x.k=="html").length,nc=nh+L.filter(x=>x.k=="css").length,B=[["🌱","أول درس",S.done>=1],["🌐","أنهيت HTML",S.done>=nh],["🎨","أنهيت CSS",S.done>=nc],["⚡","أنهيت الكورس",S.done>=L.length],["🎯","3 دروس بلا أخطاء ولا تلميحات",(S.pf||0)>=3],["🔥","3 أيام متتالية",(S.sk||0)>=3]];
  h+=`<div class="card"><b>🔥 ${S.sk||0} يوم متتالي</b><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">${B.map(b=>`<span title="${b[1]}" style="padding:4px 10px;border:var(--bw) solid var(--bd);border-radius:99px;font-size:14px;${b[2]?"":"opacity:.3;filter:grayscale(1)"}">${b[0]} ${b[1]}</span>`).join("")}</div></div>`;
- L.forEach((l,i)=>{const o=i<S.done,a=i==S.done,u=a&&i>=R.op;if(!i||L[i-1].k!=l.k)h+=`<h3>${GN[l.k]}</h3>`;h+=`<div class="card row"><div>${i+1}. ${l.t}<div class="mu">${o?"✅ مكتمل"+rs(i):a?(u?"🔒 بانتظار فتح المدرّس لهذا الدرس":"متاح الآن"):"🔒 مقفل"}</div></div>${fx(o?"مراجعة":"ابدأ","open_("+i+")",(a&&!u)||o?"":"disabled")}</div>`});
- if(S.done>=L.length)h+=`<div class="card"><b class="ok">🎉 أنهيت الكورس!</b><br><a href="${wa(final())}" target="_blank"><button>إرسال التقرير النهائي</button></a><button onclick="cert()">🎓 الشهادة</button></div>`;h+=`<p>${S.done?'<button class="g" onclick="fcs()">🃏 مراجعة سريعة</button><button class="g" onclick="rst()">↺ إعادة ضبط التقدم</button>':""}</p>`}
- if(!S.name)h+=`<p><button class="g" onclick="imp_()">⬆ استرجاع تقدم سابق</button></p>`;
+ L.forEach((l,i)=>{const o=i<S.done,a=i==S.done,u=false;if(!i||L[i-1].k!=l.k)h+=`<h3>${GN[l.k]}</h3>`;h+=`<div class="card row"><div>${i+1}. ${l.t}<div class="mu">${o?"✅ مكتمل"+rs(i):a?(u?"🔒 بانتظار فتح المدرّس لهذا الدرس":"متاح الآن"):"🔒 مقفل"}</div></div>${fx(o?"مراجعة":"ابدأ","open_("+i+")",(a&&!u)||o?"":"disabled")}</div>`});
+ if(S.done>=L.length)h+=`<div class="card"><b class="ok">🎉 أنهيت الكورس!</b><br><button onclick="cert()">🎓 الشهادة</button></div>`;h+=`<p>${S.done?'<button class="g" onclick="fcs()">🃏 مراجعة سريعة</button><button class="g" onclick="rst()">↺ إعادة ضبط التقدم</button>':""}</p>`}
+ 
  $(h)}
-function nm(){const v=document.getElementById("nm").value.trim();if(ADM.test(v)){window.adm&&adm();return false}if(v.split(/\s+/).length<2){alert("اكتب اسمك الثنائي على الأقل");return false}S.name=v;save();home();window.wt&&wt();return true}
+function nm(){if(!(typeof AA!="undefined"&&AA&&AA.currentUser&&!AA.currentUser.isAnonymous)){alert("سجّل دخولك أو أنشئ حساب الأول");return false}const v=document.getElementById("nm").value.trim();if(ADM.test(v)){window.adm&&adm();return false}if(v.split(/\s+/).length<2){alert("اكتب اسمك الثنائي على الأقل");return false}S.name=v;save();home();window.wt&&wt();return true}
 const shuf=a=>a.sort(()=>Math.random()-.5);
-function open_(i){cur=i;ord=L[i].q.map(q=>shuf(q[1].map((_,j)=>j)));step=0;ex={};pr={code:(S.dr&&S.dr[i])||""};tries=0;fails=0;hints=0;sent=false;att=[];draw()}
-function draw(){const l=L[cur],ss=["الشرح","الامتحان","التطبيق","الإرسال"];
- let h=`<button class="g" onclick="home()">← الرئيسية</button><h2>الدرس ${cur+1}: ${l.t}</h2><p class="mu">${ss.map((s,i)=>i==step?`<b>${s}</b>`:s).join(" ← ")} <span id="tm" style="float:left"></span></p><div class="card">`;
- if(step==0)h+=l.x+tbl(E[l.t],T[l.t])+(M[l.t]?'<div class="tip warn">⚠️ غلطة شائعة: '+esc(M[l.t])+"</div>":"")+`<p class="mu">الضغط على «التالي» يبدأ الامتحان ويبدأ العد.</p>${fx("🔊 اقرأ الشرح","say()")}${fx("التالي","go(1)")}`;
- if(step==1){h+=`<p class="mu">الشروط: نجاح بـ 100٪ من الأسئلة، ولا يوجد حد للوقت (يُسجَّل وقتك فقط). كل محاولة خاطئة تُسجَّل وتُخصم من درجتك.</p>`;
-  l.q.forEach((q,i)=>{h+=`<p><b>${i+1}) ${esc(q[0])}</b></p>`+ord[i].map(j=>{const o=q[1][j];return `<label class="l ${ex[i]===j?"s":""}"><input type="radio" style="width:auto" name="q${i}" ${ex[i]===j?"checked":""} onclick="ex[${i}]=${j};draw()"> ${esc(o)}</label>`}).join("")});
-  h+=`${fx("تسليم","chkEx()")}<div id="msg"></div>`}
- if(step==2){h+=`<p><b>المطلوب:</b> ${l.p}</p><p class="mu">الشروط (كلها إلزامية، ولا يوجد حد للوقت):</p><ul id="cl" style="list-style:none;padding:0">${ckl()}</ul><textarea id="code" placeholder="اكتب الكود هنا" oninput="pr.code=this.value;upd();sv()" onkeydown="tk(event)">${pr.code||""}</textarea><div>${fx("▶ شغّل","run()")}${fx("💡 تلميح","hint()")}${fx("تسليم","chkPr()")}</div><div id="msg"></div><div id="pv"></div>`}
- if(step==3){const g=grade();h+=`<p>وقت الامتحان: <b>${fmt(pr.et)}</b> — محاولات الامتحان: <b>${tries}</b><br>وقت التطبيق: <b>${fmt(pr.pt)}</b><br>درجة الامتحان: <b>${g.e}/40</b> — التطبيق: <b>${g.p}/60</b> — المجموع: <b>${g.t}/100</b></p><b>تقييمك لنفسك (1-5)</b><select id="rt"><option>1</option><option>2</option><option>3</option><option selected>4</option><option>5</option></select><b>ملاحظة (اختياري)</b><input id="nt"><p class="mu">سيفتح واتساب برسالة جاهزة، اضغط إرسال هناك، والدرس التالي يفتحه لك المدرّس بعد تأكيد استلام التقرير.</p>${fx("إرسال","send()")}${fx("نسخ التقرير","cp()")}${sent?`<p class="ok">بعد الضغط على «إرسال» داخل واتساب أكد هنا:</p>${fx("التالي","fin()")}`:""}`}
- $(h+"</div>");if(step==0)pv0()}
+(function(){const ent=l=>(E[l.t]||"").split("؛؛").map(p=>{const[a,...b]=p.split("¦");return[a.trim(),b.join("¦").trim()]}).filter(x=>x[0]&&x[1]),pool={};
+ L.forEach(l=>{(pool[l.k]=pool[l.k]||[]).push(...ent(l))});
+ L.forEach(l=>{const es=ent(l);if(!es.length)return;const have=new Set(l.q.map(q=>q[0])),g=[];
+  es.forEach(([a,m])=>{const o=pool[l.k].filter(x=>x[0]!=a&&x[1]!=m);
+   const d1=shuf(o.slice()).filter((x,i,r)=>r.findIndex(y=>y[1]==x[1])==i).slice(0,2);
+   if(d1.length==2)g.push(["ما معنى أو وظيفة «"+a+"»؟",[m,d1[0][1],d1[1][1]],0]);
+   const o2=o.filter(x=>x[0].length<=26),d2=shuf(o2.slice()).filter((x,i,r)=>r.findIndex(y=>y[0]==x[0])==i).slice(0,2);
+   if(a.length<=26&&d2.length==2)g.push(["أي من التالي يناسب هذا الوصف؟ «"+m+"»",[a,d2[0][0],d2[1][0]],0])});
+  shuf(g).forEach(q=>{if(l.q.length<20&&!have.has(q[0])){have.add(q[0]);l.q.push(q)}})})})();
+(function(){const f=t=>t.replace(/⟦([^⟧]+)⟧/g,(m,a)=>"<code>"+esc(a)+"</code>"),H=t=>`<h4>${t}</h4>`,P=t=>`<p>${f(t)}</p>`,C=c=>`<pre>${esc(c)}</pre>`,O=t=>`<div class="tip">${f(t)}</div>`,U=(...a)=>"<ul>"+a.map(x=>"<li>"+f(x)+"</li>").join("")+"</ul>",W=t=>`<div class="tip warn">⚠️ <b>خد بالك:</b> ${f(t)}</div>`;
+const X={
+"ما هي البرمجة؟":H(`يعني إيه برمجة؟`)+P(`تخيّل إنك بتشرح لصاحبك إزاي يعمل شاي، بس صاحبك ده روبوت مبيفهمش غير اللي تقوله بالحرف. البرمجة هي إنك تكتب للكمبيوتر خطوات واضحة ومترتبة، وهو ينفّذها واحدة ورا التانية من غير ما يخمّن قصدك.`)+H(`أول أمر هتكتبه`)+P(`عشان الكمبيوتر يكتب لنا كلام بنستخدم ⟦console.log⟧، واللي عايزه يظهر بتحطه بين القوسين. الكونسول ده شاشة المطوّرين اللي في المتصفح.`)+C(`console.log("أهلاً يا عالم");
+console.log(2 + 3);`)+O(`هيطلع: أهلاً يا عالم وبعدها 5. لاحظ إن الكلام بنحطه بين علامتي تنصيص، أما الرقم فلأ.`)+H(`3 قواعد تحفظهم`)+U(`الكمبيوتر بينفّذ من فوق لتحت، سطر ورا سطر.`,`أي كلام عادي لازم يتحط بين علامتي تنصيص ⟦" "⟧.`,`الحروف الكبيرة والصغيرة بتفرق: ⟦Console⟧ غلط و⟦console⟧ صح.`)+W(`نسيان علامة التنصيص أو قفلة القوس أشهر غلطة عند المبتدئين.`),
+"المتغيرات":H(`المتغير زي علبة عليها اسم`)+P(`لما تحتاج تفتكر حاجة، زي اسم أو عمر، بتحطها في علبة وتكتب عليها اسم. بعد كده تنده على العلبة باسمها وتاخد اللي جواها. دي فكرة المتغير.`)+C(`let age = 20;
+const name = "Ali";
+age = 21;
+console.log(name + " عمره " + age);`)+O(`هيطلع: Ali عمره 21. العمر اتغيّر من 20 لـ 21 لأننا عرّفناه بـ let.`)+H(`let ولا const؟`)+U(`⟦let⟧ لو القيمة ممكن تتغيّر بعدين، زي العمر أو السكور.`,`⟦const⟧ لو القيمة ثابتة. لو حاولت تغيّرها هيطلعلك خطأ.`)+H(`إزاي تسمّي متغير؟`)+U(`حروف إنجليزي وأرقام، وماينفعش يبدأ برقم.`,`من غير مسافات: ⟦userAge⟧ مش ⟦user age⟧.`,`خلّي الاسم يدل على معناه: ⟦price⟧ أحسن من ⟦x⟧.`)+W(`ماتعرّفش نفس المتغير مرتين بـ let، ولا تغيّر قيمة const.`),
+"أنواع البيانات":H(`كل قيمة ليها نوع`)+P(`في حياتك في فرق بين اسم ورقم موبايل وإجابة بنعم أو لأ. الكمبيوتر كمان بيفرّق، وكل نوع بيتصرّف بطريقة مختلفة.`)+C(`let name = "Sara";     // نص (string)
+let age = 25;          // رقم (number)
+let isStudent = true;  // صح أو غلط (boolean)
+console.log(typeof name);`)+O(`هيطلع: string. الأمر ⟦typeof⟧ بيقولك نوع أي قيمة.`)+H(`فرق مهم جداً: ⟦"10"⟧ مش ⟦10⟧`)+C(`console.log("10" + 5); // 105
+console.log(10 + 5);   // 15`)+P(`النص مع الرقم بيتلزّقوا في بعض، أما الرقمين فبيتجمعوا. أي حاجة بين تنصيص بتعتبر نص حتى لو شكلها رقم.`)+W(`الخلط بين النص والرقم بيطلّع نتايج غريبة، فركّز في نوع كل قيمة.`),
+"الشروط if / else":H(`البرنامج بياخد قرار`)+P(`زي ما بتقول: لو الجو برد البس جاكت، وإلا سيبه. الشرط بيخلّي البرنامج يختار بين طريقين على حسب الحالة.`)+C(`let age = 20;
+if (age >= 18) {
+  console.log("بالغ");
+} else {
+  console.log("قاصر");
+}`)+O(`هيطلع: بالغ. الشرط بين القوسين، والأوامر اللي تتنفّذ جوه الأقواس المجعّدة.`)+H(`عوامل المقارنة`)+U(`⟦>⟧ أكبر من، ⟦<⟧ أصغر من، ⟦>=⟧ أكبر من أو يساوي.`,`⟦===⟧ يساوي في القيمة والنوع. استخدمها دايماً.`,`⟦!==⟧ مش بيساوي.`)+P(`لو عندك أكتر من حالة حط ⟦else if⟧ بين ⟦if⟧ و⟦else⟧.`)+W(`علامة ⟦=⟧ لوحدها معناها «حط قيمة»، أما المقارنة فبـ ⟦===⟧.`),
+"الحلقات":H(`كرّر من غير ما تعيد الكتابة`)+P(`لو طلبوا منك تكتب «أنا بذاكر» 100 مرة، مش هتكتبها بإيدك. الحلقة بتقول للكمبيوتر كرّر الأمر ده كذا مرة.`)+C(`for (let i = 1; i <= 5; i++) {
+  console.log(i);
+}`)+O(`هيطلع: 1 2 3 4 5، كل رقم في سطر.`)+H(`الحلقة فيها 3 حاجات`)+U(`البداية ⟦let i = 1⟧: العدّاد يبدأ من 1.`,`الشرط ⟦i <= 5⟧: كمّل طول ما ده صح.`,`الزيادة ⟦i++⟧: زوّد العدّاد واحد بعد كل دورة.`)+P(`⟦break⟧ بتوقف الحلقة فوراً، و⟦continue⟧ بتتخطى الدورة الحالية وتكمّل.`)+W(`اكتب ⟦<⟧ لو عايز تتوقف قبل الرقم، و⟦<=⟧ لو عايزه يدخل في العدّ.`),
+"الدوال":H(`الدالة زي وصفة أكل`)+P(`الوصفة بتتكتب مرة واحدة، وكل ما تحب تعمل الأكلة بتشغّلها تاني. الدالة كده: مجموعة أوامر لها اسم، بتستدعيها وقت ما تحتاجها، وممكن تاخد مقادير وترجّع نتيجة.`)+C(`function add(a, b) {
+  return a + b;
+}
+console.log(add(2, 3));`)+O(`هيطلع: 5`)+H(`إيه اللي بيحصل؟`)+U(`⟦function add⟧ بنعرّف دالة اسمها add.`,`⟦(a, b)⟧ دي المعاملات، يعني القيم اللي بتدخل الدالة.`,`⟦return⟧ بترجّع النتيجة للمكان اللي ندهنا منه.`,`⟦add(2, 3)⟧ ده استدعاء الدالة بقيم فعلية.`)+W(`لو نسيت ⟦return⟧ الدالة هترجّع ⟦undefined⟧، ولو نسيت الأقواس عند الاستدعاء مش هتشتغل.`),
+"المصفوفات":H(`رف فيه خانات مرقّمة`)+P(`بدل ما تعمل متغير لكل اسم صاحب، بتحطهم كلهم في مصفوفة واحدة. كل عنصر ليه رقم مكانه، والعد بيبدأ من ⟦0⟧ مش 1.`)+C(`const fruits = ["apple", "banana"];
+console.log(fruits[0]);
+console.log(fruits.length);
+fruits.push("mango");
+console.log(fruits);`)+O(`هيطلع: apple ثم 2 ثم المصفوفة بعد إضافة mango.`)+H(`أهم الأوامر`)+U(`⟦fruits[0]⟧ أول عنصر.`,`⟦.length⟧ عدد العناصر.`,`⟦.push(x)⟧ بيضيف في الآخر، و⟦.pop()⟧ بيشيل آخر عنصر.`)+P(`ولو عايز تلف على كل العناصر استخدم ⟦for⟧ مع ⟦fruits.length⟧.`)+W(`أول عنصر رقمه 0 وآخر عنصر رقمه ⟦length - 1⟧.`),
+"الكائنات Objects":H(`الكائن زي بطاقة الهوية`)+P(`البطاقة فيها اسمك وسنك ومدينتك، وكل معلومة ليها عنوان. الكائن بيجمّع معلومات عن حاجة واحدة، كل معلومة ليها اسم (مفتاح) وقيمة.`)+C(`const student = { name: "Ali", age: 20 };
+console.log(student.name);
+student.city = "Cairo";
+console.log(student);`)+O(`هيطلع: Ali وبعدها الكائن بعد إضافة city.`)+H(`إزاي تتعامل معاه؟`)+U(`للقراءة استخدم النقطة: ⟦student.name⟧.`,`للتعديل أو الإضافة: ⟦student.age = 21⟧.`,`لو قرأت حاجة مش موجودة هتاخد ⟦undefined⟧ مش خطأ.`)+P(`المصفوفة لقايمة حاجات، والكائن لمعلومات حاجة واحدة.`)+W(`الخصائص جوه الكائن بتتفصل بفاصلة، ونسيانها بيبوّظ الكود.`),
+"العوامل الحسابية والمنطقية":H(`حساب ومقارنة وربط شروط`)+C(`console.log(10 % 3);       // 1 باقي القسمة
+let age = 20, hasId = true;
+if (age > 18 && hasId) {
+  console.log("مسموح");
+}`)+O(`هيطلع: 1 وبعدها مسموح.`)+H(`العوامل الحسابية`)+P(`⟦+ - * /⟧ زي الحساب العادي، و⟦%⟧ بيرجّع باقي القسمة. بنستخدمه نعرف الرقم زوجي ولا فردي.`)+H(`العوامل المنطقية`)+U(`⟦&&⟧ يعني «و»: لازم الاتنين يبقوا صح.`,`⟦||⟧ يعني «أو»: يكفي واحد.`,`⟦!⟧ يعني «مش»: بتعكس القيمة.`)+W(`⟦true || false⟧ نتيجتها true، لكن ⟦true && false⟧ نتيجتها false.`),
+"حلقة while":H(`كرّر لحد ما الشرط يبقى غلط`)+P(`زي ما تقول: كُل لحد ما تشبع. مش عارف هتاكل كام لقمة، بس عارف إمتى توقف. while بتكرّر طول ما الشرط صح.`)+C(`let i = 1;
+while (i <= 3) {
+  console.log(i);
+  i++;
+}`)+O(`هيطلع: 1 2 3`)+H(`خطوات مهمة`)+U(`اكتب الشرط بين القوسين بعد ⟦while⟧.`,`لازم تغيّر العدّاد جوه الحلقة ⟦i++⟧.`)+P(`استخدم ⟦while⟧ لما مش عارف عدد الدورات من الأول، و⟦for⟧ لما تعرفه.`)+W(`لو نسيت تغيّر العدّاد الشرط هيفضل صح للأبد والحلقة مش هتقف أبداً.`),
+"المشروع الختامي: حاسبة التقديرات":H(`نجمّع كل اللي اتعلمناه`)+P(`هنعمل برنامج بياخد مجموعة درجات ويطبع تقدير كل درجة. هنستخدم دالة وشروط ومصفوفة وحلقة مع بعض.`)+C(`function grade(score) {
+  if (score >= 90) return "A";
+  else if (score >= 75) return "B";
+  else return "C";
+}
+const scores = [95, 80, 60];
+for (let i = 0; i < scores.length; i++) {
+  console.log(scores[i] + " => " + grade(scores[i]));
+}`)+O(`هيطلع: 95 => A وبعدها 80 => B وبعدها 60 => C`)+H(`ركّز على`)+U(`رتّب ⟦else if⟧ من الأكبر للأصغر.`,`الدالة بترجّع التقدير بـ ⟦return⟧.`,`الحلقة بتمشي على كل عنصر في المصفوفة.`),
+"HTML: هيكل الصفحة":H(`HTML بيقول إيه في الصفحة`)+P(`HTML هو هيكل الصفحة زي عضم البيت. بنكتب الحاجات في وسوم (Tags) بين ⟦< >⟧، ومعظمها ليه فتح وقفل زي ⟦<p>…</p>⟧.`)+C(`<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <title>صفحتي</title>
+</head>
+<body>
+  <h1>أهلاً بيك</h1>
+</body>
+</html>`)+H(`كل جزء بيعمل إيه`)+U(`⟦<!DOCTYPE html>⟧ بتقول للمتصفح إنها صفحة HTML حديثة.`,`⟦<head>⟧ معلومات مش باينة، زي العنوان والترميز.`,`⟦<body>⟧ كل اللي الزائر بيشوفه.`,`⟦dir="rtl"⟧ بتخلّي الصفحة من اليمين لليسار.`)+W(`كل وسم بتفتحه لازم تقفله، وماتحطش محتوى باين جوه head.`),
+"HTML: العناوين والفقرات والتنسيق":H(`رتّب المحتوى زي الجريدة`)+C(`<h1>عنوان رئيسي</h1>
+<h2>عنوان فرعي</h2>
+<p>فقرة فيها <strong>كلمة مهمة</strong> و<em>كلمة مائلة</em>.</p>
+<p>سطر أول<br>سطر تاني</p>`)+U(`⟦h1⟧ لـ ⟦h6⟧ عناوين من الأكبر للأصغر.`,`⟦p⟧ للفقرة.`,`⟦strong⟧ عريض ومهم، ⟦em⟧ مائل للتأكيد، ⟦br⟧ سطر جديد.`)+O(`استخدم ⟦h1⟧ مرة واحدة بس في الصفحة، ورتّب العناوين بالتسلسل مش بحجم الخط.`)+W(`ماتختارش العنوان لأن شكله كبير. اختاره لأن ترتيبه صح.`),
+"HTML: الروابط والصور":H(`باب لصفحة تانية وصورة بتوصفها`)+C(`<a href="https://example.com" target="_blank">زور الموقع</a>
+<img src="cat.png" alt="قطة صغيرة" width="200">`)+U(`⟦href⟧ عنوان الرابط، و⟦target="_blank"⟧ بيفتحه في تبويب جديد.`,`⟦src⟧ مسار الصورة، و⟦alt⟧ وصفها بالكلام (للمكفوفين ولو الصورة ماظهرتش).`,`⟦img⟧ مالوش وسم قفل.`)+O(`لو الصورة في نفس فولدر الصفحة اكتب اسمها بس: ⟦cat.png⟧.`)+W(`الرابط بيستخدم ⟦href⟧ والصورة بتستخدم ⟦src⟧، ماتخلطهمش.`),
+"HTML: القوائم":H(`قايمة بنقط وقايمة مرقّمة`)+C(`<ul>
+  <li>تفاح</li>
+  <li>موز</li>
+</ul>
+<ol>
+  <li>الخطوة الأولى</li>
+  <li>الخطوة التانية</li>
+</ol>`)+U(`⟦ul⟧ قايمة بنقط، الترتيب مش مهم.`,`⟦ol⟧ قايمة مرقّمة، الترتيب مهم.`,`⟦li⟧ هو العنصر، ولازم يكون جوه ⟦ul⟧ أو ⟦ol⟧.`)+P(`تقدر تحط قايمة جوه ⟦li⟧ وتبقى قايمة متداخلة.`),
+"HTML: الجداول":H(`الجدول صفوف وأعمدة`)+C(`<table border="1">
+  <thead>
+    <tr><th>الاسم</th><th>الدرجة</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>علي</td><td>90</td></tr>
+  </tbody>
+</table>`)+U(`⟦tr⟧ صف، ⟦th⟧ خلية عنوان، ⟦td⟧ خلية بيانات.`,`⟦thead⟧ و⟦tbody⟧ بيقسّموا الجدول لعناوين ومحتوى.`,`⟦colspan="2"⟧ بتدمج خليتين أفقياً، و⟦rowspan⟧ رأسياً.`)+W(`ماتحطش ⟦td⟧ إلا جوه ⟦tr⟧.`),
+"HTML: النماذج Forms":H(`استمارة بيانات`)+C(`<form>
+  <label for="email">البريد</label>
+  <input id="email" type="email" placeholder="you@mail.com">
+  <textarea placeholder="رسالتك"></textarea>
+  <button type="submit">إرسال</button>
+</form>`)+U(`⟦label⟧ بيتربط بالحقل عن طريق ⟦for⟧ = ⟦id⟧ بنفس القيمة.`,`⟦type⟧ بيحدد نوع الحقل: ⟦text⟧ و⟦email⟧ و⟦password⟧ و⟦checkbox⟧.`,`⟦placeholder⟧ كلام باهت بيختفي لما تكتب.`)+O(`لما تربط الـ label بالـ id، الضغط على الكلمة بيفتح الحقل.`),
+"HTML: الوسوم الدلالية والمشروع الختامي":H(`اسم كل جزء يدل على شغله`)+P(`بدل ما تحط ⟦div⟧ في كل حتة، استخدم وسوم معناها واضح. ده بيفيد جوجل وقارئات الشاشة وبيخلّي الكود أنضف.`)+C(`<header><h1>موقعي</h1></header>
+<nav><a href="#">الرئيسية</a></nav>
+<main>
+  <article><h2>مقال</h2><p>نص…</p></article>
+  <aside>محتوى جانبي</aside>
+</main>
+<footer>© 2026</footer>`)+U(`⟦header⟧ الرأس، و⟦nav⟧ روابط التنقل.`,`⟦main⟧ المحتوى الأساسي، مرة واحدة بس.`,`⟦article⟧ مقال مستقل، و⟦section⟧ قسم، و⟦aside⟧ جانبي، و⟦footer⟧ التذييل.`),
+"CSS: المحددات والربط":H(`CSS هو الدهان`)+P(`HTML هو الهيكل وCSS هو اللي بيحدد الشكل. القاعدة: محدد بيقول «مين»، وجواها خصائص بتقول «إيه».`)+C(`p { color: red; }
+.card { background: #eee; }
+#title { font-size: 30px; }`)+U(`⟦p⟧ محدد وسم: كل الفقرات.`,`⟦.card⟧ محدد class: أي عنصر ليه class="card".`,`⟦#title⟧ محدد id: عنصر واحد، وهو الأقوى.`)+H(`إزاي تربط الملف؟`)+C(`<link rel="stylesheet" href="style.css">`)+W(`كل خاصية لازم تنتهي بـ ⟦;⟧، ونسيانها بيبوّظ الخاصية اللي بعدها.`),
+"CSS: الألوان والخطوط":H(`اللون والخط هما شخصية الموقع`)+C(`body {
+  font-family: Cairo, sans-serif;
+  color: #222;
+  background: #f5f5f5;
+}
+h1 { font-size: 32px; color: rgb(60, 80, 240); }`)+U(`⟦color⟧ لون الكلام، و⟦background⟧ لون الخلفية.`,`⟦font-size⟧ حجم الخط، و⟦font-family⟧ نوعه.`,`الألوان بتتكتب اسم ⟦red⟧ أو كود ⟦#ff0000⟧ أو ⟦rgb(255,0,0)⟧.`)+W(`الكود السداسي لازم يبدأ بـ ⟦#⟧.`),
+"CSS: الـ Box Model":H(`كل عنصر عبارة عن صندوق`)+P(`أي عنصر في الصفحة بيتكوّن من طبقات: المحتوى في النص، وحواليه الحشو ⟦padding⟧، وبعده الحدود ⟦border⟧، وبعده المسافة الخارجية ⟦margin⟧.`)+C(`.box {
+  box-sizing: border-box;
+  width: 300px;
+  padding: 16px;
+  border: 2px solid #333;
+  margin: 0 auto;
+}`)+U(`⟦padding⟧ مسافة جوه الصندوق.`,`⟦margin⟧ مسافة برّاه، و⟦margin: 0 auto⟧ بتوسّطه أفقياً.`,`⟦box-sizing: border-box⟧ بيخلّي العرض يشمل الحشو والحدود.`),
+"CSS: Flexbox":H(`رتّب العناصر بسهولة`)+P(`حط ⟦display: flex⟧ على الحاوية (الأب)، وأولادها هيترتبوا في صف واحد. بعد كده تتحكم في المسافات والمحاذاة بخصائص قليلة.`)+C(`.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}`)+U(`⟦justify-content⟧ بيوزّع العناصر أفقياً.`,`⟦align-items⟧ بيوزّعها رأسياً.`,`⟦gap⟧ مسافة بين العناصر، و⟦flex-wrap: wrap⟧ بينزّل العناصر لسطر جديد لو الشاشة ضاقت.`)+W(`الخصائص دي بتتكتب على الأب مش على الأولاد.`),
+"CSS: التجاوب والوحدات":H(`موقع يبان حلو على أي شاشة`)+P(`أول حاجة: حط الوسم ده في ⟦head⟧ وإلا الموبايل هيعرض الصفحة مصغّرة.`)+C(`<meta name="viewport" content="width=device-width, initial-scale=1">`)+H(`Media Query`)+C(`.cards { display: flex; flex-direction: column; }
+@media (min-width: 768px) {
+  .cards { flex-direction: row; }
+}`)+P(`⟦min-width: 768px⟧ معناها: الشاشات اللي عرضها 768 أو أكبر.`)+U(`استخدم ⟦%⟧ و⟦rem⟧ و⟦vw⟧ بدل البكسل الثابت.`,`ابدأ بتصميم الموبايل وبعدين كبّر للشاشات الأكبر.`),
+"CSS: المشروع الختامي (متغيرات + دارك مود)":H(`متغيرات CSS`)+P(`المتغير زي درج ألوان: بتعرّفه مرة بـ ⟦--⟧ وتستخدمه في أي مكان بـ ⟦var()⟧. غيّر قيمته مرة واحدة والموقع كله يتغير.`)+C(`:root {
+  --bg: #ffffff;
+  --text: #111111;
+}
+body {
+  background: var(--bg);
+  color: var(--text, black);
+}`)+H(`الدارك مود`)+C(`:root[data-theme="dark"] {
+  --bg: #111111;
+  --text: #f5f5f5;
+}`)+U(`أعد تعريف نفس المتغيرات تحت محدد الوضع الليلي.`,`القيمة التانية في ⟦var(--x, red)⟧ احتياطية لو المتغير مش موجود.`,`بدّل قيمة ⟦data-theme⟧ بـ JavaScript والألوان كلها تتغير.`)
+};
+L.forEach(l=>{if(X[l.t])l.x=X[l.t]})})();
+const HK={"ما هي البرمجة؟":"تخيّل إنك بتشرح لروبوت يعمل شاي: لازم تقوله كل خطوة بالترتيب وبالحرف. البرمجة كده بالظبط.","المتغيرات":"المتغير علبة عليها اسم، تحط فيها قيمة وتفتحها وقت ما تحتاجها.","أنواع البيانات":"زي ما في فرق بين كلمة ورقم وإجابة بنعم أو لأ، الكمبيوتر كمان بيفرّق بين النص والرقم والمنطقي.","الشروط if / else":"لو الجو بارد البس جاكت، لو لأ سيبه. الشرط بيخلي البرنامج ياخد قرار.","الحلقات":"بدل ما تكتب نفس الأمر 100 مرة، قول للكمبيوتر كرّره 100 مرة.","الدوال":"الدالة وصفة جاهزة باسم: تدخّل لها المقادير وتطلعلك النتيجة، وتستخدمها كل ما تحتاج.","المصفوفات":"المصفوفة رف فيه خانات مرقّمة بتبدأ من صفر، وكل خانة فيها حاجة.","الكائنات Objects":"الكائن بطاقة تعريف: الاسم والسن والمدينة، وكل معلومة ليها عنوان.","العوامل الحسابية والمنطقية":"العوامل زي الآلة الحاسبة وإشارات المرور: حساب، ومقارنة، وربط بين شروط بـ «و» و«أو».","حلقة while":"كُل لحد ما تشبع: كرّر طول ما الشرط صح، ولازم يجي وقت يبقى غلط وإلا هتدور للأبد.","المشروع الختامي: حاسبة التقديرات":"هنركّب كل اللي اتعلمناه في برنامج حقيقي بيحسب تقدير الطالب.","HTML: هيكل الصفحة":"الصفحة بيت: الـ head الأساسات اللي مش باينة، والـ body الغرف اللي الزائر بيشوفها.","HTML: العناوين والفقرات والتنسيق":"زي مقال في جريدة: عنوان رئيسي، عناوين فرعية، وفقرات.","HTML: الروابط والصور":"الرابط باب لصفحة تانية، والصورة لازم نوصفها بنص بديل عشان الكل يفهمها.","HTML: القوائم":"قائمة المشتريات: يا مرقّمة بترتيب، يا نقط من غير ترتيب.","HTML: الجداول":"جدول الحصص: صفوف وأعمدة وكل خلية فيها معلومة.","HTML: النماذج Forms":"استمارة التسجيل في أي موقع: خانات يكتب فيها الزائر وزرار يبعت.","HTML: الوسوم الدلالية والمشروع الختامي":"بدل ما تسمّي كل حاجة div، ادّي كل جزء اسم يدل على وظيفته: header وnav وfooter.","CSS: المحددات والربط":"HTML هو الهيكل وCSS هو الدهان، والمحدد بيقولك: ادهن إيه بالظبط.","CSS: الألوان والخطوط":"اللون والخط هما شخصية الموقع.","CSS: الـ Box Model":"كل عنصر صندوق: محتوى، وحشو جواه، وحدود، ومسافة برّاه.","CSS: Flexbox":"Flexbox بيرتّب العناصر في صف أو عمود زي ما ترتّب كتب على رف.","CSS: التجاوب والوحدات":"نفس الموقع لازم يبان حلو على الموبايل والتابلت والكمبيوتر.","CSS: المشروع الختامي (متغيرات + دارك مود)":"المتغيرات في CSS زي أدراج ألوان: غيّر الدرج يتغير الموقع كله، وده أساس الدارك مود."};
+function open_(i){cur=i;qi=0;ord=L[i].q.map(q=>shuf(q[1].map((_,j)=>j)));step=-1;ex={};pr={code:(S.dr&&S.dr[i])||""};tries=0;fails=0;hints=0;sent=false;att=[];draw()}
+let qi=0;
+function pk(j){const c=qi,n=L[cur].q.length;ex[qi]=j;draw();if(c<n-1)setTimeout(()=>{if(qi==c&&step==1){qi++;draw()}},380)}
+function doneX(){if(pr.et!==undefined&&pr.pt!==undefined)go(3);else go(-1)}
+function draw(){const l=L[cur],kn={js:"JavaScript",html:"HTML",css:"CSS"};
+ let h=`<div class="lh"><button class="g sm" onclick="${step<0?"home()":"go(-1)"}">${step<0?"→ الرئيسية":"→ رجوع للدرس"}</button><span class="chip">الدرس ${cur+1} من ${L.length}</span><span class="chip">${kn[l.k]||""}</span><span id="tm" class="tmr"></span></div><h2 class="lt">${l.t}</h2>`;
+ if(step==-1){const tl=(i,ic,t,d,ok)=>`<button type="button" class="tile ${ok?"ok":""}" onclick="go(${i})"><span class="ti">${ok?"✓":ic}</span><span class="tt"><b>${t}</b><small>${d}</small></span></button>`;
+  h+=`<p class="mu">اختار اللي تبدأ بيه. الدرس بيتسجّل مكتمل لما تنجح في الامتحان وتسلّم التطبيق.</p><div class="tiles">${tl(0,"📖","الشرح","اتعلّم الفكرة بأمثلة بسيطة",pr.seen)}${tl(1,"📝","الامتحان",l.q.length+" سؤال، ولازم تجاوب صح على الكل",pr.et!==undefined)}${tl(2,"💻","التطبيق","اكتب الكود وحقق كل الشروط",pr.pt!==undefined)}</div>`}
+ if(step==0){pr.seen=1;h+=(HK[l.t]?`<div class="hook">💡 <span>${HK[l.t]}</span></div>`:"")+`<div class="card lx">${l.x}</div>`;const t=tbl(E[l.t],T[l.t]);if(t)h+=`<div class="card">${t}</div>`;
+  if(M[l.t])h+=`<div class="tip warn">⚠️ <b>الغلطة اللي بتتكرر:</b> ${esc(M[l.t])}</div>`;
+  h+=`<div class="act">${fx("🔊 اقرأ الشرح","say()")}${fx("📝 ابدأ الامتحان ←","go(1)")}</div>`}
+ if(step==1){const n=l.q.length,q=l.q[qi],lt=["أ","ب","ج","د"];
+  h+=`<div class="card"><div class="row"><span class="mu">سؤال ${qi+1} من ${n}</span><span class="mu">أُجيب ${Object.keys(ex).length} / ${n}</span></div><div class="bar" style="margin-top:6px"><i style="width:${(qi+1)/n*100}%"></i></div><div class="dots">${l.q.map((_,i)=>`<button type="button" class="dot ${i==qi?"on":""} ${ex[i]!==undefined?"ok2":""}" onclick="qi=${i};draw()">${i+1}</button>`).join("")}</div><div class="qq">${esc(q[0])}</div>`+ord[qi].map((j,k)=>`<label class="l opt ${ex[qi]===j?"s":""}"><b>${lt[k]}</b><input type="radio" name="q${qi}" ${ex[qi]===j?"checked":""} onclick="pk(${j})"><span>${esc(q[1][j])}</span></label>`).join("")+`<div class="act">${qi?`<button class="g" onclick="qi--;draw()">→ السابق</button>`:""}${qi<n-1?`<button class="g" onclick="qi++;draw()">التالي ←</button>`:""}${Object.keys(ex).length==n?fx("✅ تسليم الإجابات","chkEx()"):""}</div><div id="msg"></div></div><p class="mu">النجاح بـ 100٪ من الأسئلة. وقتك يُسجَّل فقط، وكل محاولة خاطئة تُخصم من درجتك.</p>`}
+ if(step==2){h+=`<div class="card"><div class="mu">🎯 المطلوب</div><p class="task">${l.p}</p></div><div class="card"><b>✅ الشروط (كلها إلزامية)</b><ul id="cl" class="ckl">${ckl()}</ul></div><div class="ed"><div class="edh"><em><i></i><i></i><i></i></em><span>${(kn[l.k]||"").toLowerCase()}</span></div><textarea id="code" placeholder="اكتب الكود هنا" spellcheck="false" oninput="pr.code=this.value;upd();sv()" onkeydown="tk(event)">${pr.code||""}</textarea></div><div class="act">${fx("▶ شغّل","run()")}${fx("💡 تلميح","hint()")}${fx("تسليم ✓","chkPr()")}</div><div id="msg"></div><div id="pv"></div>`}
+ if(step==3){const g=grade(),ok=g.t>=PASS;
+  h+=`<div class="card sc"><div class="ring ${ok?"":"f"}"><b>${g.t}</b><span>من 100</span></div><b>${ok?"🎉 أحسنت! خلّصت الدرس":"درجتك أقل من "+PASS+"، أعد الدرس"}</b><div class="sgrid"><div><span>درجة الامتحان</span><b>${g.e}/40</b></div><div><span>درجة التطبيق</span><b>${g.p}/60</b></div><div><span>وقت الامتحان</span><b>${fmt(pr.et)}</b></div><div><span>وقت التطبيق</span><b>${fmt(pr.pt)}</b></div><div><span>محاولات الامتحان</span><b>${tries}</b></div><div><span>التلميحات</span><b>${hints}</b></div></div></div><div class="act">${ok?fx("✅ إنهاء الدرس","fin()"):fx("↺ أعد الدرس","open_(cur)")}</div>`}
+ $(h);if(step==0)pv0()}
 function fx(l,oc,x){return '<button class="fx" '+(x||"")+' onclick="'+oc+'">'+l+'<div class="clip"><div class="corner lT"></div><div class="corner rB"></div><div class="corner rT"></div><div class="corner lB"></div></div><span class="arrow rA"></span><span class="arrow lA"></span></button>'}
-function go(s){try{speechSynthesis.cancel()}catch(e){}step=s;t0=Date.now();draw()}
+function go(s){try{speechSynthesis.cancel()}catch(e){}step=s;qi=0;t0=Date.now();draw()}
 function chkEx(){const l=L[cur];if(Object.keys(ex).length<l.q.length)return msg("أجب عن كل الأسئلة","bad");
  const el=(Date.now()-t0)/1e3;tries++;const wl=l.q.map((q,i)=>ex[i]!==q[2]?i+1:0).filter(Boolean),w=wl.length;
  att.push({n:tries,ok:l.q.length-w,tot:l.q.length,bad:wl.map(i=>{const q=l.q[i-1];return{i,q:q[0],got:q[1][ex[i-1]],right:q[1][q[2]]}})});
- if(w){fails++;ex={};msg("❌ "+w+" إجابات خاطئة (الأسئلة: "+wl.join("، ")+"). ستُعاد الأسئلة بعد لحظة لتحاول مرة أخرى (المحاولات الخاطئة: "+fails+")","bad");setTimeout(draw,1800);return}
- pr.et=Math.round((Date.now()-t0)/1e3);go(2);boom()}
+ if(w){fails++;ex={};qi=0;msg("❌ "+w+" إجابات خاطئة (الأسئلة: "+wl.join("، ")+"). ستُعاد الأسئلة بعد لحظة لتحاول مرة أخرى (المحاولات الخاطئة: "+fails+")","bad");setTimeout(draw,1800);return}
+ pr.et=Math.round((Date.now()-t0)/1e3);boom();doneX()}
 function chkPr(){const l=L[cur],code=pr.code||"",el=(Date.now()-t0)/1e3;
  const bad=l.c.filter(c=>!c[1].test(code));let out=[];
  if(code.split("\n").filter(x=>x.trim()).length<2)out.push("الكود أقصر من سطرين");
  if(!bal(code,l.k))out.push("الكود غير متوازن: تأكد من إغلاق كل وسم أو قوس");
  bad.forEach(c=>out.push("ناقص: "+c[0]));
  if(out.length)return msg("❌ مرفوض:<br>"+out.join("<br>"),"bad");
- pr.pt=Math.round(el);pr.bad=0;go(3);boom()}
+ pr.pt=Math.round(el);pr.bad=0;boom();doneX()}
 function bal(c,k){if(k=="html"){const v=["br","img","input","meta","hr","link"],st=[],re=/<(\/?)([a-zA-Z0-9]+)[^>]*>/g;let m;while(m=re.exec(c)){const n=m[2].toLowerCase();if(v.includes(n))continue;if(m[1]){if(st.pop()!==n)return false}else st.push(n)}return !st.length}
  const st=[],pr={")":"(","]":"[","}":"{"};let q=null;for(const ch of c){if(q){if(ch==q)q=null;continue}if("\"'`".includes(ch)){q=ch;continue}if("([{".includes(ch))st.push(ch);else if(pr[ch]&&st.pop()!==pr[ch])return false}return !st.length&&!q}
 function grade(){const e=Math.max(0,40-fails*10),p=60;return{e,p,t:e+p}}
@@ -317,7 +640,7 @@ function report(){const l=L[cur],g=grade(),code=pr.code||"";
 function final(){const t=S.recs.reduce((a,r)=>a+r.t,0);return `🎓 ${S.name} أنهى كورس DAMA code بالكامل!\nعدد الدروس: ${L.length}\nمتوسط الدرجات: ${Math.round(t/(S.recs.length||1))}/100`}
 function send(){const g=grade();if(g.t<PASS)return alert("درجتك أقل من "+PASS+"، أعد الدرس.");
  window.open(wa(report()),"_blank");fin()}
-function fin(){const g=grade();if(cur==S.done){S.recs.push({t:g.t});S.done++;window.rpw&&rpw(cur);if(!fails&&!hints)S.pf=(S.pf||0)+1;const td=new Date().toLocaleDateString("en-CA"),yd=new Date(Date.now()-864e5).toLocaleDateString("en-CA");if(S.ld!=td){S.sk=S.ld==yd?(S.sk||0)+1:1;S.ld=td}}if(S.dr)delete S.dr[cur];save()
+function fin(){const g=grade();if(cur==S.done){S.recs.push({t:g.t});S.done++;if(!fails&&!hints)S.pf=(S.pf||0)+1;const td=new Date().toLocaleDateString("en-CA"),yd=new Date(Date.now()-864e5).toLocaleDateString("en-CA");if(S.ld!=td){S.sk=S.ld==yd?(S.sk||0)+1:1;S.ld=td}}if(S.dr)delete S.dr[cur];save()
  home()}
 function pv0(){document.querySelectorAll("#app pre").forEach(p=>{const d=document.createElement("div"),k=L[cur].k,mk=(t,f)=>{const b=document.createElement("button");b.type="button";b.className="g";b.textContent=t;b.onclick=f;return b};
  p.after(mk("▶ جرّب المثال",()=>runX(p.textContent,k,d)),mk("✏️ عدّل وجرّب",()=>edt(p,d,k)),mk("🔦 اشرح سطر سطر",()=>walk(p.textContent,d)),mk("🐞 اكسر المثال",()=>brk(p.textContent,k,d)),...(k=="js"?[mk("🔮 توقّع الناتج",()=>pred(p.textContent,d))]:[]),d)})}
@@ -328,7 +651,7 @@ function wgo(n){W.i+=n;wdraw()}
 function wm(line){const e=E[L[cur].t]||"",ln=line.replace(/\s+/g,""),r=[];e.split("؛؛").forEach(p=>{const[a,...b]=p.split("¦"),x=b.join("¦");a.split(/ \/ | … /).forEach(alt=>{alt=alt.trim();const n=alt.replace(/\s+/g,"");if(n&&(n.length>=2||ln.length<=3)&&(ln.includes(n)||(ln.length<=3&&n.length==2&&[...n].some(c=>ln.includes(c))))&&!r.some(y=>y[1]==x))r.push([alt,x])})});return r.slice(0,5)}
 function wdraw(){const{ls,i,d}=W,m=wm(ls[i]);d.innerHTML='<div class="card" style="margin:8px 0"><div class="mu">السطر '+(i+1)+" من "+ls.length+'</div><pre style="margin:6px 0">'+ls.map((x,j)=>'<span style="display:block;'+(j==i?"background:var(--hl);color:#12233f;":"opacity:.45;")+'">'+esc(x)+"</span>").join("")+"</pre>"+(m.length?m.map((x,n)=>'<div class="ex c'+n%6+'"><code dir="ltr">'+esc(x[0])+"</code><span>"+esc(x[1])+"</span></div>").join(""):'<p class="mu">سطر بسيط لا يحتاج شرحا منفصلا.</p>')+'<button class="g" onclick="wgo(-1)"'+(i?"":" disabled")+'>→ السابق</button><button onclick="wgo(1)"'+(i<ls.length-1?"":" disabled")+">التالي ←</button></div>"}
 function say(){if(!window.speechSynthesis)return alert("المتصفح لا يدعم القراءة الصوتية");if(speechSynthesis.speaking){speechSynthesis.cancel();return}const d=document.createElement("div");d.innerHTML=L[cur].x+" "+(T[L[cur].t]||"");d.querySelectorAll("pre").forEach(p=>p.remove());const u=new SpeechSynthesisUtterance(d.textContent);u.lang="ar";speechSynthesis.speak(u)}
-function ckl(){const c=pr.code||"";return L[cur].c.map(x=>"<li>"+(x[1].test(c)?"✅":"⬜")+" "+x[0]+"</li>").join("")}
+function ckl(){const c=pr.code||"";return L[cur].c.map(x=>{const o=x[1].test(c);return `<li class="${o?"y":""}"><i>${o?"✓":""}</i><span>${x[0]}</span></li>`}).join("")}
 function upd(){const e=document.getElementById("cl");if(e)e.innerHTML=ckl()}
 function sv(){S.dr=S.dr||{};S.dr[cur]=pr.code;save()}
 function tk(e){if(e.key!=="Tab")return;e.preventDefault();const t=e.target,p=t.selectionStart;t.value=t.value.slice(0,p)+"  "+t.value.slice(t.selectionEnd);t.selectionStart=t.selectionEnd=p+2;pr.code=t.value;upd();sv()}
@@ -342,7 +665,7 @@ function runX(code,k,o){const l={k:k};
 function cp(){navigator.clipboard.writeText(report()).then(()=>alert("تم نسخ التقرير"),()=>alert("تعذر النسخ"))}
 function boom(){const c=document.createElement("div");c.style.cssText="position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:99";for(let i=0;i<30;i++){const e=document.createElement("span");e.textContent=["🎉","✨","⭐","🎊"][i%4];e.style.cssText="position:absolute;top:-30px;left:"+Math.random()*100+"%;font-size:"+(16+Math.random()*16)+"px;transition:transform "+(1.2+Math.random())+"s ease-in,opacity 1.6s";c.appendChild(e);setTimeout(()=>{e.style.transform="translateY("+(innerHeight+60)+"px) rotate("+Math.random()*360+"deg)";e.style.opacity=0},30)}document.body.appendChild(c);setTimeout(()=>c.remove(),2600)}
 function exp_(){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(S)],{type:"application/json"}));a.download="dama-progress.json";a.click()}
-function imp_(){const i=document.createElement("input");i.type="file";i.accept=".json";i.onchange=()=>{const r=new FileReader();r.onload=()=>{try{const o=JSON.parse(r.result);if(typeof o.done!="number"||!Array.isArray(o.recs)||typeof o.name!="string")throw 0;S=o;save();home()}catch(e){alert("ملف غير صالح")}};r.readAsText(i.files[0])};i.click()}
+function imp_(){if(!S.name)return;const i=document.createElement("input");i.type="file";i.accept=".json";i.onchange=()=>{const r=new FileReader();r.onload=()=>{try{const o=JSON.parse(r.result);if(typeof o.done!="number"||!Array.isArray(o.recs)||typeof o.name!="string")throw 0;S=o;save();home()}catch(e){alert("ملف غير صالح")}};r.readAsText(i.files[0])};i.click()}
 function cert(){const w=window.open("","_blank");if(!w)return alert("اسمح بالنوافذ المنبثقة");const a=Math.round(S.recs.reduce((x,r)=>x+r.t,0)/(S.recs.length||1));
  w.document.write(`<!DOCTYPE html><html lang="ar" dir="rtl"><meta charset="utf-8"><title>شهادة</title><body style="font-family:Cairo,Tahoma,sans-serif;text-align:center;padding:60px 20px;border:12px double #2446d8;margin:16px"><h1 style="font-size:42px;margin:0">🎓 شهادة إتمام</h1><p style="font-size:20px">تشهد DAMA code بأن</p><h2 style="font-size:34px;color:#2446d8">${esc(S.name)}</h2><p style="font-size:20px">أتمّ ${L.length} درسًا في HTML وCSS وJavaScript<br>بمتوسط درجات ${a}/100</p><p>${new Date().toLocaleDateString("ar-EG")}</p><button onclick="print()">طباعة</button></body></html>`);w.document.close()}
 function runJS(code){return new Promise(r=>{const out=[];try{const src="console.log=(...a)=>postMessage({t:'l',v:a.map(x=>typeof x==='object'?JSON.stringify(x):String(x)).join(' ')});try{"+code+"\n}catch(e){postMessage({t:'l',v:'❌ '+e})}postMessage({t:'d'})",w=new Worker(URL.createObjectURL(new Blob([src]))),tm=setTimeout(()=>{w.terminate();out.push("⏱ توقف التنفيذ بعد ثانيتين (حلقة لا نهائية؟)");r(out.join("\n"))},2000);
@@ -361,8 +684,7 @@ function rst(){if(confirm("سيتم مسح تقدمك ودرجاتك وتبدأ 
 function curTheme(){return document.documentElement.dataset.theme||"dark"}
 function tgl(cb){const n=cb.checked?"dark":"light";document.documentElement.dataset.theme=n;try{localStorage.setItem("dama-theme",n)}catch(e){}}
 try{const t=localStorage.getItem("dama-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}
-const LK=["plain","notebook","glass","neon","sunset"];function lk(){const d=document.documentElement,n=LK[(LK.indexOf(d.dataset.look||"plain")+1)%LK.length];d.dataset.look=n;try{localStorage.setItem("dama-look",n)}catch(e){}}
-document.documentElement.dataset.theme=curTheme();try{const k=localStorage.getItem("dama-look");document.documentElement.dataset.look=LK.includes(k)?k:"plain"}catch(e){document.documentElement.dataset.look="plain"}
+document.documentElement.dataset.theme=curTheme();
 document.getElementById("tgc").checked=curTheme()=="dark";
 setInterval(()=>{const e=document.getElementById("tm");if(e&&cur!=null&&(step==1||step==2))e.textContent="⏱ "+fmt(Math.round((Date.now()-t0)/1e3))},1000);
 home();
@@ -391,12 +713,12 @@ let CU=null,CM=[],CE=null;
 const cmMe=()=>AA&&AA.currentUser&&AA.currentUser.uid;
 var MNO=false;
 function cmBtn(){const a=document.getElementById("app");if(!a||document.getElementById("cmo")||(!AD&&(!S.name||cur!=null)))return;const d=document.createElement("div");d.id="cmo";d.className="card";
- if(AD)d.innerHTML=bt("💬 المجتمع","cmOpen()",1)+" "+bt("🎨 تغيير الخلفية","lk()");else d.innerHTML=bt(MNO?"✕ إغلاق القائمة":"☰ القائمة","mnT()",1)+(MNO?mnBody():"");
+ if(AD)d.innerHTML=bt("💬 المجتمع","cmOpen()",1);else d.innerHTML=bt(MNO?"✕ إغلاق القائمة":"☰ القائمة","mnT()",1)+(MNO?mnBody():"");
  a.insertBefore(d,a.firstChild)}
 function mnT(){MNO=!MNO;pfRe()}
 function mnBody(){const u=AA&&AA.currentUser,an=!u||u.isAnonymous;
- let h='<style>#mnb button{width:100%;margin:0}</style><div id="mnb" style="display:flex;flex-direction:column;gap:10px;margin-top:12px">'+bt("💬 المجتمع","cmOpen()",1)+bt("🎨 تغيير الخلفية","lk()");
- if(!window.IMP)h+=`<div style="display:flex;align-items:center;gap:12px;padding:8px 0">${av(S.pic,S.name,0,56)}<div><b>${esc(S.name)}</b><div class="mu" style="font-size:12px" dir="ltr">${an?"بدون إيميل":esc(u.email||"")}</div></div></div>`+bt("📷 صورة البروفايل","document.getElementById('pff').click()")+(S.pic?bt("حذف الصورة","pfDel()"):"")+(an?bt("🔵 اربط بحساب جوجل","pfLinkG()",1)+bt("📧 اربط بإيميل وباسورد","pfLink()"):"")+'<input type="file" id="pff" accept="image/*" style="display:none" onchange="pfSet(this)">';
+ let h='<style>#mnb button{width:100%;margin:0}</style><div id="mnb" style="display:flex;flex-direction:column;gap:10px;margin-top:12px">'+bt("💬 المجتمع","cmOpen()",1);
+ if(!window.IMP)h+=`<div style="display:flex;align-items:center;gap:12px;padding:8px 0">${av(S.pic,S.name,0,56)}<div><b>${esc(S.name)}</b><div class="mu" style="font-size:12px" dir="ltr">${an?"بدون إيميل":esc(u.email||"")}</div></div></div>`+bt("📷 صورة البروفايل","document.getElementById('pff').click()")+(S.pic?bt("حذف الصورة","pfDel()"):"")+(an?bt("<svg class='gG' viewBox='0 0 48 48'><path fill='#EA4335' d='M24 9.5c3.5 0 6.6 1.2 9.1 3.5l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z'/><path fill='#4285F4' d='M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.2 5.3-4.6 6.9l7.3 5.7c4.3-4 6.8-9.9 7-17.1z'/><path fill='#FBBC05' d='M10.5 28.7c-.5-1.4-.8-2.9-.8-4.7s.3-3.3.8-4.7l-7.9-6.1C.9 16.4 0 20.1 0 24s.9 7.6 2.6 10.8l7.9-6.1z'/><path fill='#34A853' d='M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.3-5.7c-2 1.4-4.6 2.2-8.6 2.2-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z'/></svg> اربط بحساب جوجل","pfLinkG()",1)+bt("📧 اربط بإيميل وباسورد","pfLink()"):"")+'<input type="file" id="pff" accept="image/*" style="display:none" onchange="pfSet(this)">';
  h+=bt("⬇ نسخة احتياطية","exp_()")+bt("⬆ استرجاع","imp_()");
  if(!window.IMP)h+=bt("🚪 تسجيل خروج","lgo()");
  return h+"</div>"}
@@ -447,28 +769,32 @@ const ADMIN_EMAIL="markogorge18@gmail.com";
 const isAU=u=>!!u&&!u.isAnonymous&&(u.email||"").toLowerCase()===ADMIN_EMAIL.toLowerCase();
 const PICRE=/^data:image\/jpeg;base64,[A-Za-z0-9+\/=]+$/;
 function av(p,n,a,z){z=z||36;if(typeof p==="string"&&p.length<30000&&PICRE.test(p))return `<img src="${p}" alt="" style="width:${z}px;height:${z}px;border-radius:50%;object-fit:cover;border:2px solid var(--bd);flex:none">`;const c=a?"👑":esc((n||"?").trim().charAt(0)||"?");return `<span style="width:${z}px;height:${z}px;border-radius:50%;border:2px solid var(--bd);background:var(--pr);color:var(--onpr);display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:${Math.round(z*.45)}px;flex:none">${c}</span>`}
-let STM="s",unU=null,UM={};
+let SPIC="";
+function spHTML(){const t=SPIC?`<img src="${SPIC}" alt="" style="width:84px;height:84px;border-radius:50%;object-fit:cover;border:3px solid var(--pr)">`:`<span style="width:84px;height:84px;border-radius:50%;border:2px dashed var(--bd);display:inline-flex;align-items:center;justify-content:center;font-size:30px;color:var(--mu);background:var(--bg)">📷</span>`;
+ return `<div style="text-align:center;margin:6px 0 10px"><label style="cursor:pointer;display:inline-block"><span id="spv">${t}</span><input type="file" accept="image/*" style="display:none" onchange="spPick(this)"><div class="mu" style="margin-top:4px">${SPIC?"تغيير الصورة":"اختر صورة البروفايل (مطلوبة)"}</div></label></div>`}
+function spPick(inp){const f=inp.files&&inp.files[0];inp.value="";if(!f)return;if(!/^image\//.test(f.type))return stM("اختار صورة");const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const z=72,c=document.createElement("canvas");c.width=c.height=z;const x=c.getContext("2d"),m=Math.min(im.width,im.height);x.fillStyle="#fff";x.fillRect(0,0,z,z);x.drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,z,z);SPIC=c.toDataURL("image/jpeg",.72);const keep=["sn","se","sp"].map(i=>{const e=document.getElementById(i);return e?e.value:""});stAuthUI();["sn","se","sp"].forEach((i,k)=>{const e=document.getElementById(i);if(e)e.value=keep[k]});stM("")};im.onerror=()=>stM("مقدرتش أقرا الصورة");im.src=r.result};r.readAsDataURL(f)}
+let STM="l",unU=null,UM={};
 function stAuthUI(){if(S.name||window.IMP||AD)return;const u0=AA&&AA.currentUser;if(u0&&!u0.isAnonymous&&!isAU(u0))STM="g";let c=document.getElementById("sta");if(!c){const n=document.getElementById("nm");if(!n)return;c=n.closest(".card");if(!c)return;c.id="sta"}
- const s=STM=="s",g=STM=="g",bt=(l,f,p)=>`<button ${p?"":'class="g"'} onclick="${f}">${l}</button>`,gb=bt("🔵 المتابعة بحساب جوجل (اختيار الإيميل)","stGoogle()",1);
- if(g){c.innerHTML=`<b>كمّل بياناتك</b><p class="mu" dir="ltr" style="margin:6px 0">${esc((u0&&u0.email)||"")}</p><input id="sn" placeholder="اسمك الثنائي" autocomplete="name"><p id="sm" class="mu"></p>${bt("تأكيد","stGname()",1)} ${bt("إلغاء","stGx()")}`;return}
- c.innerHTML=`<b>${s?"إنشاء حساب طالب":"تسجيل الدخول"}</b><div style="height:8px"></div>${gb}<p class="mu" style="margin:8px 0">أو بالإيميل وكلمة المرور:</p>${s?'<input id="sn" placeholder="اسمك الثنائي" autocomplete="name"><div style="height:8px"></div>':""}<input id="se" type="email" dir="ltr" placeholder="البريد الإلكتروني" autocomplete="username"><div style="height:8px"></div><input id="sp" type="password" dir="ltr" placeholder="كلمة المرور (6 أحرف على الأقل)" autocomplete="${s?"new-password":"current-password"}"><p id="sm" class="mu"></p>${bt(s?"إنشاء الحساب":"دخول","stGo()",1)} ${bt(s?"عندي حساب":"حساب جديد","stSw()")} ${s?"":bt("نسيت كلمة المرور","stFg()")}`}
+ const s=STM=="s",g=STM=="g",bt=(l,f,p)=>`<button ${p?"":'class="g"'} onclick="${f}">${l}</button>`,gb=bt("<svg class='gG' viewBox='0 0 48 48'><path fill='#EA4335' d='M24 9.5c3.5 0 6.6 1.2 9.1 3.5l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z'/><path fill='#4285F4' d='M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.2 5.3-4.6 6.9l7.3 5.7c4.3-4 6.8-9.9 7-17.1z'/><path fill='#FBBC05' d='M10.5 28.7c-.5-1.4-.8-2.9-.8-4.7s.3-3.3.8-4.7l-7.9-6.1C.9 16.4 0 20.1 0 24s.9 7.6 2.6 10.8l7.9-6.1z'/><path fill='#34A853' d='M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.3-5.7c-2 1.4-4.6 2.2-8.6 2.2-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z'/></svg> المتابعة بحساب جوجل (اختيار الإيميل)","stGoogle()",1);
+ if(g){c.innerHTML=`<b>كمّل بياناتك</b><p class="mu" dir="ltr" style="margin:6px 0">${esc((u0&&u0.email)||"")}</p>${spHTML()}<input id="sn" placeholder="اسمك الثنائي" autocomplete="name"><p id="sm" class="mu"></p>${bt("تأكيد","stGname()",1)} ${bt("إلغاء","stGx()")}`;return}
+ c.innerHTML=`<div class="auth"><div class="hero"><div class="logo">&lt;/&gt;</div><h2 style="margin:0">${s?"أهلاً بيك! أنشئ حسابك":"أهلاً بعودتك 👋"}</h2><p class="mu">${s?"سجّل بياناتك وابدأ الكورس":"سجّل دخولك وكمّل من حيث وقفت"}</p></div><div class="tabs${s?" r":""}"><button type="button" class="${s?"":"on"}" onclick="STM='l';stAuthUI()">تسجيل الدخول</button><button type="button" class="${s?"on":""}" onclick="STM='s';stAuthUI()">حساب جديد</button></div><button type="button" class="g full" onclick="stGoogle()"><svg class='gG' viewBox='0 0 48 48'><path fill='#EA4335' d='M24 9.5c3.5 0 6.6 1.2 9.1 3.5l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z'/><path fill='#4285F4' d='M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.2 5.3-4.6 6.9l7.3 5.7c4.3-4 6.8-9.9 7-17.1z'/><path fill='#FBBC05' d='M10.5 28.7c-.5-1.4-.8-2.9-.8-4.7s.3-3.3.8-4.7l-7.9-6.1C.9 16.4 0 20.1 0 24s.9 7.6 2.6 10.8l7.9-6.1z'/><path fill='#34A853' d='M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.3-5.7c-2 1.4-4.6 2.2-8.6 2.2-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z'/></svg> المتابعة بحساب جوجل</button><div class="or">أو بالإيميل</div>${s?spHTML()+'<div class="f"><input id="sn" placeholder="اسمك الثنائي" autocomplete="name"></div>':""}<div class="f"><input id="se" type="email" dir="ltr" placeholder="البريد الإلكتروني" autocomplete="username"></div><div class="f"><input id="sp" type="password" dir="ltr" placeholder="كلمة المرور (6 أحرف على الأقل)" autocomplete="${s?"new-password":"current-password"}"></div><p id="sm" class="mu" style="min-height:24px;margin:4px 0"></p><button type="button" class="full" onclick="stGo()">${s?"إنشاء الحساب":"دخول"}</button>${s?"":'<div style="text-align:center"><button type="button" class="g" style="border:0" onclick="stFg()">نسيت كلمة المرور؟</button></div>'}</div>`}
 
 const gProv=()=>{const g=new AU.GoogleAuthProvider();g.setCustomParameters({prompt:"select_account"});return g};
 async function stTaken(id,uid){try{const d=await F.getDoc(ref(id));return d.exists()&&!!d.data().uid&&d.data().uid!==uid}catch(q){if(/permission/.test(q.code||q.message))return true;throw q}}
 async function stGoogle(){if(!DB||!AA||!AU)return stM("الاتصال لسه مجهزش، جرّب بعد ثواني");stM("افتح نافذة اختيار الإيميل…");
  try{const cr=await AU.signInWithPopup(AA,gProv());if(isAU(cr.user)){await AU.signOut(AA);await AU.signInAnonymously(AA);return stM("ده حساب الأدمن، ادخل منه من خانة الأدمن")}
   const d=await F.getDoc(F.doc(DB,"users",cr.user.uid));if(d.exists()){S={name:d.data().name,done:0,recs:[],dr:{},pf:0,sk:0,ld:"",pv:-1};save();home();wt()}else{STM="g";stAuthUI()}}catch(x){stM(stErr(x))}}
-async function stGname(){const u=AA&&AA.currentUser;if(!u||u.isAnonymous)return stM("سجّل دخول بجوجل الأول");const nmv=document.getElementById("sn").value.trim();if(ADM.test(nmv)){window.adm&&adm();return}if(nmv.split(/\s+/).length<2)return stM("اكتب اسمك الثنائي على الأقل");stM("جارٍ الحفظ…");
- try{const id=sid(nmv);if(await stTaken(id,u.uid))return stM("الاسم ده مسجّل بالفعل لحد تاني. اختار اسم تاني.");await F.setDoc(F.doc(DB,"users",u.uid),{sid:id,name:nmv,email:u.email||""});S.name=nmv;save();home();wt()}catch(x){stM(stErr(x))}}
+async function stGname(){const u=AA&&AA.currentUser;if(!u||u.isAnonymous)return stM("سجّل دخول بجوجل الأول");const nmv=document.getElementById("sn").value.trim();if(ADM.test(nmv)){window.adm&&adm();return}if(nmv.split(/\s+/).length<2)return stM("اكتب اسمك الثنائي على الأقل");if(!SPIC)return stM("اختار صورة بروفايل الأول");stM("جارٍ الحفظ…");
+ try{const id=sid(nmv);if(await stTaken(id,u.uid))return stM("الاسم ده مسجّل بالفعل لحد تاني. اختار اسم تاني.");await F.setDoc(F.doc(DB,"users",u.uid),{sid:id,name:nmv,email:u.email||""});S.name=nmv;S.pic=SPIC;save();home();wt()}catch(x){stM(stErr(x))}}
 async function stGx(){try{await AU.signOut(AA);await AU.signInAnonymously(AA)}catch(e){console.error(e)}STM="s";home()}
 async function pfLinkG(){const u=AA&&AA.currentUser;if(!DB||!u)return alert("الاتصال لسه مجهزش");try{const cr=await AU.linkWithPopup(u,gProv());await F.setDoc(F.doc(DB,"users",cr.user.uid),{sid:cid(),name:S.name,email:cr.user.email||""});wr(cid(),{uid:cr.user.uid});alert("تم ربط حسابك بجوجل ✅");pfRe()}catch(x){alert(stErr(x))}}
 function stSw(){STM=STM=="s"?"l":"s";stAuthUI()}
 const stM=t=>{const m=document.getElementById("sm");if(m)m.textContent=t};
 const stErr=e=>{const c=e.code||"";return /popup-closed|cancelled-popup/.test(c)?"اتقفلت نافذة الاختيار":/popup-blocked/.test(c)?"المتصفح منع النافذة، اسمح بالنوافذ المنبثقة وجرّب تاني":/unauthorized-domain/.test(c)?"الدومين ("+location.hostname+") مش مضاف في Firebase [auth/unauthorized-domain]":/credential-already-in-use|account-exists/.test(c)?"الإيميل ده مربوط بحساب تاني بالفعل":/network/.test(c)?"مشكلة في الاتصال بالإنترنت":/email-already/.test(c)?"الإيميل ده مسجّل بالفعل، اضغط (عندي حساب)":/weak-password/.test(c)?"كلمة المرور ضعيفة (6 أحرف على الأقل)":/invalid-email/.test(c)?"الإيميل غير صحيح":/invalid-credential|wrong-password|user-not-found/.test(c)?"الإيميل أو كلمة المرور غلط":/too-many/.test(c)?"محاولات كتير، جرّب بعد شوية":/operation-not-allowed/.test(c)?"Email/Password مش مفعّل في Firebase":/requires-recent/.test(c)?"سجّل دخول تاني وجرّب":"خطأ: "+(c||e.message)+" ["+(c||"")+"]"};
 async function stGo(){const e=document.getElementById("se").value.trim(),p=document.getElementById("sp").value;if(!DB||!AA||!AU)return stM("الاتصال لسه مجهزش، جرّب بعد ثواني");
- if(STM=="s"){const nmv=document.getElementById("sn").value.trim();if(ADM.test(nmv)){window.adm&&adm();return}if(nmv.split(/\s+/).length<2)return stM("اكتب اسمك الثنائي على الأقل");if(!e||p.length<6)return stM("اكتب الإيميل وكلمة مرور 6 أحرف على الأقل");stM("جارٍ إنشاء الحساب…");
+ if(STM=="s"){const nmv=document.getElementById("sn").value.trim();if(ADM.test(nmv)){window.adm&&adm();return}if(nmv.split(/\s+/).length<2)return stM("اكتب اسمك الثنائي على الأقل");if(!e||p.length<6)return stM("اكتب الإيميل وكلمة مرور 6 أحرف على الأقل");if(!SPIC)return stM("اختار صورة بروفايل الأول");stM("جارٍ إنشاء الحساب…");
   try{const id=sid(nmv),TK="الاسم ده مسجّل بالفعل. لو ده إنت، افتح الموقع من جهازك القديم واضغط (اربط حسابك بإيميل)، أو اختار اسم تاني.";try{const ex=await F.getDoc(ref(id));if(ex.exists()&&ex.data().uid)return stM(TK)}catch(q){if(/permission/.test(q.code||q.message))return stM(TK);throw q}
-   const cr=await AU.createUserWithEmailAndPassword(AA,e,p);await F.setDoc(F.doc(DB,"users",cr.user.uid),{sid:id,name:nmv,email:e});S.name=nmv;save();home();wt()}catch(x){stM(stErr(x))}
+   const cr=await AU.createUserWithEmailAndPassword(AA,e,p);await F.setDoc(F.doc(DB,"users",cr.user.uid),{sid:id,name:nmv,email:e});S.name=nmv;S.pic=SPIC;save();home();wt()}catch(x){stM(stErr(x))}
  }else{if(!e||!p)return stM("اكتب الإيميل وكلمة المرور");stM("جارٍ الدخول…");
   try{const cr=await AU.signInWithEmailAndPassword(AA,e,p);if(isAU(cr.user)){await AU.signOut(AA);await AU.signInAnonymously(AA);return stM("ده حساب الأدمن، مش حساب طالب")}
    const d=await F.getDoc(F.doc(DB,"users",cr.user.uid));if(!d.exists()){await AU.signOut(AA);await AU.signInAnonymously(AA);return stM("الحساب ده مش مربوط بطالب")}
@@ -479,10 +805,58 @@ function pfRe(){const e=document.getElementById("cmo");if(e)e.remove();cmBtn()}
 function pfSet(inp){const f=inp.files&&inp.files[0];inp.value="";if(!f)return;if(!/^image\//.test(f.type))return alert("اختار صورة");const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const z=72,c=document.createElement("canvas");c.width=c.height=z;const x=c.getContext("2d"),m=Math.min(im.width,im.height);x.fillStyle="#fff";x.fillRect(0,0,z,z);x.drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,z,z);S.pic=c.toDataURL("image/jpeg",.72);try{save()}catch(e){}if(DB&&RDY)wr(cid(),{pic:S.pic});pfRe()};im.onerror=()=>alert("مقدرتش أقرا الصورة");im.src=r.result};r.readAsDataURL(f)}
 function pfDel(){S.pic="";try{save()}catch(e){}if(DB&&RDY)wr(cid(),{pic:""});pfRe()}
 async function pfLink(){const u=AA&&AA.currentUser;if(!DB||!u)return alert("الاتصال لسه مجهزش");const e=(prompt("اكتب إيميلك:")||"").trim();if(!e)return;const p=prompt("اختار كلمة مرور (6 أحرف على الأقل):")||"";if(p.length<6)return alert("كلمة المرور قصيرة");try{await AU.linkWithCredential(u,AU.EmailAuthProvider.credential(e,p));await F.setDoc(F.doc(DB,"users",u.uid),{sid:cid(),name:S.name,email:e});wr(cid(),{uid:u.uid});alert("تم ربط حسابك ✅ تقدر تدخل من أي جهاز بالإيميل");pfRe()}catch(x){alert(stErr(x))}}
-const _h1=home;home=function(){_h1.apply(this,arguments);stAuthUI()};
-async function fbi(n){try{const B="https://www.gstatic.com/firebasejs/10.14.1/",[A,Z]=await Promise.all([import(B+"firebase-app.js"),import(B+"firebase-firestore.js")]);F=Z;const app=A.initializeApp(FBC);DB=Z.getFirestore(app);window.FBERR="";try{const U=await import(B+"firebase-auth.js");AU=U;AA=U.getAuth(app);if(AA.authStateReady)await AA.authStateReady();if(isAU(AA.currentUser))await U.signOut(AA);if(!AA.currentUser)await U.signInAnonymously(AA)}catch(e){window.FBERR=e.code||e.message;console.error(e)}await stRestore();if(S.name)wt()}catch(e){window.FBERR="تعذّر تحميل Firebase، تأكد من الإنترنت";console.error(e);const m=document.getElementById("am");if(m&&!DB)m.textContent="⏳ "+window.FBERR+" — بحاول تاني…";setTimeout(()=>fbi(n+1),Math.min(2000*(n+1),10000))}}
-fbi(0);
+const _h1=home;home=function(){_h1.apply(this,arguments);stAuthUI();adbS()};
+function adbS(){const b=document.getElementById("adb");if(b)b.style.display=(!S.name&&!AD&&!window.IMP)?"":"none";if(window.hangS)hangS()}
+const _a2=adm2;adm2=function(){_a2.apply(this,arguments);adbS()};
+const _xa=xad;xad=function(){_xa.apply(this,arguments);setTimeout(adbS,50)};
+/* تسجيل خروج تلقائي لأي حساب قديم (اسم بس من غير إيميل/جوجل) */
+async function legacyOut(){try{if(window.IMP||AD||!S.name||!AA||!AU)return false;const u=AA.currentUser;if(!u||!u.isAnonymous)return false;
+ if(unsub){unsub();unsub=null}RDY=false;clearTimeout(pt);
+ try{localStorage.removeItem("dama2");localStorage.removeItem("dama")}catch(e){}
+ try{sessionStorage.setItem("dama_lo","1")}catch(e){}
+ S={name:"",done:0,recs:[]};location.reload();return true}catch(e){console.error(e);return false}}
+async function fbi(n){try{const B="https://www.gstatic.com/firebasejs/10.14.1/",[A,Z]=await Promise.all([import(B+"firebase-app.js"),import(B+"firebase-firestore.js")]);F=Z;const app=A.initializeApp(FBC);DB=Z.getFirestore(app);window.FBERR="";try{const U=await import(B+"firebase-auth.js");AU=U;AA=U.getAuth(app);if(AA.authStateReady)await AA.authStateReady();if(isAU(AA.currentUser))await U.signOut(AA);if(!AA.currentUser)await U.signInAnonymously(AA)}catch(e){window.FBERR=e.code||e.message;console.error(e)}await stRestore();if(await legacyOut())return;if(S.name&&window.introKill){introKill();hangS()}try{if(sessionStorage.getItem("dama_lo")){sessionStorage.removeItem("dama_lo");stM("تم تسجيل خروجك لأن حسابك القديم مش مربوط بإيميل. سجّل دخولك بإيميلك أو أنشئ حساب جديد.")}}catch(e){}if(S.name)wt()}catch(e){window.FBERR="تعذّر تحميل Firebase، تأكد من الإنترنت";console.error(e);const m=document.getElementById("am");if(m&&!DB)m.textContent="⏳ "+window.FBERR+" — بحاول تاني…";setTimeout(()=>fbi(n+1),Math.min(2000*(n+1),10000))}}
+window.fbGo=()=>{if(window.__fbs)return;window.__fbs=1;fbi(0)};
 window.addEventListener("online",()=>{if(!DB)fbi(0)});
 setInterval(()=>{if(DB&&RDY&&S.name&&!window.IMP&&!AD&&!document.hidden)wr(cid(),{seen:Date.now()})},3e4);
+
+/* ---- المقدمة: شخصية تتسلق وصفحة الدخول تقع ---- */
+const chr=p=>`<svg viewBox="0 0 60 104" width="62" height="107" xmlns="http://www.w3.org/2000/svg" style="overflow:visible"><defs><radialGradient id="${p}h" cx=".38" cy=".3" r=".9"><stop offset="0" stop-color="#f6cfa6"/><stop offset=".6" stop-color="#e0a374"/><stop offset="1" stop-color="#b8744a"/></radialGradient><linearGradient id="${p}b" x1="0" x2="1"><stop offset="0" stop-color="#ffa24a"/><stop offset=".55" stop-color="#f2600f"/><stop offset="1" stop-color="#9a3306"/></linearGradient><linearGradient id="${p}p" x1="0" x2="1"><stop offset="0" stop-color="#4a5bb8"/><stop offset=".55" stop-color="#27327a"/><stop offset="1" stop-color="#121738"/></linearGradient><linearGradient id="${p}s" x1="0" x2="1"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".4"/></linearGradient></defs>
+<g class="bd" style="transform-origin:30px 8px">
+<g class="l1" style="transform-origin:25px 64px"><rect x="19.5" y="62" width="11" height="34" rx="5.5" fill="url(#${p}p)"/><path d="M16.5 93.5Q15.5 102 22.5 102H32Q34.5 93.5 29.5 92.5Z" fill="#1c1c2a"/><path d="M16.2 99.2H33" stroke="#f2f2f5" stroke-width="2.6" stroke-linecap="round"/></g>
+<g class="l2" style="transform-origin:35px 64px"><rect x="29.5" y="62" width="11" height="34" rx="5.5" fill="url(#${p}p)"/><path d="M26.5 93.5Q25.5 102 32.5 102H42Q44.5 93.5 39.5 92.5Z" fill="#1c1c2a"/><path d="M26.2 99.2H43" stroke="#f2f2f5" stroke-width="2.6" stroke-linecap="round"/></g>
+<rect x="26" y="23" width="8" height="11" rx="3" fill="#c98a5c"/>
+<path d="M12 41Q12 31.5 22 30.5H38Q48 31.5 48 41V57Q48 66.5 42 67.5H18Q12 66.5 12 57Z" fill="url(#${p}b)"/><path d="M12 41Q12 31.5 22 30.5H38Q48 31.5 48 41V57Q48 66.5 42 67.5H18Q12 66.5 12 57Z" fill="url(#${p}s)"/><ellipse cx="19" cy="44" rx="2.8" ry="10" fill="#fff" opacity=".2"/><rect x="12" y="61.5" width="36" height="6.5" rx="3.2" fill="#8a2f06" opacity=".55"/><rect x="20" y="51" width="20" height="9" rx="4" fill="#000" opacity=".15"/>
+<path d="M19 31.5Q30 40 41 31.5Q36 28.5 30 29Q24 28.5 19 31.5Z" fill="#b8420a"/><path d="M26.5 35V45M33.5 35V45" stroke="#fff" stroke-width="1.3" stroke-linecap="round" opacity=".85"/>
+<path d="M19.8 14Q19.8 3.8 30 3.8Q40.2 3.8 40.2 14V19Q40.2 28.8 30 28.8Q19.8 28.8 19.8 19Z" fill="url(#${p}h)"/><circle cx="19.4" cy="16.8" r="2.3" fill="#d49563"/><circle cx="40.6" cy="16.8" r="2.3" fill="#b8744a"/>
+<path d="M19.9 17Q20 29.6 30 29.8Q40 29.6 40.1 17Q38.4 24.2 34.2 25Q30 23.4 25.8 25Q21.6 24.2 19.9 17Z" fill="#2a1b12" opacity=".93"/><path d="M25.4 22.6Q30 20.6 34.6 22.6Q30 24 25.4 22.6Z" fill="#2a1b12"/><path d="M27.4 25.4Q30 27.8 32.6 25.4Z" fill="#fff"/>
+<path d="M19.4 14.5Q18.4 1.8 30 2.2Q41.6 1.8 40.6 14.5Q38.4 7.6 30 8.4Q21.6 7.6 19.4 14.5Z" fill="#1f1610"/><path d="M23.5 4.6Q30 -1.5 38.5 3.6" stroke="#1f1610" stroke-width="4.2" stroke-linecap="round" fill="none"/>
+<g class="ey" style="transform-origin:30px 15px"><ellipse cx="25.3" cy="15" rx="2.3" ry="2.5" fill="#fff"/><ellipse cx="34.7" cy="15" rx="2.3" ry="2.5" fill="#fff"/><circle cx="25.7" cy="15.3" r="1.55" fill="#1d1410"/><circle cx="35.1" cy="15.3" r="1.55" fill="#1d1410"/><circle cx="26.2" cy="14.7" r=".5" fill="#fff"/><circle cx="35.6" cy="14.7" r=".5" fill="#fff"/></g>
+<rect x="21.2" y="11.6" width="8.4" height="6.8" rx="2.8" fill="#9fb0ff" fill-opacity=".13" stroke="#14141f" stroke-width="1.4"/><rect x="30.4" y="11.6" width="8.4" height="6.8" rx="2.8" fill="#9fb0ff" fill-opacity=".13" stroke="#14141f" stroke-width="1.4"/><path d="M29.6 14.6H30.4" stroke="#14141f" stroke-width="1.3"/>
+<path d="M21.6 10.4Q25.2 8.4 29 9.8M31 9.8Q34.8 8.4 38.4 10.4" stroke="#1f1610" stroke-width="2.1" stroke-linecap="round" fill="none"/><path d="M30 15.6Q31.8 19.2 29.9 20.4" stroke="#a4673c" stroke-width="1" stroke-linecap="round" fill="none" opacity=".7"/>
+</g>
+<g class="a1" style="transform-origin:17px 40px"><path d="M17 41C2 32 3 12 23 -3" stroke="url(#${p}b)" stroke-width="10" stroke-linecap="round" fill="none"/><path d="M8.5 13.5Q12 17 16.5 14.8" stroke="#8a2f06" stroke-width="1.6" stroke-linecap="round" fill="none" opacity=".4"/><circle cx="24.5" cy="-4.5" r="5.2" fill="url(#${p}h)"/></g>
+<g class="a2" style="transform-origin:43px 40px"><path d="M43 41C58 32 57 12 37 -3" stroke="url(#${p}b)" stroke-width="10" stroke-linecap="round" fill="none"/><path d="M51.5 13.5Q48 17 43.5 14.8" stroke="#8a2f06" stroke-width="1.6" stroke-linecap="round" fill="none" opacity=".4"/><circle cx="35.5" cy="-4.5" r="5.2" fill="url(#${p}h)"/></g></svg>`;
+const busyI=()=>document.body.classList.contains("intro-on")||document.body.classList.contains("dropping");
+function placeHang(){const h=document.getElementById("hang"),c=document.querySelector(".auth");if(!h||!c)return;const r=c.getBoundingClientRect();h.style.left=Math.round(r.right+scrollX-64)+"px";h.style.top=Math.round(r.top+scrollY+4)+"px"}
+function hangS(){const h=document.getElementById("hang");if(!h)return;const on=!S.name&&!AD&&!window.IMP&&!!document.querySelector(".auth");h.style.display=on?"block":"none";if(on&&!busyI())placeHang()}
+addEventListener("resize",()=>{if(!busyI())placeHang()});
+function dust(){const c=document.querySelector(".auth");if(!c||document.documentElement.classList.contains("lite"))return;const r=c.getBoundingClientRect(),cx=r.left+r.width/2;
+ const fl=document.createElement("i");fl.className="flash";document.body.appendChild(fl);setTimeout(()=>fl.remove(),900);const sh=document.createElement("i");sh.className="shock";sh.style.left=r.left+"px";sh.style.width=r.width+"px";sh.style.top=(r.bottom-2)+"px";document.body.appendChild(sh);setTimeout(()=>sh.remove(),900);
+ for(let i=0;i<16;i++){const e=document.createElement("i");e.className="puff";e.style.left=(r.left+Math.random()*r.width)+"px";e.style.top=(r.bottom-4)+"px";e.style.setProperty("--dx",((Math.random()-.5)*110)+"px");e.style.animationDelay=(Math.random()*.14)+"s";document.body.appendChild(e);setTimeout(()=>e.remove(),1200)}
+ for(let i=0;i<14;i++){const e=document.createElement("i");e.className="spark";const side=i%2?1:-1;e.style.left=(cx+side*r.width*.35*Math.random())+"px";e.style.top=(r.bottom-6)+"px";e.style.setProperty("--dx",(side*(30+Math.random()*90))+"px");e.style.setProperty("--dy",(-(30+Math.random()*80))+"px");document.body.appendChild(e);setTimeout(()=>e.remove(),1000)}}
+function intro(){const d=document.documentElement,b=document.body;
+ const h=document.createElement("div");h.id="hang";h.innerHTML=`<div class="swing hg">${chr("hg")}</div>`;b.appendChild(h);hangS();
+ if(S.name||window.IMP||matchMedia("(prefers-reduced-motion:reduce)").matches){d.classList.remove("ni");window.fbGo&&fbGo();return}
+ b.classList.add("intro-on");
+ const o=document.createElement("div");o.id="intro";o.innerHTML=`<div class="rope"></div>${Array.from({length:7},(_,i)=>`<span class="pt" style="left:${(i*37)%96}%;animation-duration:${6+i%5*2}s;animation-delay:-${i*0.9}s">${["</>","{ }",";","()","=>","#"][i%6]}</span>`).join("")}${Array.from({length:8},(_,i)=>`<u class="st" style="left:${(i*71+9)%97}%;height:${60+i*13%90}px;animation-duration:${.7+i%5*.25}s;animation-delay:-${(i*.37).toFixed(2)}s"></u>`).join("")}<div class="ttl">${[..."DAMA code"].map((c,i)=>`<b style="animation-delay:${(.55+i*.09).toFixed(2)}s">${c==" "?"&nbsp;":c}</b>`).join("")}</div><div class="sub">تعلّم البرمجة خطوة بخطوة</div><div class="clm"><div class="clmw">${chr("cl")}</div><div class="say">${["ركز","وهتبقى","مبرمج","💻"].map((w,i)=>`<b style="animation-delay:${(.2+i*.3).toFixed(2)}s">${w}</b>`).join(" ")}</div></div><div class="prog"><i></i></div><div class="skip">اضغط للتخطي</div>`;b.appendChild(o);d.classList.remove("ni");o.style.setProperty("--H",innerHeight+"px");
+ if(d.classList.contains("lite"))setTimeout(()=>window.fbGo&&fbGo(),12000);else window.fbGo&&fbGo();
+ let k=0;{let n=0,t0=0;const f=t=>{if(!t0)t0=t;n++;if(t-t0<900&&!k)requestAnimationFrame(f);else if(!k&&t-t0>300&&n/((t-t0)/1000)<38)d.classList.add("lite")};requestAnimationFrame(f)}
+ const go=()=>{if(k)return;k=1;window.fbGo&&fbGo();b.classList.remove("intro-on");b.classList.add("dropping");o.classList.add("out");setTimeout(()=>o.remove(),1000);setTimeout(dust,760);setTimeout(()=>{b.classList.remove("dropping");placeHang()},1600)};
+ window.introKill=()=>{k=1;b.classList.remove("intro-on","dropping");o.remove();d.classList.remove("ni")};const cl=o.querySelector(".clm"),burst=()=>{const r=cl.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height*.35;["</>","{ }",";","()","=>","#","</>","{ }"].forEach((t,i)=>{const e=document.createElement("span");e.className="bst";e.textContent=t;e.style.left=x+"px";e.style.top=y+"px";const g=(i/8)*6.283+Math.random()*.5,d=70+Math.random()*70;e.style.setProperty("--dx",Math.cos(g)*d+"px");e.style.setProperty("--dy",Math.sin(g)*d*.8+"px");e.style.setProperty("--r",(Math.random()*80-40)+"deg");o.appendChild(e);setTimeout(()=>e.remove(),1300)})};
+ setTimeout(()=>{if(!k){cl.classList.add("talk");o.classList.add("hold");burst()}},2680);setTimeout(()=>{if(!k){cl.classList.remove("talk");cl.classList.add("hush");o.classList.remove("hold")}},4350);
+ o.querySelector(".clm").addEventListener("animationend",e=>{if(e.target===e.currentTarget)go()});o.addEventListener("click",go);setTimeout(go,10000)}
+try{home()}catch(e){console.error(e)}
+try{intro()}catch(e){document.documentElement.classList.remove("ni");window.fbGo&&fbGo();console.error(e)}
 </script>
 </body></html>
